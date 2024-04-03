@@ -1,6 +1,7 @@
 package com.example.javaexercise.models;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
@@ -9,6 +10,7 @@ import java.util.List;
 @Entity
 public class Organization {
     @Id
+    @GeneratedValue
     private Long id;
     private String name;
     private String adress;

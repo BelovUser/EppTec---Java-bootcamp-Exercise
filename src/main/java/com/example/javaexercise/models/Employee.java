@@ -1,9 +1,6 @@
 package com.example.javaexercise.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 import java.util.Date;
 import java.util.List;
@@ -11,6 +8,7 @@ import java.util.List;
 @Entity
 public class Employee {
     @Id
+    @GeneratedValue
     private Long id;
     private String name;
     private String username;
