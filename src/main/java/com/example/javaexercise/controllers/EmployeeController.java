@@ -45,7 +45,7 @@ public class EmployeeController {
 
     @PutMapping
     @RequestMapping("/setSuperior")
-    public ResponseEntity<?> setSupEmployee(@RequestParam Long superiorId, @RequestParam Long subordinateId){
+    public ResponseEntity<?> setSuperior(@RequestParam Long superiorId, @RequestParam Long subordinateId){
         Optional<Employee> optSubEmployee = employeeService.findById(subordinateId);
         Optional<Employee> optSupEmployee = employeeService.findById(superiorId);
 
