@@ -46,32 +46,32 @@ public class EmployeeController {
     @PutMapping
     @RequestMapping("/setSuperior")
     public ResponseEntity<?> setSuperior(@RequestParam Long superiorId, @RequestParam Long subordinateId){
-        Optional<Employee> optSubEmployee = employeeService.findById(subordinateId);
-        Optional<Employee> optSupEmployee = employeeService.findById(superiorId);
+        Optional<Employee> optSubordinate = employeeService.findById(subordinateId);
+        Optional<Employee> optSuperior = employeeService.findById(superiorId);
 
-        if(optSupEmployee.isEmpty()){
+        if(optSuperior.isEmpty()){
             return ResponseEntity.badRequest().body("Could not find superior with " + superiorId + "id.");
-        } else if(optSubEmployee.isEmpty()){
+        } else if(optSubordinate.isEmpty()){
             return ResponseEntity.badRequest().body("Could not find subordinate with " + subordinateId + "id.");
         }
 
-        Employee subEmployee = employeeService.findById(subordinateId).get();
-        Employee supEmployee = employeeService.findById(superiorId).get();
+        Employee subordinate = employeeService.findById(subordinateId).get();
+        Employee superior = employeeService.findById(superiorId).get();
 
         employeeService.setSuperior(superiorId, subordinateId);
-        return ResponseEntity.ok("Employee " + supEmployee.getName() + " is set as Superior to " + subEmployee.getName() + " Employee.");
+        return ResponseEntity.ok("Employee " + superior.getName() + " is set as Superior to " + subordinate.getName() + " Employee.");
     }
 
     @PutMapping
     @RequestMapping("/setOrganization")
-    public ResponseEntity<?> setOrganization(@RequestParam Long employeeId, @RequestParam String orgName){
+    public ResponseEntity<?> setOrganization(@RequestParam Long employeeId, @RequestParam String organizationName){
         try{
-            employeeService.assignEmployeeToOrganization(employeeId, orgName);
+            employeeService.assignEmployeeToOrganization(employeeId, organizationName);
         }catch(Exception e){
             return ResponseEntity.badRequest().body("Could not found Employee or/and Organization.");
         }
         Optional<Employee> optEmployee = employeeService.findById(employeeId);
-        return ResponseEntity.ok("Employee " + optEmployee.get().getName() + " was assigned to " + orgName + " Organization.");
+        return ResponseEntity.ok("Employee " + optEmployee.get().getName() + " was assigned to " + organizationName + " Organization.");
     }
 }
 
