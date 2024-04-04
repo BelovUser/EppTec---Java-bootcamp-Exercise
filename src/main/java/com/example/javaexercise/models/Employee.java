@@ -14,10 +14,10 @@ public class Employee {
     private String name;
     private String username;
     private Date birthday;
-    @OneToMany(mappedBy = "supEmployee",cascade = CascadeType.ALL)
-    private List<Employee> subEmployees = new ArrayList<>();
+    @OneToMany(mappedBy = "superior",cascade = CascadeType.ALL)
+    private List<Employee> subordinates = new ArrayList<>();
     @ManyToOne(cascade = CascadeType.ALL)
-    private Employee supEmployee;
+    private Employee superior;
     @ManyToOne(cascade = CascadeType.ALL)
     private Organization organization;
 
@@ -53,20 +53,20 @@ public class Employee {
         this.birthday = birthday;
     }
 
-    public List<Employee> getSubEmployees() {
-        return subEmployees;
+    public List<Employee> getSubordinates() {
+        return subordinates;
     }
 
-    public void addToSubEmployees(Employee subEmployee){
-        this.subEmployees.add(subEmployee);
+    public void addToSubEmployees(Employee subordinate){
+        this.subordinates.add(subordinate);
     }
 
-    public Employee getSupEmployee() {
-        return supEmployee;
+    public Employee getSuperior() {
+        return superior;
     }
 
-    public void setSupEmployee(Employee supEmployee) {
-        this.subEmployees.add(supEmployee);
+    public void setSuperior(Employee superior) {
+        this.subordinates.add(superior);
     }
 
     public Long getId() {

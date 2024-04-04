@@ -21,16 +21,16 @@ public class MappingService {
     }
 
     public static EmployeeDTO mapToEmployeeDTO(Employee employee){
-        List<String> subEmployees =  getAllSubEmployeesNames(employee);
+        List<String> subordinates =  getAllSubordinatesNames(employee);
         String organizationName = employee.getOrganization().getName() == null? null:employee.getName();
-        String supEmployee = employee.getSupEmployee() == null? null:employee.getName();
+        String superior = employee.getSuperior() == null? null:employee.getName();
         return new EmployeeDTO(employee.getId(),
                 employee.getName(),
                 employee.getUsername(),
                 employee.getBirthday(),
-                supEmployee,
+                superior,
                 organizationName,
-                subEmployees
+                subordinates
                 );
     }
 
@@ -45,8 +45,8 @@ public class MappingService {
                 employees);
     }
 
-    private static List<String> getAllSubEmployeesNames(Employee employee){
-        return employee.getSubEmployees().stream()
+    private static List<String> getAllSubordinatesNames(Employee employee){
+        return employee.getSubordinates().stream()
                 .map(Employee::getName)
                 .toList();
     }

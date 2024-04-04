@@ -45,20 +45,20 @@ public class EmployeeController {
 
     @PutMapping
     @RequestMapping("/setSuperior")
-    public ResponseEntity<?> setSupEmployee(@RequestParam Long supEmployeeId,@RequestParam Long subEmployeeId){
-        Optional<Employee> optSubEmployee = employeeService.findById(subEmployeeId);
-        Optional<Employee> optSupEmployee = employeeService.findById(supEmployeeId);
+    public ResponseEntity<?> setSupEmployee(@RequestParam Long superiorId, @RequestParam Long subordinateId){
+        Optional<Employee> optSubEmployee = employeeService.findById(subordinateId);
+        Optional<Employee> optSupEmployee = employeeService.findById(superiorId);
 
         if(optSupEmployee.isEmpty()){
-            return ResponseEntity.badRequest().body("Could not find supEmployee with " + supEmployeeId + "id.");
+            return ResponseEntity.badRequest().body("Could not find superior with " + superiorId + "id.");
         } else if(optSubEmployee.isEmpty()){
-            return ResponseEntity.badRequest().body("Could not find subEmployee with " + subEmployeeId + "id.");
+            return ResponseEntity.badRequest().body("Could not find subordinate with " + subordinateId + "id.");
         }
 
-        Employee subEmployee = employeeService.findById(subEmployeeId).get();
-        Employee supEmployee = employeeService.findById(supEmployeeId).get();
+        Employee subEmployee = employeeService.findById(subordinateId).get();
+        Employee supEmployee = employeeService.findById(superiorId).get();
 
-        employeeService.setSupEmployee(supEmployeeId,subEmployeeId);
+        employeeService.setSuperior(superiorId, subordinateId);
         return ResponseEntity.ok("Employee " + supEmployee.getName() + " is set as Superior to " + subEmployee.getName() + " Employee.");
     }
 

@@ -1,12 +1,9 @@
 package com.example.javaexercise.services;
 
-import com.example.javaexercise.dtos.EmployeeDTO;
-import com.example.javaexercise.dtos.createEmployeeDTO;
 import com.example.javaexercise.dtos.createEmployeeDTO;
 import com.example.javaexercise.models.Employee;
 import com.example.javaexercise.models.Organization;
 import com.example.javaexercise.repositories.EmployeeRepo;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -38,16 +35,16 @@ public class EmployeeService {
         employeeRepo.deleteById(employeeId);
    }
 
-   public void setSupEmployee(Long supEmployeeId, Long subEmployeeId){
-        Employee supEmployee = findById(supEmployeeId).get();
-        Employee subEmployee = findById(subEmployeeId).get();
-        if(supEmployee.equals(subEmployee)){
-           throw new RuntimeException("subEmployee and supEmployee cannot be same Entity.");
+   public void setSuperior(Long superiorId, Long subordinateId){
+        Employee superior = findById(superiorId).get();
+        Employee subordinate = findById(subordinateId).get();
+        if(superior.equals(subordinate)){
+           throw new RuntimeException("subordinate and superior cannot have same Entity.");
         }
-        supEmployee.addToSubEmployees(subEmployee);
-        subEmployee.setSupEmployee(supEmployee);
-        employeeRepo.save(supEmployee);
-        employeeRepo.save(subEmployee);
+        superior.addToSubEmployees(subordinate);
+        subordinate.setSuperior(superior);
+        employeeRepo.save(superior);
+        employeeRepo.save(subordinate);
    }
 
    public void assignEmployeeToOrganization(Long employeeId, String organizationName){
