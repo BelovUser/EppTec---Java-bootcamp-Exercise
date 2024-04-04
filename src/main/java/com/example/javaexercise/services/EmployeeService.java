@@ -39,7 +39,7 @@ public class EmployeeService {
         Employee supEmployee = findById(supEmployeeId).get();
         Employee subEmployee = findById(suBEmployeeId).get();
 
-        supEmployee.getSubEmployees().add(subEmployee);
+        supEmployee.addToSubEmployees(supEmployee);
         subEmployee.setSupEmployee(supEmployee);
    }
 

@@ -56,8 +56,11 @@ public class Employee {
         return subEmployee;
     }
 
-    public void setSubEmployee(List<Employee> subEmployee) {
-        this.subEmployee = subEmployee;
+    public void addToSubEmployees(Employee subEmployee){
+        if(subEmployee.equals(this)){
+            throw new RuntimeException("Employee can´t have itself in subEmployee.");
+        }
+        this.subEmployees.add(subEmployee);
     }
 
     public Employee getSupEmployee() {
@@ -65,7 +68,10 @@ public class Employee {
     }
 
     public void setSupEmployee(Employee supEmployee) {
-        this.supEmployee = supEmployee;
+        if(supEmployee.equals(this)){
+            throw new RuntimeException("Employee can´t be supEmployee to itself.");
+        }
+        this.subEmployees.add(supEmployee);
     }
 
     public void setId(Long id) {
