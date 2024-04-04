@@ -58,9 +58,6 @@ public class Employee {
     }
 
     public void addToSubEmployees(Employee subEmployee){
-        if(subEmployee.equals(this)){
-            throw new RuntimeException("Employee can´t have itself in subEmployee.");
-        }
         this.subEmployees.add(subEmployee);
     }
 
@@ -69,9 +66,6 @@ public class Employee {
     }
 
     public void setSupEmployee(Employee supEmployee) {
-        if(supEmployee.equals(this)){
-            throw new RuntimeException("Employee can´t be supEmployee to itself.");
-        }
         this.subEmployees.add(supEmployee);
     }
 

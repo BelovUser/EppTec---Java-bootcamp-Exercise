@@ -35,12 +35,16 @@ public class EmployeeService {
         employeeRepo.deleteById(employeeId);
    }
 
-   public void setSupEmployee(Long supEmployeeId, Long suBEmployeeId){
+   public void setSupEmployee(Long supEmployeeId, Long subEmployeeId){
         Employee supEmployee = findById(supEmployeeId).get();
-        Employee subEmployee = findById(suBEmployeeId).get();
-
-        supEmployee.addToSubEmployees(supEmployee);
+        Employee subEmployee = findById(subEmployeeId).get();
+        if(supEmployee.equals(subEmployee)){
+           throw new RuntimeException("subEmployee and supEmployee cannot be same Entity.");
+        }
+        supEmployee.addToSubEmployees(subEmployee);
         subEmployee.setSupEmployee(supEmployee);
+        employeeRepo.save(supEmployee);
+        employeeRepo.save(subEmployee);
    }
 
    public boolean assignEmployeeToOrganization(Long employeeId, String organizationName){
