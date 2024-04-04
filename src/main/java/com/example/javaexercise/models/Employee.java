@@ -9,16 +9,16 @@ import java.util.List;
 @Entity
 public class Employee {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
     private String name;
     private String username;
     private Date birthday;
-    @OneToMany(mappedBy = "supEmployee")
+    @OneToMany(mappedBy = "supEmployee",cascade = CascadeType.ALL)
     private List<Employee> subEmployees = new ArrayList<>();
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Employee supEmployee;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Organization organization;
 
     public Organization getOrganization() {
