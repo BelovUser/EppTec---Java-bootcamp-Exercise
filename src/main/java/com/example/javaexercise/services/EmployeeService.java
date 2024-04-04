@@ -47,12 +47,9 @@ public class EmployeeService {
         employeeRepo.save(subEmployee);
    }
 
-   public boolean assignEmployeeToOrganization(Long employeeId, String organizationName){
+   public void assignEmployeeToOrganization(Long employeeId, String organizationName){
        Optional<Employee> optEmployee = findById(employeeId);
        Optional<Organization> optOrganization = organizationService.findByName(organizationName);
-       if(optEmployee.isEmpty() || optOrganization.isEmpty()){
-           return false;
-       }
        Employee employee = optEmployee.get();
        Organization organization = optOrganization.get();
 
@@ -62,6 +59,5 @@ public class EmployeeService {
        employee.setOrganization(organization);
        employeeRepo.save(employee);
 
-       return true;
    }
 }
