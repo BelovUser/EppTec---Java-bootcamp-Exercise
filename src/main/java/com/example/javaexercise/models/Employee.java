@@ -2,6 +2,7 @@ package com.example.javaexercise.models;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -14,7 +15,7 @@ public class Employee {
     private String username;
     private Date birthday;
     @OneToMany(mappedBy = "supEmployee")
-    private List<Employee> subEmployee;
+    private List<Employee> subEmployees = new ArrayList<>();
     @ManyToOne
     private Employee supEmployee;
     @ManyToOne
@@ -52,8 +53,8 @@ public class Employee {
         this.birthday = birthday;
     }
 
-    public List<Employee> getSubEmployee() {
-        return subEmployee;
+    public List<Employee> getSubEmployees() {
+        return subEmployees;
     }
 
     public void addToSubEmployees(Employee subEmployee){
@@ -72,10 +73,6 @@ public class Employee {
             throw new RuntimeException("Employee can´t be supEmployee to itself.");
         }
         this.subEmployees.add(supEmployee);
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Long getId() {

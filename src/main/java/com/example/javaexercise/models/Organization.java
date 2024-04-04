@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -13,16 +14,16 @@ public class Organization {
     @GeneratedValue
     private Long id;
     private String name;
-    private String adress;
+    private String address;
     @OneToMany(mappedBy = "organization")
-    private List<Employee> employee;
+    private List<Employee> employees = new ArrayList<>();
 
-    public List<Employee> getEmployee() {
-        return employee;
+    public List<Employee> getEmployees() {
+        return employees;
     }
 
-    public void setEmployee(List<Employee> employee) {
-        this.employee = employee;
+    public void setEmployees(List<Employee> employee) {
+        this.employees = employee;
     }
 
     public String getName() {
@@ -33,16 +34,12 @@ public class Organization {
         this.name = name;
     }
 
-    public String getAdress() {
-        return adress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAdress(String surname) {
-        this.adress = surname;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public void setAddress(String surname) {
+        this.address = surname;
     }
 
     public Long getId() {

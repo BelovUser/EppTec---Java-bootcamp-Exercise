@@ -43,7 +43,7 @@ public class EmployeeService {
         subEmployee.setSupEmployee(supEmployee);
    }
 
-   public boolean assigneEmployeeToOrganization(Long employeeId, String organizationName){
+   public boolean assignEmployeeToOrganization(Long employeeId, String organizationName){
        Optional<Employee> optEmployee = findById(employeeId);
        Optional<Organization> optOrganization = organizationService.findByName(organizationName);
        if(optEmployee.isEmpty() || optOrganization.isEmpty()){
@@ -52,7 +52,7 @@ public class EmployeeService {
        Employee employee = optEmployee.get();
        Organization organization = optOrganization.get();
 
-       organization.getEmployee().add(employee);
+       organization.getEmployees().add(employee);
        organizationService.save(organization);
 
        employee.setOrganization(organization);
