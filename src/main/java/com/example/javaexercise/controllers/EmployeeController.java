@@ -3,7 +3,7 @@ package com.example.javaexercise.controllers;
 import com.example.javaexercise.dtos.createEmployeeDTO;
 import com.example.javaexercise.models.Employee;
 import com.example.javaexercise.services.EmployeeService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.javaexercise.services.MappingService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,10 +13,12 @@ import java.util.Optional;
 @RequestMapping("/api/v1/Employee")
 public class EmployeeController {
     private final EmployeeService employeeService;
+    private final MappingService mappingService;
 
-    @Autowired
-    public EmployeeController(EmployeeService employeeService) {
+    public EmployeeController(EmployeeService employeeService, MappingService mappingService) {
+
         this.employeeService = employeeService;
+        this.mappingService = mappingService;
     }
     @GetMapping
     public ResponseEntity<?> getEmployeeById(@RequestParam Long id){
@@ -24,7 +26,7 @@ public class EmployeeController {
         if(employee.isEmpty()){
             return ResponseEntity.badRequest().body("Could not find Employee by " + id + " id.");
         }
-        return ResponseEntity.ok(employee.get());
+        return ResponseEntity.ok(mappingService.mapToEmployeeDTO(employee.get()));
     }
 
     @PostMapping

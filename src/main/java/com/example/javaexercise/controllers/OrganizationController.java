@@ -4,21 +4,20 @@ import com.example.javaexercise.dtos.createOrganizationDTO;
 import com.example.javaexercise.models.Organization;
 import com.example.javaexercise.services.MappingService;
 import com.example.javaexercise.services.OrganizationService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/v1/organization")
+@RequestMapping("/api/v1/Organization")
 public class OrganizationController {
 
     private final OrganizationService organizationService;
-    @Autowired
-    public OrganizationController(OrganizationService organizationService) {
+    private final MappingService mappingService;
+    public OrganizationController(OrganizationService organizationService, MappingService mappingService) {
         this.organizationService = organizationService;
+        this.mappingService = mappingService;
     }
 
     @PostMapping

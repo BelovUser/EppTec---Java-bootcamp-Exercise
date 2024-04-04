@@ -1,11 +1,14 @@
 package com.example.javaexercise.services;
 
+import com.example.javaexercise.dtos.EmployeeDTO;
 import com.example.javaexercise.dtos.OrganizationDTO;
+import com.example.javaexercise.dtos.createOrganizationDTO;
 import com.example.javaexercise.models.Organization;
 import com.example.javaexercise.repositories.OrganizationRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -18,10 +21,10 @@ public class OrganizationService {
     }
 
 
-    public void createOrganization(OrganizationDTO organizationDTO){
+    public void createOrganization(createOrganizationDTO createOrganizationDTO){
         Organization organization = new Organization();
-        organization.setName(organizationDTO.name());
-        organization.setAddress(organizationDTO.address());
+        organization.setName(createOrganizationDTO.name());
+        organization.setAddress(createOrganizationDTO.address());
 
         organizationRepo.save(organization);
     }
