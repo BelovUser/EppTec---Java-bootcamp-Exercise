@@ -1,9 +1,6 @@
 package com.example.javaexercise.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,11 +8,11 @@ import java.util.List;
 @Entity
 public class Organization {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
     private String name;
     private String address;
-    @OneToMany(mappedBy = "organization")
+    @OneToMany(mappedBy = "organization",cascade = CascadeType.ALL)
     private List<Employee> employees = new ArrayList<>();
 
     public List<Employee> getEmployees() {
