@@ -1,4 +1,9 @@
 package com.example.javaexercise.dtos;
 
-public record OrganizationDTO(String name, String address) {
+import java.util.List;
+
+public record OrganizationDTO(Long id,
+                              String name,
+                              String address,
+                              List<EmployeeDTO> employees) {
 }

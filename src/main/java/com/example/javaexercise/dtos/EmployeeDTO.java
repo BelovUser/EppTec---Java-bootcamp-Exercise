@@ -1,13 +1,15 @@
 package com.example.javaexercise.dtos;
 
-import com.example.javaexercise.models.Employee;
 import com.example.javaexercise.models.Organization;
 
 import java.util.Date;
 import java.util.List;
 
-public record EmployeeDTO(String name,
+public record EmployeeDTO(Long id,
+                          String name,
                           String username,
                           Date birthday,
-                          Organization organization) {
+                          String organizationName,
+                          String supEmployeeName,
+                          List<String> subEmployee) {
 }
