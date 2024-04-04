@@ -1,6 +1,6 @@
 package com.example.javaexercise.controllers;
 
-import com.example.javaexercise.dtos.EmployeeDTO;
+import com.example.javaexercise.dtos.createEmployeeDTO;
 import com.example.javaexercise.models.Employee;
 import com.example.javaexercise.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +29,9 @@ public class EmployeeController {
 
     @PostMapping
     @RequestMapping("/create")
-    public ResponseEntity<?> createEmployee(@RequestBody EmployeeDTO employeeDTO){
+    public ResponseEntity<?> createEmployee(@RequestBody createEmployeeDTO employeeDTO){
         employeeService.createEmployee(employeeDTO);
-        return ResponseEntity.ok("Employee" + employeeDTO.name() + " was created.");
+        return ResponseEntity.ok("Employee " + employeeDTO.name() + " was created.");
     }
 
     @DeleteMapping

@@ -22,7 +22,7 @@ public class EmployeeService {
         return employeeRepo.findById(employeeId);
    }
 
-   public void createEmployee(EmployeeDTO employeeDTO){
+   public void createEmployee(createEmployeeDTO employeeDTO){
         Employee newEmployee = new Employee();
         newEmployee.setName(employeeDTO.name());
         newEmployee.setUsername(employeeDTO.username());

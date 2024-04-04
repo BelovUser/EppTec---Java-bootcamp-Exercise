@@ -1,6 +1,8 @@
 package com.example.javaexercise.controllers;
 
-import com.example.javaexercise.dtos.OrganizationDTO;
+import com.example.javaexercise.dtos.createOrganizationDTO;
+import com.example.javaexercise.models.Organization;
+import com.example.javaexercise.services.MappingService;
 import com.example.javaexercise.services.OrganizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +22,18 @@ public class OrganizationController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createOrganization(@RequestBody OrganizationDTO organizationDTO){
-        organizationService.createOrganization(organizationDTO);
-        return ResponseEntity.ok("Organization " +  organizationDTO.name() + " was created.");
+    @RequestMapping("/create")
+    public ResponseEntity<?> createOrganization(@RequestBody createOrganizationDTO createOrganizationDTO){
+        organizationService.createOrganization(createOrganizationDTO);
+        return ResponseEntity.ok("Organization " +  createOrganizationDTO.name() + " was created.");
+    }
+
+    @GetMapping
+    public ResponseEntity<?> getOrganizationByName(@RequestParam String name){
+        Optional<Organization> optOrganization = organizationService.findByName(name);
+        if(optOrganization.isEmpty()){
+            return ResponseEntity.badRequest().body("Could not find Organization with name " + name);
+        }
+        return ResponseEntity.ok(mappingService.mapToOrganizationDTO(optOrganization.get()));
     }
 }
