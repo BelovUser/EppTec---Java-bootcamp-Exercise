@@ -20,13 +20,21 @@ public class EmployeeController {
         this.employeeService = employeeService;
         this.dtoMapper = dtoMapper;
     }
-    @GetMapping
+    @GetMapping("/byId")
     public ResponseEntity<?> getEmployeeById(@RequestParam Long employeeId){
-        Optional<Employee> employee = employeeService.findById(employeeId);
-        if(employee.isEmpty()){
+        Optional<Employee> optEmployee = employeeService.findById(employeeId);
+        if(optEmployee.isEmpty()){
             return ResponseEntity.badRequest().body("Could not find Employee by " + employeeId + " id.");
         }
-        return ResponseEntity.ok(dtoMapper.mapToEmployeeDTO(employee.get()));
+        return ResponseEntity.ok(dtoMapper.mapToEmployeeDTO(optEmployee.get()));
+    }
+    @GetMapping("/byName")
+    public ResponseEntity<?> getEmployeeByNameAndSurname(@RequestParam String name, @RequestParam String surname){
+        Optional<Employee> optEmployee = employeeService.findByNameAndSurname(name,surname);
+        if(optEmployee.isEmpty()){
+            return ResponseEntity.badRequest().body("Could not find Employee with fullname " + name + " " + surname + ".");
+        }
+        return ResponseEntity.ok(dtoMapper.mapToEmployeeDTO(optEmployee.get()));
     }
 
     @PostMapping("/create")

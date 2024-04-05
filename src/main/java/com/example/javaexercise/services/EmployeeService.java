@@ -60,4 +60,8 @@ public class EmployeeService {
        employeeRepository.save(employee);
 
    }
+
+   public Optional<Employee> findByNameAndSurname(String name, String surname){
+        return employeeRepository.findByNameAndSurname(name,surname);
+   }
 }
