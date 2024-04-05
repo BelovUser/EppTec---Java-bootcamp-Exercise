@@ -26,7 +26,7 @@ public class OrganizationService {
     }
 
     public Optional<Organization> findByName(String name){
-        return organizationRepository.findAllByName(name);
+        return organizationRepository.findByName(name);
     }
 
     public void save(Organization organization){

@@ -58,7 +58,6 @@ public class EmployeeService {
 
        employee.setOrganization(organization);
        employeeRepository.save(employee);
-
    }
 
    public Optional<Employee> findByNameAndSurname(String name, String surname){
