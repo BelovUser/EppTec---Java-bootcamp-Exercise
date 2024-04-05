@@ -1,6 +1,7 @@
 package com.example.javaexercise.services;
 
 import com.example.javaexercise.dtos.CreateEmployeeDto;
+import com.example.javaexercise.mappers.DtoMapper;
 import com.example.javaexercise.models.Employee;
 import com.example.javaexercise.models.Organization;
 import com.example.javaexercise.repositories.EmployeeRepository;
@@ -28,6 +29,8 @@ class EmployeeServiceTest {
     private OrganizationService mockOrganizationService;
     @Mock
     private EmployeeRepository mockEmployeeRepository;
+    @Mock
+    private DtoMapper dtoMapper;
 
     @Test
     void findById_givenEmployeeId_whenEmployeeExists_returnEmployee() {
