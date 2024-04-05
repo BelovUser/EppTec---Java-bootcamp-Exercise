@@ -1,8 +1,8 @@
 package com.example.javaexercise.controllers;
 
-import com.example.javaexercise.dtos.createOrganizationDto;
+import com.example.javaexercise.dtos.CreateOrganizationDto;
 import com.example.javaexercise.models.Organization;
-import com.example.javaexercise.services.MappingService;
+import com.example.javaexercise.mappers.DtoMapper;
 import com.example.javaexercise.services.OrganizationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,15 +14,14 @@ import java.util.Optional;
 public class OrganizationController {
 
     private final OrganizationService organizationService;
-    private final MappingService mappingService;
-    public OrganizationController(OrganizationService organizationService, MappingService mappingService) {
+    private final DtoMapper dtoMapper;
+    public OrganizationController(OrganizationService organizationService, DtoMapper dtoMapper) {
         this.organizationService = organizationService;
-        this.mappingService = mappingService;
+        this.dtoMapper = dtoMapper;
     }
 
-    @PostMapping
-    @RequestMapping("/create")
-    public ResponseEntity<?> createOrganization(@RequestBody createOrganizationDto createOrganizationDTO){
+    @PostMapping("/create")
+    public ResponseEntity<?> createOrganization(@RequestBody CreateOrganizationDto createOrganizationDTO){
         organizationService.createOrganization(createOrganizationDTO);
         return ResponseEntity.ok("Organization " +  createOrganizationDTO.name() + " was created.");
     }
@@ -33,6 +32,6 @@ public class OrganizationController {
         if(optOrganization.isEmpty()){
             return ResponseEntity.badRequest().body("Could not find Organization with name " + name);
         }
-        return ResponseEntity.ok(mappingService.mapToOrganizationDTO(optOrganization.get()));
+        return ResponseEntity.ok(dtoMapper.mapToOrganizationDTO(optOrganization.get()));
     }
 }

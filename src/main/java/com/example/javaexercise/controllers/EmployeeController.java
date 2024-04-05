@@ -1,9 +1,9 @@
 package com.example.javaexercise.controllers;
 
-import com.example.javaexercise.dtos.createEmployeeDTO;
+import com.example.javaexercise.dtos.CreateEmployeeDto;
 import com.example.javaexercise.models.Employee;
 import com.example.javaexercise.services.EmployeeService;
-import com.example.javaexercise.services.MappingService;
+import com.example.javaexercise.mappers.DtoMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,39 +13,39 @@ import java.util.Optional;
 @RequestMapping("/api/v1/Employee")
 public class EmployeeController {
     private final EmployeeService employeeService;
-    private final MappingService mappingService;
+    private final DtoMapper dtoMapper;
 
-    public EmployeeController(EmployeeService employeeService, MappingService mappingService) {
+    public EmployeeController(EmployeeService employeeService, DtoMapper dtoMapper) {
 
         this.employeeService = employeeService;
-        this.mappingService = mappingService;
+        this.dtoMapper = dtoMapper;
     }
     @GetMapping
-    public ResponseEntity<?> getEmployeeById(@RequestParam Long id){
-        Optional<Employee> employee = employeeService.findById(id);
+    public ResponseEntity<?> getEmployeeById(@RequestParam Long employeeId){
+        Optional<Employee> employee = employeeService.findById(employeeId);
         if(employee.isEmpty()){
-            return ResponseEntity.badRequest().body("Could not find Employee by " + id + " id.");
+            return ResponseEntity.badRequest().body("Could not find Employee by " + employeeId + " id.");
         }
-        return ResponseEntity.ok(mappingService.mapToEmployeeDTO(employee.get()));
+        return ResponseEntity.ok(dtoMapper.mapToEmployeeDTO(employee.get()));
     }
 
-    @PostMapping
-    @RequestMapping("/create")
-    public ResponseEntity<?> createEmployee(@RequestBody createEmployeeDTO employeeDTO){
+    @PostMapping("/create")
+    public ResponseEntity<?> createEmployee(@RequestBody CreateEmployeeDto employeeDTO){
         employeeService.createEmployee(employeeDTO);
         return ResponseEntity.ok("Employee " + employeeDTO.name() + " was created.");
     }
 
-    @DeleteMapping
-    @RequestMapping("/delete")
-    public ResponseEntity<?> deleteEmployee(@RequestParam Long id){
-        employeeService.deleteEmployee(id);
-        return ResponseEntity.ok("Employee with " + id + " id was deleted.");
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> deleteEmployee(@RequestParam Long employeeId){
+        employeeService.deleteEmployee(employeeId);
+        return ResponseEntity.ok("Employee with " + employeeId + " id was deleted.");
     }
 
-    @PutMapping
-    @RequestMapping("/setSuperior")
+    @PutMapping("/setSuperior")
     public ResponseEntity<?> setSuperior(@RequestParam Long superiorId, @RequestParam Long subordinateId){
+        if(superiorId == subordinateId){
+                return ResponseEntity.badRequest().body("Employee cannot be subordinate and superior to itself.");
+        }
         Optional<Employee> optSubordinate = employeeService.findById(subordinateId);
         Optional<Employee> optSuperior = employeeService.findById(superiorId);
 
@@ -62,8 +62,7 @@ public class EmployeeController {
         return ResponseEntity.ok("Employee " + superior.getName() + " is set as Superior to " + subordinate.getName() + " Employee.");
     }
 
-    @PutMapping
-    @RequestMapping("/setOrganization")
+    @PutMapping("/setOrganization")
     public ResponseEntity<?> setOrganization(@RequestParam Long employeeId, @RequestParam String organizationName){
         try{
             employeeService.assignEmployeeToOrganization(employeeId, organizationName);

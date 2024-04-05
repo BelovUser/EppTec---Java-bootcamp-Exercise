@@ -45,9 +45,7 @@ public class Employee {
         this.surname = username;
     }
 
-    public Date getBirthday() {
-        return birthday;
-    }
+    public Date getBirthday() {return birthday;}
 
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
