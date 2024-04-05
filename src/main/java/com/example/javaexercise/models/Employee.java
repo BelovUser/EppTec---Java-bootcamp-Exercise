@@ -12,7 +12,7 @@ public class Employee {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
     private String name;
-    private String username;
+    private String surname;
     private Date birthday;
     @OneToMany(mappedBy = "superior",cascade = CascadeType.ALL)
     private List<Employee> subordinates = new ArrayList<>();
@@ -37,12 +37,12 @@ public class Employee {
         this.name = name;
     }
 
-    public String getUsername() {
-        return username;
+    public String getSurname() {
+        return surname;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setSurname(String username) {
+        this.surname = username;
     }
 
     public Date getBirthday() {

@@ -27,7 +27,7 @@ public class MappingService {
 
         return new EmployeeDto(employee.getId(),
                 employee.getName(),
-                employee.getUsername(),
+                employee.getSurname(),
                 employee.getBirthday(),
                 organizationName,
                 superior,

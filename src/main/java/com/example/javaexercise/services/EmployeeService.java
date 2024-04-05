@@ -25,7 +25,7 @@ public class EmployeeService {
    public void createEmployee(createEmployeeDto employeeDTO){
         Employee newEmployee = new Employee();
         newEmployee.setName(employeeDTO.name());
-        newEmployee.setUsername(employeeDTO.username());
+        newEmployee.setSurname(employeeDTO.surname());
         newEmployee.setBirthday(employeeDTO.birthday());
 
         employeeRepository.save(newEmployee);

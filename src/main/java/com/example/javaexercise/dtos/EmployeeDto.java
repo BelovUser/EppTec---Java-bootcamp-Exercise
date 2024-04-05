@@ -5,7 +5,7 @@ import java.util.List;
 
 public record EmployeeDTO(Long id,
                           String name,
-                          String username,
+                          String surname,
                           Date birthday,
                           String organizationName,
                           String superiorName,
