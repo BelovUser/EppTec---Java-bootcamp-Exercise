@@ -1,38 +1,38 @@
 package com.example.javaexercise.services;
 
-import com.example.javaexercise.dtos.createEmployeeDTO;
+import com.example.javaexercise.dtos.createEmployeeDto;
 import com.example.javaexercise.models.Employee;
 import com.example.javaexercise.models.Organization;
-import com.example.javaexercise.repositories.EmployeeRepo;
+import com.example.javaexercise.repositories.EmployeeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
 public class EmployeeService {
-    private final EmployeeRepo employeeRepo;
+    private final EmployeeRepository employeeRepository;
     private final OrganizationService organizationService;
 
-    public EmployeeService(EmployeeRepo employeeRepo, OrganizationService organizationService) {
-        this.employeeRepo = employeeRepo;
+    public EmployeeService(EmployeeRepository employeeRepository, OrganizationService organizationService) {
+        this.employeeRepository = employeeRepository;
         this.organizationService = organizationService;
     }
 
    public Optional<Employee> findById(Long employeeId){
-        return employeeRepo.findById(employeeId);
+        return employeeRepository.findById(employeeId);
    }
 
-   public void createEmployee(createEmployeeDTO employeeDTO){
+   public void createEmployee(createEmployeeDto employeeDTO){
         Employee newEmployee = new Employee();
         newEmployee.setName(employeeDTO.name());
         newEmployee.setUsername(employeeDTO.username());
         newEmployee.setBirthday(employeeDTO.birthday());
 
-        employeeRepo.save(newEmployee);
+        employeeRepository.save(newEmployee);
    }
 
    public void deleteEmployee(Long employeeId){
-        employeeRepo.deleteById(employeeId);
+        employeeRepository.deleteById(employeeId);
    }
 
    public void setSuperior(Long superiorId, Long subordinateId){
@@ -41,10 +41,10 @@ public class EmployeeService {
         if(superior.equals(subordinate)){
            throw new RuntimeException("subordinate and superior cannot have same Entity.");
         }
-        superior.addToSubEmployees(subordinate);
+        superior.addToSubordinates(subordinate);
         subordinate.setSuperior(superior);
-        employeeRepo.save(superior);
-        employeeRepo.save(subordinate);
+        employeeRepository.save(superior);
+        employeeRepository.save(subordinate);
    }
 
    public void assignEmployeeToOrganization(Long employeeId, String organizationName){
@@ -57,7 +57,7 @@ public class EmployeeService {
        organizationService.save(organization);
 
        employee.setOrganization(organization);
-       employeeRepo.save(employee);
+       employeeRepository.save(employee);
 
    }
 }

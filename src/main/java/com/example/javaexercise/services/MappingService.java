@@ -1,10 +1,10 @@
 package com.example.javaexercise.services;
 
-import com.example.javaexercise.dtos.EmployeeDTO;
-import com.example.javaexercise.dtos.OrganizationDTO;
+import com.example.javaexercise.dtos.EmployeeDto;
+import com.example.javaexercise.dtos.OrganizationDto;
 import com.example.javaexercise.models.Employee;
 import com.example.javaexercise.models.Organization;
-import com.example.javaexercise.repositories.OrganizationRepo;
+import com.example.javaexercise.repositories.OrganizationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,15 +12,15 @@ import java.util.List;
 
 @Service
 public class MappingService {
-    private final OrganizationRepo organizationRepo;
+    private final OrganizationRepository organizationRepository;
     private final EmployeeService employeeService;
     @Autowired
-    public MappingService(OrganizationRepo organizationRepo, EmployeeService employeeService) {
-        this.organizationRepo = organizationRepo;
+    public MappingService(OrganizationRepository organizationRepository, EmployeeService employeeService) {
+        this.organizationRepository = organizationRepository;
         this.employeeService = employeeService;
     }
 
-    public static EmployeeDTO mapToEmployeeDTO(Employee employee){
+    public static EmployeeDto mapToEmployeeDTO(Employee employee){
         List<String> subordinates =  getAllSubordinatesNames(employee);
         String organizationName = employee.getOrganization() == null? "none":employee.getOrganization().getName();
         String superior = employee.getSuperior() == null? "none":employee.getSuperior().getName();
@@ -35,12 +35,12 @@ public class MappingService {
                 );
     }
 
-    public OrganizationDTO mapToOrganizationDTO(Organization organization){
-        List<EmployeeDTO> employees = organization.getEmployees().stream()
+    public OrganizationDto mapToOrganizationDTO(Organization organization){
+        List<EmployeeDto> employees = organization.getEmployees().stream()
                 .map(MappingService::mapToEmployeeDTO)
                 .toList();
 
-        return new OrganizationDTO(organization.getId(),
+        return new OrganizationDto(organization.getId(),
                 organization.getName(),
                 organization.getAddress(),
                 employees);

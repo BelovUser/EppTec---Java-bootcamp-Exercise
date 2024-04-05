@@ -1,6 +1,6 @@
 package com.example.javaexercise.controllers;
 
-import com.example.javaexercise.dtos.createOrganizationDTO;
+import com.example.javaexercise.dtos.createOrganizationDto;
 import com.example.javaexercise.models.Organization;
 import com.example.javaexercise.services.MappingService;
 import com.example.javaexercise.services.OrganizationService;
@@ -22,7 +22,7 @@ public class OrganizationController {
 
     @PostMapping
     @RequestMapping("/create")
-    public ResponseEntity<?> createOrganization(@RequestBody createOrganizationDTO createOrganizationDTO){
+    public ResponseEntity<?> createOrganization(@RequestBody createOrganizationDto createOrganizationDTO){
         organizationService.createOrganization(createOrganizationDTO);
         return ResponseEntity.ok("Organization " +  createOrganizationDTO.name() + " was created.");
     }
