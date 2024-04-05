@@ -1,6 +1,6 @@
 package com.example.javaexercise.services;
 
-import com.example.javaexercise.dtos.createOrganizationDto;
+import com.example.javaexercise.dtos.CreateOrganizationDto;
 import com.example.javaexercise.models.Organization;
 import com.example.javaexercise.repositories.OrganizationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +17,7 @@ public class OrganizationService {
         this.organizationRepository = organizationRepository;
     }
 
-
-    public void createOrganization(createOrganizationDto createOrganizationDTO){
+    public void createOrganization(CreateOrganizationDto createOrganizationDTO){
         Organization organization = new Organization();
         organization.setName(createOrganizationDTO.name());
         organization.setAddress(createOrganizationDTO.address());

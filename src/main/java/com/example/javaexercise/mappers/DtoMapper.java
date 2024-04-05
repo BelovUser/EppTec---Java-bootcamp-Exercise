@@ -1,25 +1,15 @@
-package com.example.javaexercise.services;
+package com.example.javaexercise.mappers;
 
 import com.example.javaexercise.dtos.EmployeeDto;
 import com.example.javaexercise.dtos.OrganizationDto;
 import com.example.javaexercise.models.Employee;
 import com.example.javaexercise.models.Organization;
-import com.example.javaexercise.repositories.OrganizationRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class MappingService {
-    private final OrganizationRepository organizationRepository;
-    private final EmployeeService employeeService;
-    @Autowired
-    public MappingService(OrganizationRepository organizationRepository, EmployeeService employeeService) {
-        this.organizationRepository = organizationRepository;
-        this.employeeService = employeeService;
-    }
-
+public class DtoMapper {
     public static EmployeeDto mapToEmployeeDTO(Employee employee){
         List<String> subordinates =  getAllSubordinatesNames(employee);
         String organizationName = employee.getOrganization() == null? "none":employee.getOrganization().getName();
@@ -37,7 +27,7 @@ public class MappingService {
 
     public OrganizationDto mapToOrganizationDTO(Organization organization){
         List<EmployeeDto> employees = organization.getEmployees().stream()
-                .map(MappingService::mapToEmployeeDTO)
+                .map(DtoMapper::mapToEmployeeDTO)
                 .toList();
 
         return new OrganizationDto(organization.getId(),

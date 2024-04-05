@@ -1,6 +1,6 @@
 package com.example.javaexercise.services;
 
-import com.example.javaexercise.dtos.createEmployeeDto;
+import com.example.javaexercise.dtos.CreateEmployeeDto;
 import com.example.javaexercise.models.Employee;
 import com.example.javaexercise.models.Organization;
 import com.example.javaexercise.repositories.EmployeeRepository;
@@ -22,7 +22,7 @@ public class EmployeeService {
         return employeeRepository.findById(employeeId);
    }
 
-   public void createEmployee(createEmployeeDto employeeDTO){
+   public void createEmployee(CreateEmployeeDto employeeDTO){
         Employee newEmployee = new Employee();
         newEmployee.setName(employeeDTO.name());
         newEmployee.setSurname(employeeDTO.surname());
