@@ -1,5 +1,7 @@
 package com.example.javaexercise.mappers;
 
+import com.example.javaexercise.dtos.CreateEmployeeDto;
+import com.example.javaexercise.dtos.CreateOrganizationDto;
 import com.example.javaexercise.dtos.EmployeeDto;
 import com.example.javaexercise.dtos.OrganizationDto;
 import com.example.javaexercise.models.Employee;
@@ -34,6 +36,20 @@ public class DtoMapper {
                 organization.getName(),
                 organization.getAddress(),
                 employees);
+    }
+    public Organization mapDtoToOrganization(CreateOrganizationDto createOrganizationDTO){
+        Organization organization = new Organization();
+        organization.setName(createOrganizationDTO.name());
+        organization.setAddress(createOrganizationDTO.address());
+        return organization;
+    }
+
+    public Employee mapDtoToEmployee(CreateEmployeeDto employeeDTO){
+        Employee employee = new Employee();
+        employee.setName(employeeDTO.name());
+        employee.setSurname(employeeDTO.surname());
+        employee.setBirthday(employeeDTO.birthday());
+        return employee;
     }
 
     private static List<String> getAllSubordinatesNames(Employee employee){

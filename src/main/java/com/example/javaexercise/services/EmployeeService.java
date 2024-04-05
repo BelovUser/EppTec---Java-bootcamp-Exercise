@@ -1,6 +1,7 @@
 package com.example.javaexercise.services;
 
 import com.example.javaexercise.dtos.CreateEmployeeDto;
+import com.example.javaexercise.mappers.DtoMapper;
 import com.example.javaexercise.models.Employee;
 import com.example.javaexercise.models.Organization;
 import com.example.javaexercise.repositories.EmployeeRepository;
@@ -12,10 +13,12 @@ import java.util.Optional;
 public class EmployeeService {
     private final EmployeeRepository employeeRepository;
     private final OrganizationService organizationService;
+    private final DtoMapper dtoMapper;
 
-    public EmployeeService(EmployeeRepository employeeRepository, OrganizationService organizationService) {
+    public EmployeeService(EmployeeRepository employeeRepository, OrganizationService organizationService, DtoMapper dtoMapper) {
         this.employeeRepository = employeeRepository;
         this.organizationService = organizationService;
+        this.dtoMapper = dtoMapper;
     }
 
    public Optional<Employee> findById(Long employeeId){
@@ -23,11 +26,7 @@ public class EmployeeService {
    }
 
    public void createEmployee(CreateEmployeeDto employeeDTO){
-        Employee newEmployee = new Employee();
-        newEmployee.setName(employeeDTO.name());
-        newEmployee.setSurname(employeeDTO.surname());
-        newEmployee.setBirthday(employeeDTO.birthday());
-
+        Employee newEmployee = dtoMapper.mapDtoToEmployee(employeeDTO);
         employeeRepository.save(newEmployee);
    }
 
