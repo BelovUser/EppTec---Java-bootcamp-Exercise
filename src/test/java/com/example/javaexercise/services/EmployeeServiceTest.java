@@ -9,6 +9,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
@@ -87,6 +88,21 @@ class EmployeeServiceTest {
         //assert
         verify(subordinate,times(1)).setSuperior(superior);
         verify(superior,times(1)).addToSubordinates(subordinate);
+    }
+
+    @Test
+    void setSuperior_givenSameId_whenEmployeeExists_throwException() {
+        //arrange
+        Employee expectedEmployee = new Employee();
+        expectedEmployee.setName("Name");
+        expectedEmployee.setSurname("Surname");
+        expectedEmployee.setBirthday(new Date(1999, Calendar.DECEMBER,12));
+
+        when(mockEmployeeRepository.findById(1L)).thenReturn(Optional.of(expectedEmployee));
+        //act and assert
+        assertThrows(RuntimeException.class, () -> {
+            employeeService.setSuperior(1L, 1L);
+        });
     }
 
     @Test
