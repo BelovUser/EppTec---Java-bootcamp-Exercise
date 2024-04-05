@@ -57,7 +57,7 @@ public class Employee {
         return subordinates;
     }
 
-    public void addToSubEmployees(Employee subordinate){
+    public void addToSubordinates(Employee subordinate){
         this.subordinates.add(subordinate);
     }
 
@@ -66,7 +66,7 @@ public class Employee {
     }
 
     public void setSuperior(Employee superior) {
-        this.subordinates.add(superior);
+        this.superior = superior;
     }
 
     public Long getId() {

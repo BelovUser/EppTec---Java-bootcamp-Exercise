@@ -22,14 +22,15 @@ public class MappingService {
 
     public static EmployeeDTO mapToEmployeeDTO(Employee employee){
         List<String> subordinates =  getAllSubordinatesNames(employee);
-        String organizationName = employee.getOrganization().getName() == null? null:employee.getName();
-        String superior = employee.getSuperior() == null? null:employee.getName();
-        return new EmployeeDTO(employee.getId(),
+        String organizationName = employee.getOrganization() == null? "none":employee.getOrganization().getName();
+        String superior = employee.getSuperior() == null? "none":employee.getSuperior().getName();
+
+        return new EmployeeDto(employee.getId(),
                 employee.getName(),
                 employee.getUsername(),
                 employee.getBirthday(),
-                superior,
                 organizationName,
+                superior,
                 subordinates
                 );
     }
