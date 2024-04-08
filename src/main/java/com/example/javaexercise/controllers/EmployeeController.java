@@ -28,7 +28,7 @@ public class EmployeeController {
         }
         return ResponseEntity.ok(dtoMapper.mapToEmployeeDTO(optEmployee.get()));
     }
-    @GetMapping("/byName")
+    @GetMapping("/byFullName")
     public ResponseEntity<?> getEmployeeByNameAndSurname(@RequestParam String name, @RequestParam String surname){
         Optional<Employee> optEmployee = employeeService.findByNameAndSurname(name,surname);
         if(optEmployee.isEmpty()){
