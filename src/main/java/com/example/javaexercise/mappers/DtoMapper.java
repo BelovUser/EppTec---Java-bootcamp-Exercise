@@ -5,6 +5,8 @@ import com.example.javaexercise.models.Employee;
 import com.example.javaexercise.models.Organization;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -13,11 +15,13 @@ public class DtoMapper {
         List<SubordinateDto> subordinates = mapAllSubordinates(employee);
         String organizationName = employee.getOrganization() == null? "none":employee.getOrganization().getName();
         String superior = employee.getSuperior() == null? "none":employee.getSuperior().getName();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        String birthday = simpleDateFormat.format(employee.getBirthday());
 
         return new EmployeeDto(employee.getId(),
                 employee.getName(),
                 employee.getSurname(),
-                employee.getBirthday(),
+                birthday,
                 organizationName,
                 superior,
                 subordinates
