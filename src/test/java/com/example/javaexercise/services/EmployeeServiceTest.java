@@ -52,10 +52,16 @@ class EmployeeServiceTest {
         //arrange
         CreateEmployeeDto employeeDto = new CreateEmployeeDto("Name", "Surname",
                 new Date(1999, Calendar.DECEMBER,12));
+        Employee employee = new Employee();
+        employee.setName("Name");
+        employee.setSurname("Surname");
+        employee.setBirthday(new Date(1999, Calendar.DECEMBER,12));
+
+        when(dtoMapper.mapDtoToEmployee(employeeDto)).thenReturn(employee);
         //act
         employeeService.createEmployee(employeeDto);
         //assert
-        verify(mockEmployeeRepository,times(1)).save(any(Employee.class));
+        verify(mockEmployeeRepository,times(1)).save(employee);
     }
 
     @Test
@@ -63,12 +69,17 @@ class EmployeeServiceTest {
         //arrange
         CreateEmployeeDto employeeDto = new CreateEmployeeDto("Name", "Surname",
                 new Date(1999, Calendar.DECEMBER,12));
+        Employee employee = new Employee();
+        employee.setName("Name");
+        employee.setSurname("Surname");
+        employee.setBirthday(new Date(1999, Calendar.DECEMBER,12));
 
-        employeeService.createEmployee(employeeDto);
+        when(dtoMapper.mapDtoToEmployee(employeeDto)).thenReturn(employee);
         //act
+        employeeService.createEmployee(employeeDto);
         employeeService.deleteEmployee(1L);
         //assert
-        verify(mockEmployeeRepository,times(1)).save(any(Employee.class));
+        verify(mockEmployeeRepository,times(1)).save(employee);
     }
 
     @Test
