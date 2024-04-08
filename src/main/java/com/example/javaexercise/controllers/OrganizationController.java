@@ -21,16 +21,16 @@ public class OrganizationController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createOrganization(@RequestBody CreateOrganizationDto createOrganizationDTO){
-        organizationService.createOrganization(createOrganizationDTO);
-        return ResponseEntity.ok("Organization " +  createOrganizationDTO.name() + " was created.");
+    public ResponseEntity<?> createOrganization(@RequestBody CreateOrganizationDto createOrganizationDto){
+        organizationService.createOrganization(createOrganizationDto);
+        return ResponseEntity.ok("Organization " +  createOrganizationDto.name() + " was created.");
     }
 
-    @GetMapping
-    public ResponseEntity<?> getOrganizationByName(@RequestParam String name){
-        Optional<Organization> optOrganization = organizationService.findByName(name);
+    @GetMapping("/byName")
+    public ResponseEntity<?> getOrganizationByName(@RequestParam String organizationName){
+        Optional<Organization> optOrganization = organizationService.findByName(organizationName);
         if(optOrganization.isEmpty()){
-            return ResponseEntity.badRequest().body("Could not find Organization with name " + name);
+            return ResponseEntity.badRequest().body("Could not find Organization with name " + organizationName + ".");
         }
         return ResponseEntity.ok(dtoMapper.mapToOrganizationDTO(optOrganization.get()));
     }

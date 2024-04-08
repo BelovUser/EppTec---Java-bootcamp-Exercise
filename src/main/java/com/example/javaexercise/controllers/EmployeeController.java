@@ -58,6 +58,7 @@ public class EmployeeController {
         if(superiorId == subordinateId){
                 return ResponseEntity.badRequest().body("Employee cannot be subordinate and superior to itself.");
         }
+
         Optional<Employee> optSubordinate = employeeService.findById(subordinateId);
         Optional<Employee> optSuperior = employeeService.findById(superiorId);
 
