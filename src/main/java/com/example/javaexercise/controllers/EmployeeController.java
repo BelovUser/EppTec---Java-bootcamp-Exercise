@@ -2,8 +2,10 @@ package com.example.javaexercise.controllers;
 
 import com.example.javaexercise.dtos.CreateEmployeeDto;
 import com.example.javaexercise.models.Employee;
+import com.example.javaexercise.models.Organization;
 import com.example.javaexercise.services.EmployeeService;
 import com.example.javaexercise.mappers.DtoMapper;
+import com.example.javaexercise.services.OrganizationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,11 +15,13 @@ import java.util.Optional;
 @RequestMapping("/api/v1/Employee")
 public class EmployeeController {
     private final EmployeeService employeeService;
+    private final OrganizationService organizationService;
     private final DtoMapper dtoMapper;
 
-    public EmployeeController(EmployeeService employeeService, DtoMapper dtoMapper) {
+    public EmployeeController(EmployeeService employeeService, OrganizationService organizationService, DtoMapper dtoMapper) {
 
         this.employeeService = employeeService;
+        this.organizationService = organizationService;
         this.dtoMapper = dtoMapper;
     }
     @GetMapping("/byId")
@@ -57,10 +61,12 @@ public class EmployeeController {
         Optional<Employee> optSubordinate = employeeService.findById(subordinateId);
         Optional<Employee> optSuperior = employeeService.findById(superiorId);
 
-        if(optSuperior.isEmpty()){
-            return ResponseEntity.badRequest().body("Could not find superior with " + superiorId + "id.");
-        } else if(optSubordinate.isEmpty()){
-            return ResponseEntity.badRequest().body("Could not find subordinate with " + subordinateId + "id.");
+        if(optSuperior.isEmpty() && optSubordinate.isEmpty()){
+            return ResponseEntity.badRequest().body("Could not find both employees.");
+        } else if (optSubordinate.isEmpty()) {
+            return ResponseEntity.badRequest().body("Could not find subordinate with " + subordinateId + " id.");
+        } else if (optSuperior.isEmpty()) {
+            return ResponseEntity.badRequest().body("Could not find superior with " + superiorId + " id.");
         }
 
         Employee subordinate = employeeService.findById(subordinateId).get();
@@ -72,12 +78,17 @@ public class EmployeeController {
 
     @PutMapping("/setOrganization")
     public ResponseEntity<?> setOrganization(@RequestParam Long employeeId, @RequestParam String organizationName){
-        try{
-            employeeService.assignEmployeeToOrganization(employeeId, organizationName);
-        }catch(Exception e){
-            return ResponseEntity.badRequest().body("Could not found Employee or/and Organization.");
-        }
         Optional<Employee> optEmployee = employeeService.findById(employeeId);
+        Optional<Organization> optOrganization = organizationService.findByName(organizationName);
+
+        if(optEmployee.isEmpty() && optOrganization.isEmpty()){
+            return ResponseEntity.badRequest().body("Could not find both employee and organization.");
+        } else if (optOrganization.isEmpty()) {
+            return ResponseEntity.badRequest().body("Could not find organization named " + organizationName + ".");
+        } else if (optEmployee.isEmpty()) {
+            return ResponseEntity.badRequest().body("Could not find employee with " + employeeId + " id.");
+        }
+
         return ResponseEntity.ok("Employee " + optEmployee.get().getName() + " was assigned to " + organizationName + " Organization.");
     }
 }
