@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class EmployeeControllerTest {
 
-    private String apiPath = "/api/v1/Employee";
+    private final String urlPath = "/api/v1/Employee";
 
     @Autowired
     private MockMvc mockMvc;
@@ -46,10 +46,20 @@ class EmployeeControllerTest {
 
         when(employeeService.findById(1L)).thenReturn(Optional.of(employee));
         //act and assert
-        mockMvc.perform(get(apiPath+"/byId").param("employeeId", String.valueOf(1L)))
+        mockMvc.perform(get(urlPath +"/byId").param("employeeId", String.valueOf(1L)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("John"))
                 .andExpect(jsonPath("$.surname").value("Doe"));
+    }
+
+    @Test
+    void getEmployeeById_givenEmployeeId_whenEmployeeNotExist_expectStatusBadRequest() throws Exception {
+        //arrange
+        Long employeeId = 1L;
+        //act and assert
+        mockMvc.perform(get(urlPath +"/byId").param("employeeId", String.valueOf(employeeId)))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Could not find Employee by " + employeeId + " id."));
     }
 
     @Test
@@ -61,7 +71,7 @@ class EmployeeControllerTest {
 
         when(employeeService.findByNameAndSurname("John","Doe")).thenReturn(Optional.of(employee));
         //act and assert
-        mockMvc.perform(get(apiPath+"/byFullName")
+        mockMvc.perform(get(urlPath +"/byFullName")
                         .param("name", "John")
                         .param("surname","Doe"))
                 .andExpect(status().isOk())
@@ -70,11 +80,24 @@ class EmployeeControllerTest {
     }
 
     @Test
+    void getEmployeeByNameAndSurname_givenNameAndUsername_whenEmployeeNotExist_expectStatusBadRequest() throws Exception {
+        //arrange
+        String name = "John";
+        String surname = "Doe";
+        //act and assert
+        mockMvc.perform(get(urlPath +"/byFullName")
+                        .param("name", name)
+                        .param("surname",surname))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Could not find Employee with fullname " + name + " " + surname + "."));
+    }
+
+    @Test
     void createEmployee_givenCreateEmployeeDto_thenCreateEmployee() throws Exception {
         //arrange
         CreateEmployeeDto createEmployeeDto = new CreateEmployeeDto("John","Doe",null);
         //act and assert
-        mockMvc.perform(post(apiPath+"/create")
+        mockMvc.perform(post(urlPath +"/create")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createEmployeeDto)))
                 .andExpect(status().isOk())
@@ -84,7 +107,7 @@ class EmployeeControllerTest {
     @Test
     void deleteEmployee_givenEmployeeId_whenEmployeeExist_deleteEmployee() throws Exception {
         //act and assert
-        mockMvc.perform(delete(apiPath+"/delete")
+        mockMvc.perform(delete(urlPath +"/delete")
                         .param("employeeId", String.valueOf(1L)))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Employee with 1 id was deleted."));
@@ -106,7 +129,7 @@ class EmployeeControllerTest {
         when(employeeService.findById(1L)).thenReturn(Optional.of(superior));
         when(employeeService.findById(2L)).thenReturn(Optional.of(subordinate));
         //act and assert
-        mockMvc.perform(put(apiPath+"/setSuperior")
+        mockMvc.perform(put(urlPath +"/setSuperior")
                 .param("superiorId", String.valueOf(1L))
                 .param("subordinateId", String.valueOf(2L)))
                 .andExpect(status().isOk())
@@ -114,7 +137,75 @@ class EmployeeControllerTest {
     }
 
     @Test
-    void setOrganization_givenEmployeeIdAndOrganizationName_WhenBothExist_setOrganizationToEmployee() throws Exception {
+    void setSuperior_givenSuperiorIdAndSubordinateId_whenSuperiorNotExist_expectStatusBadRequest() throws Exception {
+        //arrange
+        Long superiorId = 1L;
+
+        Employee subordinate = new Employee();
+        subordinate.setId(2L);
+        subordinate.setName("Mark");
+        subordinate.setSurname("White");
+
+        when(employeeService.findById(2L)).thenReturn(Optional.of(subordinate));
+        //act and assert
+        mockMvc.perform(put(urlPath +"/setSuperior")
+                        .param("superiorId", String.valueOf(superiorId))
+                        .param("subordinateId", String.valueOf(2L)))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Could not find superior with " + superiorId + "id."));
+    }
+
+    @Test
+    void setSuperior_givenSuperiorIdAndSubordinateId_whenSubordinateNotExist_expectStatusBadRequest() throws Exception {
+        //arrange
+        Long subordinateId = 2L;
+
+        Employee superior = new Employee();
+        superior.setId(1L);
+        superior.setName("John");
+        superior.setSurname("Doe");
+
+        when(employeeService.findById(1L)).thenReturn(Optional.of(superior));
+        //act and assert
+        mockMvc.perform(put(urlPath +"/setSuperior")
+                        .param("superiorId", String.valueOf(1L))
+                        .param("subordinateId", String.valueOf(subordinateId)))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Could not find subordinate with " + subordinateId + "id."));
+    }
+
+    @Test
+    void setSuperior_givenSuperiorIdAndSubordinateId_whenSubordinateAndSuperiorAreSameEmployee_expectStatusBadRequest() throws Exception {
+        //arrange
+        Employee employee = new Employee();
+        employee.setId(1L);
+        employee.setName("John");
+        employee.setSurname("Doe");
+
+        when(employeeService.findById(1L)).thenReturn(Optional.of(employee));
+        //act and assert
+        mockMvc.perform(put(urlPath +"/setSuperior")
+                        .param("superiorId", String.valueOf(employee.getId()))
+                        .param("subordinateId", String.valueOf(employee.getId())))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Employee cannot be subordinate and superior to itself."));
+    }
+
+    @Test
+    void setSuperior_givenSuperiorIdAndSubordinateId_whenBothExist_expectStatusBadRequest() throws Exception {
+        //arrange
+        Long superiorId = 1L;
+        Long subordinateId = 2L;
+        //act and assert
+        mockMvc.perform(put(urlPath +"/setSuperior")
+                        .param("superiorId", String.valueOf(superiorId))
+                        .param("subordinateId", String.valueOf(subordinateId)))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Could not find both employees."));
+    }
+
+    @Test
+    void setOrganization_givenEmployeeIdAndOrganizationName_whenBothExist_setOrganizationToEmployee() throws Exception {
         //arrange
         Employee employee = new Employee();
         employee.setId(1L);
@@ -128,10 +219,61 @@ class EmployeeControllerTest {
         when(employeeService.findById(1L)).thenReturn(Optional.of(employee));
         when(organizationService.findByName("Org")).thenReturn(Optional.of(organization));
         //act and assert
-        mockMvc.perform(put(apiPath+"/setOrganization")
+        mockMvc.perform(put(urlPath +"/setOrganization")
                         .param("employeeId", String.valueOf(1L))
                         .param("organizationName", "Org"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Employee " + employee.getName() + " was assigned to " + organization.getName() + " Organization."));
+    }
+
+    @Test
+    void setOrganization_givenEmployeeIdAndOrganizationName_whenEmployeeNotExist_expectStatusBadRequest() throws Exception {
+        //arrange
+        Employee employee = new Employee();
+        employee.setId(1L);
+        employee.setName("John");
+        employee.setSurname("Doe");
+
+        String organizationName = "Org";
+
+        when(employeeService.findById(1L)).thenReturn(Optional.of(employee));
+        //act and assert
+        mockMvc.perform(put(urlPath +"/setOrganization")
+                        .param("employeeId", String.valueOf(1L))
+                        .param("organizationName", organizationName))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Could not find organization named " + organizationName + "."));
+    }
+
+    @Test
+    void setOrganization_givenEmployeeIdAndOrganizationName_whenOrganizationNotExist_expectStatusBadRequest() throws Exception {
+        //arrange
+        Long employeeId = 1L;
+
+        Organization organization = new Organization();
+        organization.setName("Org");
+        organization.setAddress("St.Peter 123");
+
+        when(organizationService.findByName("Org")).thenReturn(Optional.of(organization));
+
+        //act and assert
+        mockMvc.perform(put(urlPath +"/setOrganization")
+                        .param("employeeId", String.valueOf(employeeId))
+                        .param("organizationName", "Org"))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Could not find employee with " + employeeId + "id."));
+    }
+
+    @Test
+    void setOrganization_givenEmployeeIdAndOrganizationName_whenBothNotExist_expectStatusBadRequest() throws Exception {
+        //arrange
+        Long employeeId = 1L;
+        String organizationName = "Org";
+        //act and assert
+        mockMvc.perform(put(urlPath +"/setOrganization")
+                        .param("employeeId", String.valueOf(employeeId))
+                        .param("organizationName", organizationName))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Could not find both employee and organization."));
     }
 }
