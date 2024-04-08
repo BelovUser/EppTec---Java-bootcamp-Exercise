@@ -1,9 +1,6 @@
 package com.example.javaexercise.mappers;
 
-import com.example.javaexercise.dtos.CreateEmployeeDto;
-import com.example.javaexercise.dtos.CreateOrganizationDto;
-import com.example.javaexercise.dtos.EmployeeDto;
-import com.example.javaexercise.dtos.OrganizationDto;
+import com.example.javaexercise.dtos.*;
 import com.example.javaexercise.models.Employee;
 import com.example.javaexercise.models.Organization;
 import org.springframework.stereotype.Service;
@@ -13,7 +10,7 @@ import java.util.List;
 @Service
 public class DtoMapper {
     public static EmployeeDto mapToEmployeeDTO(Employee employee){
-        List<String> subordinates =  getAllSubordinatesNames(employee);
+        List<SubordinateDto> subordinates = mapAllSubordinates(employee);
         String organizationName = employee.getOrganization() == null? "none":employee.getOrganization().getName();
         String superior = employee.getSuperior() == null? "none":employee.getSuperior().getName();
 
@@ -52,9 +49,9 @@ public class DtoMapper {
         return employee;
     }
 
-    private static List<String> getAllSubordinatesNames(Employee employee){
+    private static List<SubordinateDto> mapAllSubordinates(Employee employee){
         return employee.getSubordinates().stream()
-                .map(Employee::getName)
+                .map(e -> new SubordinateDto(e.getId(), e.getName() + " " + e.getSurname()))
                 .toList();
     }
 }

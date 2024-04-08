@@ -9,5 +9,5 @@ public record EmployeeDto(Long id,
                           Date birthday,
                           String organizationName,
                           String superiorName,
-                          List<String> subordinatesNames) {
+                          List<SubordinateDto> subordinates) {
 }
