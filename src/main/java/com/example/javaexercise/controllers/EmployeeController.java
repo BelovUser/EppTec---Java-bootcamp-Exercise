@@ -90,6 +90,7 @@ public class EmployeeController {
             return ResponseEntity.badRequest().body("Could not find employee with " + employeeId + " id.");
         }
 
+        employeeService.assignEmployeeToOrganization(employeeId,organizationName);
         return ResponseEntity.ok("Employee " + optEmployee.get().getName() + " was assigned to " + organizationName + " Organization.");
     }
 }
