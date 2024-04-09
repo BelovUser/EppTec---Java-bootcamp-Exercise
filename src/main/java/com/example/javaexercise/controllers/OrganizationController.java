@@ -22,6 +22,10 @@ public class OrganizationController {
 
     @PostMapping("/create")
     public ResponseEntity<?> createOrganization(@RequestBody CreateOrganizationDto createOrganizationDto){
+        Optional<Organization> existingOrganization = organizationService.findByName(createOrganizationDto.name());
+        if(existingOrganization.isPresent()){
+            return ResponseEntity.ok("Organization with name " +  createOrganizationDto.name() + " already exist.");
+        }
         organizationService.createOrganization(createOrganizationDto);
         return ResponseEntity.ok("Organization " +  createOrganizationDto.name() + " was created.");
     }
