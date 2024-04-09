@@ -19,7 +19,7 @@ class OrganizationRepositoryTest {
     @BeforeEach
     void setUp() {
         this.organization = new Organization();
-        organization.setName("Org");
+        organization.setName("organization");
         organization.setAddress("St.Peter 123");
 
         organizationRepository.save(organization);
@@ -35,7 +35,7 @@ class OrganizationRepositoryTest {
         //arrange
         Organization expectedOrganization = this.organization;
         //act
-        Optional<Organization> actualOrganization = organizationRepository.findByName("Org");
+        Optional<Organization> actualOrganization = organizationRepository.findByName("organization");
         //assert
         assertEquals(actualOrganization.get(),expectedOrganization);
     }

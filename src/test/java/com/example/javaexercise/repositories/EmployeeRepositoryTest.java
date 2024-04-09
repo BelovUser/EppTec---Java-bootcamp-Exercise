@@ -47,7 +47,7 @@ class EmployeeRepositoryTest {
         //arrange
         Employee arrangedEmployee = this.arrangedEmployee;
         //act
-        Optional<Employee> actualEmployee = employeeRepository.findById(1L);
+        Optional<Employee> actualEmployee = employeeRepository.findById(2L);
         //assert
         assertEquals(actualEmployee.get(), arrangedEmployee);
     }

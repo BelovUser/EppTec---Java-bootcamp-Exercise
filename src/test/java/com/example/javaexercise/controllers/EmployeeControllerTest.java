@@ -14,6 +14,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Optional;
 
 import static org.mockito.Mockito.when;
@@ -43,6 +45,7 @@ class EmployeeControllerTest {
         Employee employee = new Employee();
         employee.setName("John");
         employee.setSurname("Doe");
+        employee.setBirthday(new Date(1999, Calendar.DECEMBER,12));
 
         when(employeeService.findById(1L)).thenReturn(Optional.of(employee));
         //act and assert
@@ -68,6 +71,7 @@ class EmployeeControllerTest {
         Employee employee = new Employee();
         employee.setName("John");
         employee.setSurname("Doe");
+        employee.setBirthday(new Date(1999, Calendar.DECEMBER,12));
 
         when(employeeService.findByNameAndSurname("John","Doe")).thenReturn(Optional.of(employee));
         //act and assert
@@ -152,7 +156,7 @@ class EmployeeControllerTest {
                         .param("superiorId", String.valueOf(superiorId))
                         .param("subordinateId", String.valueOf(2L)))
                 .andExpect(status().isBadRequest())
-                .andExpect(content().string("Could not find superior with " + superiorId + "id."));
+                .andExpect(content().string("Could not find superior with " + superiorId + " id."));
     }
 
     @Test
@@ -171,7 +175,7 @@ class EmployeeControllerTest {
                         .param("superiorId", String.valueOf(1L))
                         .param("subordinateId", String.valueOf(subordinateId)))
                 .andExpect(status().isBadRequest())
-                .andExpect(content().string("Could not find subordinate with " + subordinateId + "id."));
+                .andExpect(content().string("Could not find subordinate with " + subordinateId + " id."));
     }
 
     @Test
@@ -261,7 +265,7 @@ class EmployeeControllerTest {
                         .param("employeeId", String.valueOf(employeeId))
                         .param("organizationName", "Org"))
                 .andExpect(status().isBadRequest())
-                .andExpect(content().string("Could not find employee with " + employeeId + "id."));
+                .andExpect(content().string("Could not find employee with " + employeeId + " id."));
     }
 
     @Test

@@ -30,7 +30,7 @@ class DtoMapperTest {
         employee.setBirthday(new Date(1999, Calendar.DECEMBER,12));
 
         EmployeeDto expectedEmployeeDto = new EmployeeDto(1L,"John","Doe",
-                "12-12-1999","none","none", List.of());
+                "12-12-3899","none","none", List.of());
         //act
         EmployeeDto actualEmployeeDto = dtoMapper.mapToEmployeeDTO(employee);
         //assert

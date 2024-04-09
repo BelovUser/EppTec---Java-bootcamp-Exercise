@@ -31,9 +31,9 @@ class OrganizationServiceTest {
     @Test
     void createOrganization_givenCreateOrganizationDto_saveOrganization() {
         //arrange
-        CreateOrganizationDto createOrganizationDTO = new CreateOrganizationDto("name", "address");
+        CreateOrganizationDto createOrganizationDTO = new CreateOrganizationDto("organizationName", "address");
         Organization organization = new Organization();
-        organization.setName("name");
+        organization.setName("organizationName");
         organization.setAddress("address");
 
         when(dtoMapper.mapDtoToOrganization(createOrganizationDTO)).thenReturn(organization);
