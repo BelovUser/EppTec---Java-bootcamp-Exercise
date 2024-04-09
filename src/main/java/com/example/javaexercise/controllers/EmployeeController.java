@@ -9,6 +9,7 @@ import com.example.javaexercise.services.OrganizationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -32,18 +33,10 @@ public class EmployeeController {
         }
         return ResponseEntity.ok(dtoMapper.mapToEmployeeDTO(optEmployee.get()));
     }
-    @GetMapping("/byFullName")
-    public ResponseEntity<?> getEmployeeByFullName(@RequestParam String name, @RequestParam String surname){
-        Optional<Employee> optEmployee;
-        try {
-             optEmployee = employeeService.findByNameAndSurname(name, surname);
-        } catch (Exception e){
-            return ResponseEntity.badRequest().body("Multiple employees found with the same fullname " + name + " " + surname + ".");
-        }
-        if(optEmployee.isEmpty()){
-            return ResponseEntity.badRequest().body("Could not find Employee with fullname " + name + " " + surname + ".");
-        }
-        return ResponseEntity.ok(dtoMapper.mapToEmployeeDTO(optEmployee.get()));
+    @GetMapping("/allByNameOrSurname")
+    public ResponseEntity<?> getAllEmployeesByNameOrSurname(@RequestParam String name, @RequestParam String surname){
+        List<Employee> employees = employeeService.findAllByNameAndSurname(name, surname);
+        return ResponseEntity.ok(dtoMapper.mapListEmployeeToDto(employees));
     }
 
     @PostMapping("/create")

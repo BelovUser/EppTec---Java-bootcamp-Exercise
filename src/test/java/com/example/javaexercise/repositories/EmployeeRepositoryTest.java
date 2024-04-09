@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -34,20 +35,20 @@ class EmployeeRepositoryTest {
     }
 
     @Test
-    void findByNameAndSurname_givenExistingName_returnEmployee() {
+    void findByNameOrSurname_givenExistingName_returnEmployee() {
         //arrange
         Employee arrangedEmployee = this.arrangedEmployee;
         //act
-        Optional<Employee> actualEmployee = employeeRepository.findByNameAndSurname("John","Doe");
+        List<Employee> actualEmployee = employeeRepository.findAllByNameOrSurname("John","Doe");
         //assert
-        assertEquals(actualEmployee.get(), arrangedEmployee);
+        assertEquals(actualEmployee, List.of(arrangedEmployee));
     }
     @Test
     void findById_givenExistingId_returnEmployee() {
         //arrange
         Employee arrangedEmployee = this.arrangedEmployee;
         //act
-        Optional<Employee> actualEmployee = employeeRepository.findById(2L);
+        Optional<Employee> actualEmployee = employeeRepository.findById(1L);
         //assert
         assertEquals(actualEmployee.get(), arrangedEmployee);
     }

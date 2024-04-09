@@ -17,6 +17,7 @@ import static org.mockito.Mockito.*;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -151,11 +152,11 @@ class EmployeeServiceTest {
         expectedEmployee.setSurname(surname);
         expectedEmployee.setBirthday(new Date(1999, Calendar.DECEMBER,12));
 
-        when(mockEmployeeRepository.findByNameAndSurname(name, surname))
-                .thenReturn(Optional.of(expectedEmployee));
+        when(mockEmployeeRepository.findAllByNameOrSurname(name, surname))
+                .thenReturn(List.of(expectedEmployee));
         //act
-        Optional<Employee> actualEmployee = employeeService.findByNameAndSurname(name,surname);
+        List<Employee> actualEmployee = employeeService.findAllByNameAndSurname(name,surname);
         //assert
-        assertEquals(actualEmployee.get(),expectedEmployee);
+        assertEquals(actualEmployee,List.of(expectedEmployee));
     }
 }

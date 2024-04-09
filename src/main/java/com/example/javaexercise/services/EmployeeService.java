@@ -7,6 +7,7 @@ import com.example.javaexercise.models.Organization;
 import com.example.javaexercise.repositories.EmployeeRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -38,7 +39,7 @@ public class EmployeeService {
         Employee superior = findById(superiorId).get();
         Employee subordinate = findById(subordinateId).get();
         if(superior.equals(subordinate)){
-           throw new RuntimeException("subordinate and superior cannot have same Entity.");
+           throw new RuntimeException("subordinate and superior cannot be the same Entity.");
         }
         superior.addToSubordinates(subordinate);
         subordinate.setSuperior(superior);
@@ -59,7 +60,7 @@ public class EmployeeService {
        employeeRepository.save(employee);
    }
 
-   public Optional<Employee> findByNameAndSurname(String name, String surname){
-        return employeeRepository.findByNameAndSurname(name,surname);
+   public List<Employee> findAllByNameAndSurname(String name, String surname){
+        return employeeRepository.findAllByNameOrSurname(name,surname);
    }
 }

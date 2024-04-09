@@ -4,9 +4,9 @@ import com.example.javaexercise.models.Employee;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import java.util.List;
 
 @Repository
 public interface EmployeeRepository extends CrudRepository<Employee, Long> {
-    Optional<Employee> findByNameAndSurname(String name, String surname);
+    List<Employee> findAllByNameOrSurname(String name, String surname);
 }

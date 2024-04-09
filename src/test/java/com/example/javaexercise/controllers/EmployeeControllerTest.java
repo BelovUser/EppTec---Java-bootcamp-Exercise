@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.Mockito.when;
@@ -67,49 +68,19 @@ class EmployeeControllerTest {
     }
 
     @Test
-    void getEmployeeByFullname_givenNameAndUsername_whenEmployeeExist_returnEmployee() throws Exception {
+    void getAllEmployeesByNameOrSurname_givenNameAndUsername_whenEmployeeExist_returnEmployees() throws Exception {
         //arrange
         Employee employee = new Employee();
         employee.setName("John");
         employee.setSurname("Doe");
         employee.setBirthday(new Date(1999, Calendar.DECEMBER,12));
 
-        when(employeeService.findByNameAndSurname("John","Doe")).thenReturn(Optional.of(employee));
+        when(employeeService.findAllByNameAndSurname("John","Doe")).thenReturn(List.of(employee));
         //act and assert
-        mockMvc.perform(get(urlPath +"/byFullName")
+        mockMvc.perform(get(urlPath +"/allByNameOrSurname")
                         .param("name", "John")
                         .param("surname","Doe"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("John"))
-                .andExpect(jsonPath("$.surname").value("Doe"));
-    }
-
-    @Test
-    void getEmployeeByFullname_givenNameAndUsername_whenEmployeeNotExist_expectStatusBadRequest() throws Exception {
-        //arrange
-        String name = "John";
-        String surname = "Doe";
-        //act and assert
-        mockMvc.perform(get(urlPath +"/byFullName")
-                        .param("name", name)
-                        .param("surname",surname))
-                .andExpect(status().isBadRequest())
-                .andExpect(content().string("Could not find Employee with fullname " + name + " " + surname + "."));
-    }
-
-    @Test
-    void getEmployeeByFullname_givenNameAndUsername_whenMultipleEmployeeExist_expectStatusBadRequest() throws Exception {
-        //arrange
-        String name = "John";
-        String surname = "Doe";
-
-        when(employeeService.findByNameAndSurname("John","Doe")).thenThrow(NonUniqueResultException.class);
-        //act and assert
-        mockMvc.perform(get(urlPath +"/byFullName")
-                        .param("name", name)
-                        .param("surname",surname))
-                .andExpect(status().isBadRequest())
-                .andExpect(content().string("Multiple employees found with the same fullname " + name + " " + surname + "."));
+                .andExpect(status().isOk());
     }
 
     @Test
