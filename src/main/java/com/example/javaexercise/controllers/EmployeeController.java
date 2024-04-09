@@ -33,8 +33,13 @@ public class EmployeeController {
         return ResponseEntity.ok(dtoMapper.mapToEmployeeDTO(optEmployee.get()));
     }
     @GetMapping("/byFullName")
-    public ResponseEntity<?> getEmployeeByNameAndSurname(@RequestParam String name, @RequestParam String surname){
-        Optional<Employee> optEmployee = employeeService.findByNameAndSurname(name,surname);
+    public ResponseEntity<?> getEmployeeByFullName(@RequestParam String name, @RequestParam String surname){
+        Optional<Employee> optEmployee;
+        try {
+             optEmployee = employeeService.findByNameAndSurname(name, surname);
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body("Multiple employees found with the same fullname " + name + " " + surname + ".");
+        }
         if(optEmployee.isEmpty()){
             return ResponseEntity.badRequest().body("Could not find Employee with fullname " + name + " " + surname + ".");
         }
