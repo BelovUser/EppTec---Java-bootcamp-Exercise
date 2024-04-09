@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        java: 17
+        java: [17]
     name: Run unit tests on Java 17
     steps:
       - uses: actions/checkout@main
