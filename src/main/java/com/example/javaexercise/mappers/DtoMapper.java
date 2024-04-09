@@ -58,4 +58,10 @@ public class DtoMapper {
                 .map(e -> new SubordinateDto(e.getId(), e.getName() + " " + e.getSurname()))
                 .toList();
     }
+
+    public List<EmployeeDto> mapListEmployeeToDto(List<Employee> employees) {
+        return employees.stream()
+                .map(DtoMapper::mapToEmployeeDTO)
+                .toList();
+    }
 }
