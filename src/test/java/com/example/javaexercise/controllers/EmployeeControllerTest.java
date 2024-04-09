@@ -6,6 +6,7 @@ import com.example.javaexercise.models.Organization;
 import com.example.javaexercise.services.EmployeeService;
 import com.example.javaexercise.services.OrganizationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.hibernate.NonUniqueResultException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -66,7 +67,7 @@ class EmployeeControllerTest {
     }
 
     @Test
-    void getEmployeeByNameAndSurname_givenNameAndUsername_whenEmployeeExist_returnEmployee() throws Exception {
+    void getEmployeeByFullname_givenNameAndUsername_whenEmployeeExist_returnEmployee() throws Exception {
         //arrange
         Employee employee = new Employee();
         employee.setName("John");
@@ -84,7 +85,7 @@ class EmployeeControllerTest {
     }
 
     @Test
-    void getEmployeeByNameAndSurname_givenNameAndUsername_whenEmployeeNotExist_expectStatusBadRequest() throws Exception {
+    void getEmployeeByFullname_givenNameAndUsername_whenEmployeeNotExist_expectStatusBadRequest() throws Exception {
         //arrange
         String name = "John";
         String surname = "Doe";
@@ -94,6 +95,21 @@ class EmployeeControllerTest {
                         .param("surname",surname))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string("Could not find Employee with fullname " + name + " " + surname + "."));
+    }
+
+    @Test
+    void getEmployeeByFullname_givenNameAndUsername_whenMultipleEmployeeExist_expectStatusBadRequest() throws Exception {
+        //arrange
+        String name = "John";
+        String surname = "Doe";
+
+        when(employeeService.findByNameAndSurname("John","Doe")).thenThrow(NonUniqueResultException.class);
+        //act and assert
+        mockMvc.perform(get(urlPath +"/byFullName")
+                        .param("name", name)
+                        .param("surname",surname))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Multiple employees found with the same fullname " + name + " " + surname + "."));
     }
 
     @Test
