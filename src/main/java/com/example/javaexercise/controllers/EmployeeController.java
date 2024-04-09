@@ -20,7 +20,6 @@ public class EmployeeController {
     private final DtoMapper dtoMapper;
 
     public EmployeeController(EmployeeService employeeService, OrganizationService organizationService, DtoMapper dtoMapper) {
-
         this.employeeService = employeeService;
         this.organizationService = organizationService;
         this.dtoMapper = dtoMapper;
