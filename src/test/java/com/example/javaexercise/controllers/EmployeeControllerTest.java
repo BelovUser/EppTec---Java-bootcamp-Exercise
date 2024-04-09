@@ -6,7 +6,6 @@ import com.example.javaexercise.models.Organization;
 import com.example.javaexercise.services.EmployeeService;
 import com.example.javaexercise.services.OrganizationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hibernate.NonUniqueResultException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -15,8 +14,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,7 +45,7 @@ class EmployeeControllerTest {
         Employee employee = new Employee();
         employee.setName("John");
         employee.setSurname("Doe");
-        employee.setBirthday(new Date(1999, Calendar.DECEMBER,12));
+        employee.setBirthday(LocalDate.of(1999, 12,12));
 
         when(employeeService.findById(1L)).thenReturn(Optional.of(employee));
         //act and assert
@@ -73,7 +71,7 @@ class EmployeeControllerTest {
         Employee employee = new Employee();
         employee.setName("John");
         employee.setSurname("Doe");
-        employee.setBirthday(new Date(1999, Calendar.DECEMBER,12));
+        employee.setBirthday(LocalDate.of(1999, 12,12));
 
         when(employeeService.findAllByNameAndSurname("John","Doe")).thenReturn(List.of(employee));
         //act and assert

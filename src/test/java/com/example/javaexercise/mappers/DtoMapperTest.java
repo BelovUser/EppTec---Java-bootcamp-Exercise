@@ -10,8 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -27,10 +26,10 @@ class DtoMapperTest {
         employee.setId(1L);
         employee.setName("John");
         employee.setSurname("Doe");
-        employee.setBirthday(new Date(1999, Calendar.DECEMBER,12));
+        employee.setBirthday(LocalDate.of(1999, 12,12));
 
         EmployeeDto expectedEmployeeDto = new EmployeeDto(1L,"John","Doe",
-                "12-12-3899","none","none", List.of());
+                LocalDate.of(1999, 12,12), "none","none", List.of());
         //act
         EmployeeDto actualEmployeeDto = dtoMapper.mapToEmployeeDTO(employee);
         //assert
@@ -55,12 +54,12 @@ class DtoMapperTest {
     @Test
     void mapDtoToEmployee_givenCreateEmployeeDto_shouldReturnEmployee() {
         //arrange
-        CreateEmployeeDto createEmployeeDto = new CreateEmployeeDto("John", "Doe", new Date(1999, Calendar.DECEMBER,12));
+        CreateEmployeeDto createEmployeeDto = new CreateEmployeeDto("John", "Doe", LocalDate.of(1999, 12,12));
 
         Employee expectedEmployee = new Employee();
         expectedEmployee.setName("John");
         expectedEmployee.setSurname("Doe");
-        expectedEmployee.setBirthday(new Date(1999, Calendar.DECEMBER,12));
+        expectedEmployee.setBirthday(LocalDate.of(1999, 12,12));
         //act
         Employee actualEmployee = dtoMapper.mapDtoToEmployee(createEmployeeDto);
         //assert

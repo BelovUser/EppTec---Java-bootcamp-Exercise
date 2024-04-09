@@ -15,8 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,7 +38,7 @@ class EmployeeServiceTest {
         Employee expectedEmployee = new Employee();
         expectedEmployee.setName("Name");
         expectedEmployee.setSurname("Surname");
-        expectedEmployee.setBirthday(new Date(1999, Calendar.DECEMBER,12));
+        expectedEmployee.setBirthday(LocalDate.of(1999, 12,12));
 
         when(mockEmployeeRepository.findById(1L)).thenReturn(Optional.of(expectedEmployee));
         //act
@@ -52,11 +51,11 @@ class EmployeeServiceTest {
     void createEmployee_givenCreateEmployeeDto_createEmployee() {
         //arrange
         CreateEmployeeDto employeeDto = new CreateEmployeeDto("Name", "Surname",
-                new Date(1999, Calendar.DECEMBER,12));
+                LocalDate.of(1999, 12,12));
         Employee employee = new Employee();
         employee.setName("Name");
         employee.setSurname("Surname");
-        employee.setBirthday(new Date(1999, Calendar.DECEMBER,12));
+        employee.setBirthday(LocalDate.of(1999, 12,12));
 
         when(dtoMapper.mapDtoToEmployee(employeeDto)).thenReturn(employee);
         //act
@@ -69,11 +68,11 @@ class EmployeeServiceTest {
     void deleteEmployee_givenEmployeeId_whenEmployeeExists_deleteEmployee() {
         //arrange
         CreateEmployeeDto employeeDto = new CreateEmployeeDto("Name", "Surname",
-                new Date(1999, Calendar.DECEMBER,12));
+                LocalDate.of(1999, 12,12));
         Employee employee = new Employee();
         employee.setName("Name");
         employee.setSurname("Surname");
-        employee.setBirthday(new Date(1999, Calendar.DECEMBER,12));
+        employee.setBirthday(LocalDate.of(1999, 12,12));
 
         when(dtoMapper.mapDtoToEmployee(employeeDto)).thenReturn(employee);
         //act
@@ -89,12 +88,12 @@ class EmployeeServiceTest {
         Employee superior = mock(Employee.class);
         when(superior.getName()).thenReturn("SuperiorName");
         when(superior.getSurname()).thenReturn("SuperiorSurname");
-        when(superior.getBirthday()).thenReturn(new Date(1999, Calendar.DECEMBER, 12));
+        when(superior.getBirthday()).thenReturn(LocalDate.of(1999, 12,12));
 
         Employee subordinate = mock(Employee.class);
         when(subordinate.getName()).thenReturn("SubordinateName");
         when(subordinate.getSurname()).thenReturn("SubordinateSurname");
-        when(subordinate.getBirthday()).thenReturn(new Date(1999, Calendar.DECEMBER, 12));
+        when(subordinate.getBirthday()).thenReturn(LocalDate.of(1999, 12,12));
 
         when(mockEmployeeRepository.findById(1L)).thenReturn(Optional.of(superior));
         when(mockEmployeeRepository.findById(2L)).thenReturn(Optional.of(subordinate));
@@ -111,7 +110,7 @@ class EmployeeServiceTest {
         Employee expectedEmployee = new Employee();
         expectedEmployee.setName("Name");
         expectedEmployee.setSurname("Surname");
-        expectedEmployee.setBirthday(new Date(1999, Calendar.DECEMBER,12));
+        expectedEmployee.setBirthday(LocalDate.of(1999, 12,12));
 
         when(mockEmployeeRepository.findById(1L)).thenReturn(Optional.of(expectedEmployee));
         //act and assert
@@ -150,7 +149,7 @@ class EmployeeServiceTest {
         Employee expectedEmployee = new Employee();
         expectedEmployee.setName(name);
         expectedEmployee.setSurname(surname);
-        expectedEmployee.setBirthday(new Date(1999, Calendar.DECEMBER,12));
+        expectedEmployee.setBirthday(LocalDate.of(1999, 12,12));
 
         when(mockEmployeeRepository.findAllByNameOrSurname(name, surname))
                 .thenReturn(List.of(expectedEmployee));

@@ -7,8 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,7 +24,7 @@ class EmployeeRepositoryTest {
         this.arrangedEmployee = new Employee();
         arrangedEmployee.setName("John");
         arrangedEmployee.setSurname("Doe");
-        arrangedEmployee.setBirthday(new Date(1999, Calendar.DECEMBER,12));
+        arrangedEmployee.setBirthday(LocalDate.of(1999, 12,12));
 
         employeeRepository.save(arrangedEmployee);
     }

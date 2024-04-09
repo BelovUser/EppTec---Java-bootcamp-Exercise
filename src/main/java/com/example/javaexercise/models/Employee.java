@@ -2,8 +2,8 @@ package com.example.javaexercise.models;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -13,7 +13,7 @@ public class Employee {
     private Long id;
     private String name;
     private String surname;
-    private Date birthday;
+    private LocalDate birthday;
     @OneToMany(mappedBy = "superior",cascade = CascadeType.ALL)
     private List<Employee> subordinates = new ArrayList<>();
     @ManyToOne(cascade = CascadeType.ALL)
@@ -45,9 +45,9 @@ public class Employee {
         this.surname = username;
     }
 
-    public Date getBirthday() {return birthday;}
+    public LocalDate getBirthday() {return birthday;}
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
     }
 
