@@ -20,7 +20,7 @@ public class OrganizationController {
         this.dtoMapper = dtoMapper;
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<?> createOrganization(@RequestBody CreateOrganizationDto createOrganizationDto){
         Optional<Organization> existingOrganization = organizationService.findByName(createOrganizationDto.name());
         if(existingOrganization.isPresent()){
@@ -30,7 +30,7 @@ public class OrganizationController {
         return ResponseEntity.ok("Organization " +  createOrganizationDto.name() + " was created.");
     }
 
-    @GetMapping("/byName")
+    @GetMapping
     public ResponseEntity<?> getOrganizationByName(@RequestParam String organizationName){
         Optional<Organization> optOrganization = organizationService.findByName(organizationName);
         if(optOrganization.isEmpty()){

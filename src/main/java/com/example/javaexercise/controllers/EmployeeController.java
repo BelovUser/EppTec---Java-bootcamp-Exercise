@@ -24,27 +24,37 @@ public class EmployeeController {
         this.organizationService = organizationService;
         this.dtoMapper = dtoMapper;
     }
-    @GetMapping("/byId")
-    public ResponseEntity<?> getEmployeeById(@RequestParam Long employeeId){
-        Optional<Employee> optEmployee = employeeService.findById(employeeId);
-        if(optEmployee.isEmpty()){
-            return ResponseEntity.badRequest().body("Could not find Employee by " + employeeId + " id.");
+    @GetMapping
+    public ResponseEntity<?> getEmployee(Optional<Long> employeeId, Optional<String> name, Optional<String> surname){
+        if(employeeId.isPresent()) {
+            Optional<Employee> optEmployee = employeeService.findById(employeeId.get());
+            if (optEmployee.isEmpty()) {
+                return ResponseEntity.badRequest().body("Could not find Employee by " + employeeId.get() + " id.");
+            }
+            return ResponseEntity.ok(dtoMapper.mapToEmployeeDTO(optEmployee.get()));
+        } else if (name.isPresent() || surname.isPresent()) {
+            String employeeName = name.orElse(null);
+            String employeeSurname = surname.orElse(null);
+            List<Employee> employees = employeeService.findAllByNameAndSurname(employeeName, employeeSurname);
+            if(employees.isEmpty() && name.isPresent() && surname.isPresent()){
+                return ResponseEntity.badRequest().body("Could not found any employee by name " + name.get() + " or by surname " + surname.get() + ".");
+            } else if (employees.isEmpty() && surname.isPresent()){
+                return ResponseEntity.badRequest().body("Could not found any employee by surname " + surname.get() + ".");
+            } else if (employees.isEmpty() && name.isPresent()){
+                return ResponseEntity.badRequest().body("Could not found any employee by name " + name.get() + ".");
+            }
+            return ResponseEntity.ok(dtoMapper.mapListEmployeeToDto(employees));
         }
-        return ResponseEntity.ok(dtoMapper.mapToEmployeeDTO(optEmployee.get()));
-    }
-    @GetMapping("/allByNameOrSurname")
-    public ResponseEntity<?> getAllEmployeesByNameOrSurname(@RequestParam String name, @RequestParam String surname){
-        List<Employee> employees = employeeService.findAllByNameAndSurname(name, surname);
-        return ResponseEntity.ok(dtoMapper.mapListEmployeeToDto(employees));
+        return ResponseEntity.badRequest().body("Could not find any employee with provided parameters.");
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<?> createEmployee(@RequestBody CreateEmployeeDto employeeDTO){
         employeeService.createEmployee(employeeDTO);
         return ResponseEntity.ok("Employee " + employeeDTO.name() + " was created.");
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping
     public ResponseEntity<?> deleteEmployee(@RequestParam Long employeeId){
         employeeService.deleteEmployee(employeeId);
         return ResponseEntity.ok("Employee with " + employeeId + " id was deleted.");

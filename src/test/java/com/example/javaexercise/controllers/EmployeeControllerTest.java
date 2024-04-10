@@ -49,7 +49,7 @@ class EmployeeControllerTest {
 
         when(employeeService.findById(1L)).thenReturn(Optional.of(employee));
         //act and assert
-        mockMvc.perform(get(urlPath +"/byId").param("employeeId", String.valueOf(1L)))
+        mockMvc.perform(get(urlPath).param("employeeId", String.valueOf(1L)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("John"))
                 .andExpect(jsonPath("$.surname").value("Doe"));
@@ -60,7 +60,7 @@ class EmployeeControllerTest {
         //arrange
         Long employeeId = 1L;
         //act and assert
-        mockMvc.perform(get(urlPath +"/byId").param("employeeId", String.valueOf(employeeId)))
+        mockMvc.perform(get(urlPath).param("employeeId", String.valueOf(employeeId)))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string("Could not find Employee by " + employeeId + " id."));
     }
@@ -75,7 +75,7 @@ class EmployeeControllerTest {
 
         when(employeeService.findAllByNameAndSurname("John","Doe")).thenReturn(List.of(employee));
         //act and assert
-        mockMvc.perform(get(urlPath +"/allByNameOrSurname")
+        mockMvc.perform(get(urlPath)
                         .param("name", "John")
                         .param("surname","Doe"))
                 .andExpect(status().isOk());
@@ -86,7 +86,7 @@ class EmployeeControllerTest {
         //arrange
         CreateEmployeeDto createEmployeeDto = new CreateEmployeeDto("John","Doe",null);
         //act and assert
-        mockMvc.perform(post(urlPath +"/create")
+        mockMvc.perform(post(urlPath)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createEmployeeDto)))
                 .andExpect(status().isOk())
@@ -96,7 +96,7 @@ class EmployeeControllerTest {
     @Test
     void deleteEmployee_givenEmployeeId_whenEmployeeExist_deleteEmployee() throws Exception {
         //act and assert
-        mockMvc.perform(delete(urlPath +"/delete")
+        mockMvc.perform(delete(urlPath)
                         .param("employeeId", String.valueOf(1L)))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Employee with 1 id was deleted."));

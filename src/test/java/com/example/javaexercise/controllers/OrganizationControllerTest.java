@@ -46,7 +46,7 @@ class OrganizationControllerTest {
         //arrange
         CreateOrganizationDto createOrganizationDto = new CreateOrganizationDto("Org","st.Peter 123");
         //act and assert
-        mockMvc.perform(post(urlPath +"/create")
+        mockMvc.perform(post(urlPath)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createOrganizationDto)))
                 .andExpect(status().isOk())
@@ -63,7 +63,7 @@ class OrganizationControllerTest {
 
         when(organizationService.findByName("Org")).thenReturn(Optional.of(organization));
         //act and assert
-        mockMvc.perform(get(urlPath +"/byName").param("organizationName", "Org"))
+        mockMvc.perform(get(urlPath).param("organizationName", "Org"))
                 .andExpect(status().isOk());
     }
 
@@ -72,7 +72,7 @@ class OrganizationControllerTest {
         //arrange
         String organizationName = "Org";
         //act and assert
-        mockMvc.perform(get(urlPath +"/byName").param("organizationName", organizationName))
+        mockMvc.perform(get(urlPath).param("organizationName", organizationName))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string("Could not find Organization with name " + organizationName + "."));
     }
