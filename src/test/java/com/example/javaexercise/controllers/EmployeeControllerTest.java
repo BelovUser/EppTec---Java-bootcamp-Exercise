@@ -179,11 +179,11 @@ class EmployeeControllerTest {
         organization.setAddress("St.Peter 123");
 
         when(employeeService.findById(1L)).thenReturn(Optional.of(employee));
-        when(organizationService.findByName("Org")).thenReturn(Optional.of(organization));
+        when(organizationService.findById(1L)).thenReturn(Optional.of(organization));
         //act and assert
         mockMvc.perform(put(urlPath +"/organization")
                         .param("employeeId", String.valueOf(1L))
-                        .param("organizationName", "Org"))
+                        .param("organizationId", String.valueOf(1L)))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Employee " + employee.getName() + " was assigned to " + organization.getName() + " Organization."));
     }
@@ -196,13 +196,13 @@ class EmployeeControllerTest {
         employee.setName("John");
         employee.setSurname("Doe");
 
-        String organizationName = "Org";
+        Long organizationId = 1L;
 
         when(employeeService.findById(1L)).thenReturn(Optional.of(employee));
         //act and assert
         mockMvc.perform(put(urlPath +"/organization")
                         .param("employeeId", String.valueOf(1L))
-                        .param("organizationName", organizationName))
+                        .param("organizationId", String.valueOf(organizationId)))
                 .andExpect(status().isNotFound());
     }
 
@@ -215,12 +215,12 @@ class EmployeeControllerTest {
         organization.setName("Org");
         organization.setAddress("St.Peter 123");
 
-        when(organizationService.findByName("Org")).thenReturn(Optional.of(organization));
+        when(organizationService.findById(1L)).thenReturn(Optional.of(organization));
 
         //act and assert
         mockMvc.perform(put(urlPath +"/organization")
                         .param("employeeId", String.valueOf(employeeId))
-                        .param("organizationName", "Org"))
+                        .param("organizationId", String.valueOf(1L)))
                 .andExpect(status().isNotFound());
     }
 
@@ -228,11 +228,11 @@ class EmployeeControllerTest {
     void setOrganization_givenEmployeeIdAndOrganizationName_whenBothNotExist_expectStatusBadRequest() throws Exception {
         //arrange
         Long employeeId = 1L;
-        String organizationName = "Organization";
+        Long organizationId = 1L;
         //act and assert
         mockMvc.perform(put(urlPath +"/organization")
                         .param("employeeId", String.valueOf(employeeId))
-                        .param("organizationName", organizationName))
+                        .param("organizationId", String.valueOf(organizationId)))
                 .andExpect(status().isNotFound());
     }
 }

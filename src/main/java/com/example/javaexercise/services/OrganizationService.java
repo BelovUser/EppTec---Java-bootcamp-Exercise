@@ -29,6 +29,10 @@ public class OrganizationService {
         return organizationRepository.findByName(name);
     }
 
+    public Optional<Organization> findById(Long id){
+        return organizationRepository.findById(id);
+    }
+
     public void save(Organization organization){
         organizationRepository.save(organization);
     }

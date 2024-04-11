@@ -115,16 +115,16 @@ public class EmployeeController {
     }
 
     @PutMapping("/organization")
-    public ResponseEntity<?> setOrganization(@RequestParam Long employeeId, @RequestParam String organizationName){
+    public ResponseEntity<?> setOrganization(@RequestParam Long employeeId, @RequestParam Long organizationId){
         Optional<Employee> optEmployee = employeeService.findById(employeeId);
-        Optional<Organization> optOrganization = organizationService.findByName(organizationName);
+        Optional<Organization> optOrganization = organizationService.findById(organizationId);
 
         if(optEmployee.isEmpty() || optOrganization.isEmpty()){
             return ResponseEntity.notFound().build();
         }
 
-        employeeService.assignEmployeeToOrganization(employeeId,organizationName);
-        return ResponseEntity.ok("Employee " + optEmployee.get().getName() + " was assigned to " + organizationName + " Organization.");
+        employeeService.assignEmployeeToOrganization(employeeId,organizationId);
+        return ResponseEntity.ok("Employee " + optEmployee.get().getName() + " was assigned to " + optOrganization.get().getName() + " Organization.");
     }
 }
 

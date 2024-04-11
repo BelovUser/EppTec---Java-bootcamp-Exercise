@@ -47,9 +47,9 @@ public class EmployeeService {
         employeeRepository.save(subordinate);
    }
 
-   public void assignEmployeeToOrganization(Long employeeId, String organizationName){
+   public void assignEmployeeToOrganization(Long employeeId, Long organizationId){
        Optional<Employee> optEmployee = findById(employeeId);
-       Optional<Organization> optOrganization = organizationService.findByName(organizationName);
+       Optional<Organization> optOrganization = organizationService.findById(organizationId);
        Employee employee = optEmployee.get();
        Organization organization = optOrganization.get();
 

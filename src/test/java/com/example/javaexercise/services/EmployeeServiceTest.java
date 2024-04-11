@@ -130,9 +130,9 @@ class EmployeeServiceTest {
         organization.setName(organizationName);
 
         when(employeeService.findById(employeeId)).thenReturn(Optional.of(employee));
-        when(mockOrganizationService.findByName(organizationName)).thenReturn(Optional.of(organization));
+        when(mockOrganizationService.findById(1L)).thenReturn(Optional.of(organization));
         //act
-        employeeService.assignEmployeeToOrganization(employeeId, organizationName);
+        employeeService.assignEmployeeToOrganization(employeeId, 1L);
         //assert
         verify(mockEmployeeRepository, times(1)).save(employee);
         verify(mockOrganizationService, times(1)).save(organization);
