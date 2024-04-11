@@ -141,20 +141,21 @@ class EmployeeServiceTest {
     }
 
     @Test
-    void findByNameAndSurname_givenNameAndSurname_whenEmployeeExist_returnEmployee() {
+    void findByNameOrSurnameOrId_givenNameAndSurname_whenEmployeeExist_returnEmployee() {
         //arrange
         String name = "Name";
         String surname = "Surname";
 
         Employee expectedEmployee = new Employee();
+        expectedEmployee.setId(1L);
         expectedEmployee.setName(name);
         expectedEmployee.setSurname(surname);
         expectedEmployee.setBirthday(LocalDate.of(1999, 12,12));
 
-        when(mockEmployeeRepository.findAllByNameOrSurname(name, surname))
+        when(mockEmployeeRepository.findAllByNameOrSurnameOrId(name, surname, 1L))
                 .thenReturn(List.of(expectedEmployee));
         //act
-        List<Employee> actualEmployee = employeeService.findAllByNameAndSurname(name,surname);
+        List<Employee> actualEmployee = employeeService.findAllByNameOrSurnameOrId(name,surname,1L);
         //assert
         assertEquals(actualEmployee,List.of(expectedEmployee));
     }
