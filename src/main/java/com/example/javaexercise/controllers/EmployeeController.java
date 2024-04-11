@@ -109,8 +109,11 @@ public class EmployeeController {
 
         Employee subordinate = employeeService.findById(subordinateId).get();
         Employee superior = employeeService.findById(superiorId).get();
-
-        employeeService.setSuperior(superiorId, subordinateId);
+        try {
+            employeeService.setSuperior(superiorId, subordinateId);
+        } catch (RuntimeException e){
+            return ResponseEntity.badRequest().body("Employees cannot be in loop relationship with each other.");
+        }
         return ResponseEntity.ok("Employee " + superior.getName() + " is set as Superior to " + subordinate.getName() + " Employee.");
     }
 

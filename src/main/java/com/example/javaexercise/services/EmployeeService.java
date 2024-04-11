@@ -38,6 +38,9 @@ public class EmployeeService {
    public void setSuperior(Long superiorId, Long subordinateId){
         Employee superior = findById(superiorId).get();
         Employee subordinate = findById(subordinateId).get();
+        if(superior.getSuperior() != null && superior.getSuperior().equals(subordinate)){
+            throw new RuntimeException("subordinate and superior cannot be superior and subordinate to each other.");
+        }
         if(superior.equals(subordinate)){
            throw new RuntimeException("subordinate and superior cannot be the same Entity.");
         }
