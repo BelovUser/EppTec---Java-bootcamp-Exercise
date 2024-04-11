@@ -61,22 +61,22 @@ public class EmployeeService {
    }
 
    public List<Employee> findAllByNameOrSurnameOrId(String name, String surname, Long id){
-        return employeeRepository.findAllByNameOrSurnameOrId(name,surname,id);
+        return employeeRepository.findAllByNameIgnoreCaseOrSurnameIgnoreCaseOrId(name,surname,id);
    }
 
    public List<Employee> findAllByNameAndSurnameAndId(String name, String surname, Long id){
-        return employeeRepository.findAllByNameAndSurnameAndId(name,surname,id);
+        return employeeRepository.findAllByNameIgnoreCaseAndSurnameIgnoreCaseAndId(name,surname,id);
    }
 
    public List<Employee> findAllByNameOrSurnameAndId(String name, String surname, Long id){
-        return employeeRepository.findAllByNameAndIdOrSurnameAndId(name, id, surname, id);
+        return employeeRepository.findAllByNameIgnoreCaseAndIdOrSurnameIgnoreCaseAndId(name, id, surname, id);
    }
 
    public List<Employee> findAllByNameOrSurname(String name, String surname){
-        return employeeRepository.findAllByNameOrSurname(name,surname);
+        return employeeRepository.findAllByNameIgnoreCaseOrSurnameIgnoreCase(name,surname);
    }
 
    public List<Employee> findAllByNameAndSurname(String name, String surname){
-        return employeeRepository.findAllByNameAndSurname(name,surname);
+        return employeeRepository.findAllByNameIgnoreCaseAndSurnameIgnoreCase(name,surname);
    }
 }

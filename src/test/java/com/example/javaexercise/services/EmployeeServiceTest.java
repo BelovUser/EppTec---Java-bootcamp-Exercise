@@ -152,7 +152,7 @@ class EmployeeServiceTest {
         expectedEmployee.setSurname(surname);
         expectedEmployee.setBirthday(LocalDate.of(1999, 12,12));
 
-        when(mockEmployeeRepository.findAllByNameOrSurnameOrId(name, surname, 1L))
+        when(mockEmployeeRepository.findAllByNameIgnoreCaseOrSurnameIgnoreCaseOrId(name, surname, 1L))
                 .thenReturn(List.of(expectedEmployee));
         //act
         List<Employee> actualEmployee = employeeService.findAllByNameOrSurnameOrId(name,surname,1L);

@@ -35,7 +35,7 @@ class OrganizationRepositoryTest {
         //arrange
         Organization expectedOrganization = this.organization;
         //act
-        Optional<Organization> actualOrganization = organizationRepository.findByName("organization");
+        Optional<Organization> actualOrganization = organizationRepository.findByNameIgnoreCase("organization");
         //assert
         assertEquals(actualOrganization.get(),expectedOrganization);
     }

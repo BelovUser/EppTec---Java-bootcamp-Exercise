@@ -6,5 +6,5 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.Optional;
 
 public interface OrganizationRepository extends CrudRepository<Organization, Long> {
-    Optional<Organization> findByName(String name);
+    Optional<Organization> findByNameIgnoreCase(String name);
 }

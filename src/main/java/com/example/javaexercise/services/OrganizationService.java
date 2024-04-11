@@ -26,7 +26,7 @@ public class OrganizationService {
     }
 
     public Optional<Organization> findByName(String name){
-        return organizationRepository.findByName(name);
+        return organizationRepository.findByNameIgnoreCase(name);
     }
 
     public Optional<Organization> findById(Long id){

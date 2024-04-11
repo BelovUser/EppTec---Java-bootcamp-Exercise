@@ -2,11 +2,8 @@ package com.example.javaexercise.services;
 
 import com.example.javaexercise.dtos.CreateOrganizationDto;
 import com.example.javaexercise.mappers.DtoMapper;
-import com.example.javaexercise.models.Employee;
 import com.example.javaexercise.models.Organization;
-import com.example.javaexercise.repositories.EmployeeRepository;
 import com.example.javaexercise.repositories.OrganizationRepository;
-import org.aspectj.weaver.ast.Or;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -14,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -50,7 +46,7 @@ class OrganizationServiceTest {
         expectedOrganization.setName("organizationName");
         expectedOrganization.setAddress("address");
 
-        when(organizationRepository.findByName("organizationName")).thenReturn(Optional.of(expectedOrganization));
+        when(organizationRepository.findByNameIgnoreCase("organizationName")).thenReturn(Optional.of(expectedOrganization));
         //act
         Optional<Organization> actualOrganization = organizationService.findByName("organizationName");
         //assert

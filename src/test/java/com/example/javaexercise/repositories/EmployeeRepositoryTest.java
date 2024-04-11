@@ -38,7 +38,7 @@ class EmployeeRepositoryTest {
         //arrange
         Employee arrangedEmployee = this.arrangedEmployee;
         //act
-        List<Employee> actualEmployee = employeeRepository.findAllByNameOrSurnameOrId("John","Doe", 1L);
+        List<Employee> actualEmployee = employeeRepository.findAllByNameIgnoreCaseOrSurnameIgnoreCaseOrId("John","Doe", 1L);
         //assert
         assertEquals(actualEmployee, List.of(arrangedEmployee));
     }
