@@ -94,8 +94,8 @@ public class EmployeeController {
         return ResponseEntity.ok("Employee with " + employeeId + " id was deleted.");
     }
 
-    @PutMapping("/setSuperior")
-    public ResponseEntity<?> setSuperior(@RequestParam Long superiorId, @RequestParam Long subordinateId){
+    @PutMapping("/superior")
+    public ResponseEntity<?> setSuperiorToSubordinate(@RequestParam Long superiorId, @RequestParam Long subordinateId){
         if(superiorId == subordinateId){
                 return ResponseEntity.badRequest().body("Employee cannot be subordinate and superior to itself.");
         }
@@ -114,7 +114,7 @@ public class EmployeeController {
         return ResponseEntity.ok("Employee " + superior.getName() + " is set as Superior to " + subordinate.getName() + " Employee.");
     }
 
-    @PutMapping("/setOrganization")
+    @PutMapping("/organization")
     public ResponseEntity<?> setOrganization(@RequestParam Long employeeId, @RequestParam String organizationName){
         Optional<Employee> optEmployee = employeeService.findById(employeeId);
         Optional<Organization> optOrganization = organizationService.findByName(organizationName);
