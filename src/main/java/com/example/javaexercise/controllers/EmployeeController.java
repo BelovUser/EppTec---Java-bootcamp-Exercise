@@ -103,12 +103,8 @@ public class EmployeeController {
         Optional<Employee> optSubordinate = employeeService.findById(subordinateId);
         Optional<Employee> optSuperior = employeeService.findById(superiorId);
 
-        if(optSuperior.isEmpty() && optSubordinate.isEmpty()){
-            return ResponseEntity.badRequest().body("Could not find both employees.");
-        } else if (optSubordinate.isEmpty()) {
-            return ResponseEntity.badRequest().body("Could not find subordinate with " + subordinateId + " id.");
-        } else if (optSuperior.isEmpty()) {
-            return ResponseEntity.badRequest().body("Could not find superior with " + superiorId + " id.");
+        if(optSuperior.isEmpty() || optSubordinate.isEmpty()){
+            return ResponseEntity.notFound().build();
         }
 
         Employee subordinate = employeeService.findById(subordinateId).get();
@@ -123,12 +119,8 @@ public class EmployeeController {
         Optional<Employee> optEmployee = employeeService.findById(employeeId);
         Optional<Organization> optOrganization = organizationService.findByName(organizationName);
 
-        if(optEmployee.isEmpty() && optOrganization.isEmpty()){
-            return ResponseEntity.badRequest().body("Could not find both employee and organization.");
-        } else if (optOrganization.isEmpty()) {
-            return ResponseEntity.badRequest().body("Could not find organization named " + organizationName + ".");
-        } else if (optEmployee.isEmpty()) {
-            return ResponseEntity.badRequest().body("Could not find employee with " + employeeId + " id.");
+        if(optEmployee.isEmpty() || optOrganization.isEmpty()){
+            return ResponseEntity.notFound().build();
         }
 
         employeeService.assignEmployeeToOrganization(employeeId,organizationName);
