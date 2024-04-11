@@ -34,11 +34,11 @@ class EmployeeRepositoryTest {
     }
 
     @Test
-    void findByNameOrSurname_givenExistingName_returnEmployee() {
+    void findByNameOrSurnameOrId_givenExistingName_returnEmployee() {
         //arrange
         Employee arrangedEmployee = this.arrangedEmployee;
         //act
-        List<Employee> actualEmployee = employeeRepository.findAllByNameOrSurname("John","Doe");
+        List<Employee> actualEmployee = employeeRepository.findAllByNameOrSurnameOrId("John","Doe", 1L);
         //assert
         assertEquals(actualEmployee, List.of(arrangedEmployee));
     }
@@ -47,7 +47,7 @@ class EmployeeRepositoryTest {
         //arrange
         Employee arrangedEmployee = this.arrangedEmployee;
         //act
-        Optional<Employee> actualEmployee = employeeRepository.findById(1L);
+        Optional<Employee> actualEmployee = employeeRepository.findById(2L);
         //assert
         assertEquals(actualEmployee.get(), arrangedEmployee);
     }
