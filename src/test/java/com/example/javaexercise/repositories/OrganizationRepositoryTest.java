@@ -31,11 +31,23 @@ class OrganizationRepositoryTest {
     }
 
     @Test
-    void findByName_givenName_WhenOrganizationExist_returnOrganization() {
+    void findByNameIgnoreCase_givenName_WhenOrganizationExist_returnOrganization() {
         //arrange
+        String searchName = "organization";
         Organization expectedOrganization = this.organization;
         //act
-        Optional<Organization> actualOrganization = organizationRepository.findByNameIgnoreCase("organization");
+        Optional<Organization> actualOrganization = organizationRepository.findByNameIgnoreCase(searchName);
+        //assert
+        assertEquals(actualOrganization.get(),expectedOrganization);
+    }
+
+    @Test
+    void findByNameIgnoreCase_givenUpperCaseName_WhenOrganizationExist_returnOrganization() {
+        //arrange
+        String searchName = "ORGANIZATION";
+        Organization expectedOrganization = this.organization;
+        //act
+        Optional<Organization> actualOrganization = organizationRepository.findByNameIgnoreCase(searchName);
         //assert
         assertEquals(actualOrganization.get(),expectedOrganization);
     }

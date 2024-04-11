@@ -1,9 +1,6 @@
 package com.example.javaexercise.mappers;
 
-import com.example.javaexercise.dtos.CreateEmployeeDto;
-import com.example.javaexercise.dtos.CreateOrganizationDto;
-import com.example.javaexercise.dtos.EmployeeDto;
-import com.example.javaexercise.dtos.OrganizationDto;
+import com.example.javaexercise.dtos.*;
 import com.example.javaexercise.models.Employee;
 import com.example.javaexercise.models.Organization;
 import org.junit.jupiter.api.Test;
@@ -19,6 +16,7 @@ class DtoMapperTest {
 
     @Autowired
     private DtoMapper dtoMapper;
+
     @Test
     void mapToEmployeeDTO_givenEmployee_shouldReturnEmployeeDto() {
         //arrange
@@ -81,5 +79,70 @@ class DtoMapperTest {
         //assert
         assertEquals(expectedOrganization.getName(),actualOrganization.getName());
         assertEquals(expectedOrganization.getAddress(),actualOrganization.getAddress());
+    }
+
+    @Test
+    void mapSuperiorToDto_givenEmployee_shouldReturnSuperiorToDto(){
+        //arrange
+        Employee superior = new Employee();
+        superior.setId(1L);
+        superior.setName("Mark");
+        superior.setSurname("Poe");
+        superior.setBirthday(LocalDate.of(1999, 12,12));
+
+        Employee employee = new Employee();
+        employee.setId(2L);
+        employee.setName("John");
+        employee.setSurname("Doe");
+        employee.setBirthday(LocalDate.of(1999, 12,12));
+        employee.setSuperior(superior);
+
+        SuperiorDto expectedSuperiorDto = new SuperiorDto(1L, superior.getName() + " " + superior.getSurname());
+        //act
+        SuperiorDto actualSuperiorDto = dtoMapper.mapSuperiorToDto(employee);
+        //assert
+        assertEquals(expectedSuperiorDto,actualSuperiorDto);
+    }
+
+    @Test
+    void mapAllSubordinates_givenEmployee_shouldReturnSubordinateDtoList(){
+        //arrange
+        Employee subordinate = new Employee();
+        subordinate.setId(1L);
+        subordinate.setName("Mark");
+        subordinate.setSurname("Poe");
+        subordinate.setBirthday(LocalDate.of(1999, 12,12));
+
+        Employee employee = new Employee();
+        employee.setId(2L);
+        employee.setName("John");
+        employee.setSurname("Doe");
+        employee.setBirthday(LocalDate.of(1999, 12,12));
+        employee.setSubordinates(List.of(subordinate));
+
+        SubordinateDto expectedSubordinateDto = new SubordinateDto(1L, subordinate.getName() + " " + subordinate.getSurname());
+        //act
+        List<SubordinateDto> actualSubordinateDto = dtoMapper.mapAllSubordinates(employee);
+        //assert
+        assertEquals(List.of(expectedSubordinateDto),actualSubordinateDto);
+    }
+
+    @Test
+    void mapListEmployeeToDto_givenEmployeeList_shouldReturnEmployeeDtoList(){
+        //arrange
+        Employee employee = new Employee();
+        employee.setId(1L);
+        employee.setName("John");
+        employee.setSurname("Doe");
+        employee.setBirthday(LocalDate.of(1999, 12,12));
+
+        EmployeeDto employeeDto = new EmployeeDto(1L,"John","Doe",
+                LocalDate.of(1999, 12,12), null,null, null);
+
+        List<EmployeeDto> expectedEmployeeDtoList = List.of(employeeDto);
+        //act
+        List<EmployeeDto> actualEmployeeDtoList = dtoMapper.mapListEmployeeToDto(List.of(employee));
+        //assert
+        assertEquals(expectedEmployeeDtoList,actualEmployeeDtoList);
     }
 }

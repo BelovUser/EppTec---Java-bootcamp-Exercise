@@ -40,7 +40,7 @@ class OrganizationServiceTest {
     }
 
     @Test
-    void findByName_givenEmployeeId_whenEmployeeExist_returnEmployee() {
+    void findByName_givenEmployeeName_whenEmployeeExist_returnEmployee() {
         //arrange
         Organization expectedOrganization = new Organization();
         expectedOrganization.setName("organizationName");
@@ -49,6 +49,22 @@ class OrganizationServiceTest {
         when(organizationRepository.findByNameIgnoreCase("organizationName")).thenReturn(Optional.of(expectedOrganization));
         //act
         Optional<Organization> actualOrganization = organizationService.findByName("organizationName");
+        //assert
+        assertEquals(actualOrganization.get(),expectedOrganization);
+    }
+
+    @Test
+    void findByName_givenUpperCaseEmployeeName_whenEmployeeExist_returnEmployee() {
+        //arrange
+        String searchName = "ORGANIZATIONAME";
+
+        Organization expectedOrganization = new Organization();
+        expectedOrganization.setName("organizationName");
+        expectedOrganization.setAddress("address");
+
+        when(organizationRepository.findByNameIgnoreCase(searchName)).thenReturn(Optional.of(expectedOrganization));
+        //act
+        Optional<Organization> actualOrganization = organizationService.findByName(searchName);
         //assert
         assertEquals(actualOrganization.get(),expectedOrganization);
     }

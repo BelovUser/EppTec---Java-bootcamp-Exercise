@@ -120,6 +120,28 @@ class EmployeeServiceTest {
     }
 
     @Test
+    void setSuperior_givenSuperiorIdAndSubordinateId_whenSubordinateHasSuperiorInSubordinates_throwException(){
+        //arrange
+        Employee subordinate = mock(Employee.class);
+        when(subordinate.getName()).thenReturn("SubordinateName");
+        when(subordinate.getSurname()).thenReturn("SubordinateSurname");
+        when(subordinate.getBirthday()).thenReturn(LocalDate.of(1999, 12,12));
+
+        Employee superior = mock(Employee.class);
+        when(superior.getName()).thenReturn("SuperiorName");
+        when(superior.getSurname()).thenReturn("SuperiorSurname");
+        when(superior.getBirthday()).thenReturn(LocalDate.of(1999, 12,12));
+        when(superior.getSuperior()).thenReturn(subordinate);
+
+        when(mockEmployeeRepository.findById(1L)).thenReturn(Optional.of(superior));
+        when(mockEmployeeRepository.findById(2L)).thenReturn(Optional.of(subordinate));
+        //act and assert
+        assertThrows(RuntimeException.class, () -> {
+            employeeService.setSuperior(1L, 2L);
+        });
+    }
+
+    @Test
     void assignEmployeeToOrganization_givenEmployeeIdAndOrganizationName_WhenEmployeeAndOrganizationExists_setEmployeeToOrganization() {
         //arrange
         Long employeeId = 1L;
@@ -141,7 +163,325 @@ class EmployeeServiceTest {
     }
 
     @Test
-    void findByNameOrSurnameOrId_givenNameAndSurname_whenEmployeeExist_returnEmployee() {
+    void findAllByNameOrSurnameOrId_givenName_whenEmployeeExist_returnEmployee() {
+        //arrange
+        Long id = null;
+        String name = "Name";
+        String surname = null;
+
+        Employee expectedEmployee = new Employee();
+        expectedEmployee.setId(1L);
+        expectedEmployee.setName(name);
+        expectedEmployee.setSurname(surname);
+        expectedEmployee.setBirthday(LocalDate.of(1999, 12,12));
+
+        when(mockEmployeeRepository.findAllByNameIgnoreCaseOrSurnameIgnoreCaseOrId(name, surname, id))
+                .thenReturn(List.of(expectedEmployee));
+        //act
+        List<Employee> actualEmployee = employeeService.findAllByNameOrSurnameOrId(name,surname,id);
+        //assert
+        assertEquals(actualEmployee,List.of(expectedEmployee));
+    }
+
+    @Test
+    void findAllByNameOrSurnameOrId_givenSurname_whenEmployeeExist_returnEmployee() {
+        //arrange
+        Long id = null;
+        String name = null;
+        String surname = "Surname";
+
+        Employee expectedEmployee = new Employee();
+        expectedEmployee.setId(1L);
+        expectedEmployee.setName(name);
+        expectedEmployee.setSurname(surname);
+        expectedEmployee.setBirthday(LocalDate.of(1999, 12,12));
+
+        when(mockEmployeeRepository.findAllByNameIgnoreCaseOrSurnameIgnoreCaseOrId(name, surname, id))
+                .thenReturn(List.of(expectedEmployee));
+        //act
+        List<Employee> actualEmployee = employeeService.findAllByNameOrSurnameOrId(name,surname,id);
+        //assert
+        assertEquals(actualEmployee,List.of(expectedEmployee));
+    }
+    @Test
+    void findAllByNameOrSurnameOrId_givenId_whenEmployeeExist_returnEmployee() {
+        //arrange
+        Long id = 1L;
+        String name = null;
+        String surname = null;
+
+        Employee expectedEmployee = new Employee();
+        expectedEmployee.setId(1L);
+        expectedEmployee.setName(name);
+        expectedEmployee.setSurname(surname);
+        expectedEmployee.setBirthday(LocalDate.of(1999, 12,12));
+
+        when(mockEmployeeRepository.findAllByNameIgnoreCaseOrSurnameIgnoreCaseOrId(name, surname, id))
+                .thenReturn(List.of(expectedEmployee));
+        //act
+        List<Employee> actualEmployee = employeeService.findAllByNameOrSurnameOrId(name,surname,id);
+        //assert
+        assertEquals(actualEmployee,List.of(expectedEmployee));
+    }
+
+    @Test
+    void findAllByNameOrSurnameOrId_givenIdAndName_whenEmployeeExist_returnEmployee() {
+        //arrange
+        Long id = 1L;
+        String name = "Name";
+        String surname = null;
+
+        Employee expectedEmployee = new Employee();
+        expectedEmployee.setId(1L);
+        expectedEmployee.setName(name);
+        expectedEmployee.setSurname(surname);
+        expectedEmployee.setBirthday(LocalDate.of(1999, 12,12));
+
+        when(mockEmployeeRepository.findAllByNameIgnoreCaseOrSurnameIgnoreCaseOrId(name, surname, id))
+                .thenReturn(List.of(expectedEmployee));
+        //act
+        List<Employee> actualEmployee = employeeService.findAllByNameOrSurnameOrId(name,surname,id);
+        //assert
+        assertEquals(actualEmployee,List.of(expectedEmployee));
+    }
+
+    @Test
+    void findAllByNameOrSurnameOrId_givenIdAndSurname_whenEmployeeExist_returnEmployee() {
+        //arrange
+        Long id = 1L;
+        String name = null;
+        String surname = "Surname";
+
+        Employee expectedEmployee = new Employee();
+        expectedEmployee.setId(1L);
+        expectedEmployee.setName(name);
+        expectedEmployee.setSurname(surname);
+        expectedEmployee.setBirthday(LocalDate.of(1999, 12,12));
+
+        when(mockEmployeeRepository.findAllByNameIgnoreCaseOrSurnameIgnoreCaseOrId(name, surname, id))
+                .thenReturn(List.of(expectedEmployee));
+        //act
+        List<Employee> actualEmployee = employeeService.findAllByNameOrSurnameOrId(name,surname,id);
+        //assert
+        assertEquals(actualEmployee,List.of(expectedEmployee));
+    }
+
+    @Test
+    void findAllByNameOrSurnameOrId_givenNameAndSurname_whenEmployeeExist_returnEmployee() {
+        //arrange
+        Long id = null;
+        String name = "Name";
+        String surname = "Surname";
+
+        Employee expectedEmployee = new Employee();
+        expectedEmployee.setId(1L);
+        expectedEmployee.setName(name);
+        expectedEmployee.setSurname(surname);
+        expectedEmployee.setBirthday(LocalDate.of(1999, 12,12));
+
+        when(mockEmployeeRepository.findAllByNameIgnoreCaseOrSurnameIgnoreCaseOrId(name, surname, id))
+                .thenReturn(List.of(expectedEmployee));
+        //act
+        List<Employee> actualEmployee = employeeService.findAllByNameOrSurnameOrId(name,surname,id);
+        //assert
+        assertEquals(actualEmployee,List.of(expectedEmployee));
+    }
+
+    @Test
+    void findAllByNameOrSurnameOrId_givenNameAndSurnameAndId_whenEmployeeExist_returnEmployee() {
+        //arrange
+        Long id = 1L;
+        String name = "Name";
+        String surname = "Surname";
+
+        Employee expectedEmployee = new Employee();
+        expectedEmployee.setId(1L);
+        expectedEmployee.setName(name);
+        expectedEmployee.setSurname(surname);
+        expectedEmployee.setBirthday(LocalDate.of(1999, 12,12));
+
+        when(mockEmployeeRepository.findAllByNameIgnoreCaseOrSurnameIgnoreCaseOrId(name, surname, id))
+                .thenReturn(List.of(expectedEmployee));
+        //act
+        List<Employee> actualEmployee = employeeService.findAllByNameOrSurnameOrId(name,surname,id);
+        //assert
+        assertEquals(actualEmployee,List.of(expectedEmployee));
+    }
+
+    @Test
+    void findAllByNameOrSurnameOrId_givenLowerCaseNameAndLowerCaseSurnameAndId_whenEmployeeExist_returnEmployee() {
+        //arrange
+        Long id = 1L;
+        String name = "Name";
+        String surname = "Surname";
+        String searchName = "name";
+        String searchSurname = "surname";
+
+        Employee expectedEmployee = new Employee();
+        expectedEmployee.setId(1L);
+        expectedEmployee.setName(name);
+        expectedEmployee.setSurname(surname);
+        expectedEmployee.setBirthday(LocalDate.of(1999, 12,12));
+
+        when(mockEmployeeRepository.findAllByNameIgnoreCaseOrSurnameIgnoreCaseOrId(searchName, searchSurname, id))
+                .thenReturn(List.of(expectedEmployee));
+        //act
+        List<Employee> actualEmployee = employeeService.findAllByNameOrSurnameOrId(searchName,searchSurname,id);
+        //assert
+        assertEquals(actualEmployee,List.of(expectedEmployee));
+    }
+
+
+
+    @Test
+    void findAllByNameAndSurnameAndId_givenNameAndSurnameAndId_whenEmployeeExist_returnEmployee(){
+        //arrange
+        Long id = 1L;
+        String name = "Name";
+        String surname = "Surname";
+
+        Employee expectedEmployee = new Employee();
+        expectedEmployee.setId(1L);
+        expectedEmployee.setName(name);
+        expectedEmployee.setSurname(surname);
+        expectedEmployee.setBirthday(LocalDate.of(1999, 12,12));
+
+        when(mockEmployeeRepository.findAllByNameIgnoreCaseAndSurnameIgnoreCaseAndId(name, surname, id))
+                .thenReturn(List.of(expectedEmployee));
+        //act
+        List<Employee> actualEmployee = employeeService.findAllByNameAndSurnameAndId(name,surname,id);
+        //assert
+        assertEquals(actualEmployee,List.of(expectedEmployee));
+    }
+
+    @Test
+    void findAllByNameOrSurnameAndId_givenNameAndId_whenEmployeeExist_returnEmployee(){
+        //arrange
+        Long id = 1L;
+        String name = "Name";
+        String surname = null;
+
+        Employee expectedEmployee = new Employee();
+        expectedEmployee.setId(1L);
+        expectedEmployee.setName(name);
+        expectedEmployee.setSurname(surname);
+        expectedEmployee.setBirthday(LocalDate.of(1999, 12,12));
+
+        when(mockEmployeeRepository.findAllByNameIgnoreCaseAndIdOrSurnameIgnoreCaseAndId(name, id, surname, id))
+                .thenReturn(List.of(expectedEmployee));
+        //act
+        List<Employee> actualEmployee = employeeService.findAllByNameOrSurnameAndId(name,surname,id);
+        //assert
+        assertEquals(actualEmployee,List.of(expectedEmployee));
+    }
+
+    @Test
+    void findAllByNameOrSurnameAndId_givenSurnameAndId_whenEmployeeExist_returnEmployee(){
+        //arrange
+        Long id = 1L;
+        String name = null;
+        String surname = "Surname";
+
+        Employee expectedEmployee = new Employee();
+        expectedEmployee.setId(1L);
+        expectedEmployee.setName(name);
+        expectedEmployee.setSurname(surname);
+        expectedEmployee.setBirthday(LocalDate.of(1999, 12,12));
+
+        when(mockEmployeeRepository.findAllByNameIgnoreCaseAndIdOrSurnameIgnoreCaseAndId(name, id, surname, id))
+                .thenReturn(List.of(expectedEmployee));
+        //act
+        List<Employee> actualEmployee = employeeService.findAllByNameOrSurnameAndId(name,surname,id);
+        //assert
+        assertEquals(actualEmployee,List.of(expectedEmployee));
+    }
+
+    @Test
+    void findAllByNameOrSurnameAndId_givenNameAndSurnameAndId_whenEmployeeExist_returnEmployee(){
+        //arrange
+        Long id = 1L;
+        String name = "Name";
+        String surname = "Surname";
+
+        Employee expectedEmployee = new Employee();
+        expectedEmployee.setId(1L);
+        expectedEmployee.setName(name);
+        expectedEmployee.setSurname(surname);
+        expectedEmployee.setBirthday(LocalDate.of(1999, 12,12));
+
+        when(mockEmployeeRepository.findAllByNameIgnoreCaseAndIdOrSurnameIgnoreCaseAndId(name, id, surname, id))
+                .thenReturn(List.of(expectedEmployee));
+        //act
+        List<Employee> actualEmployee = employeeService.findAllByNameOrSurnameAndId(name,surname,id);
+        //assert
+        assertEquals(actualEmployee,List.of(expectedEmployee));
+    }
+
+    @Test
+    void findAllByNameOrSurnameAndId_givenLowerCaseNameAndLowerCaseSurnameAndId_whenEmployeeExist_returnEmployee(){
+        //arrange
+        Long id = 1L;
+        String name = "Name";
+        String surname = "Surname";
+        String searchName = "name";
+        String searchSurname = "surname";
+
+        Employee expectedEmployee = new Employee();
+        expectedEmployee.setId(1L);
+        expectedEmployee.setName(name);
+        expectedEmployee.setSurname(surname);
+        expectedEmployee.setBirthday(LocalDate.of(1999, 12,12));
+
+        when(mockEmployeeRepository.findAllByNameIgnoreCaseAndIdOrSurnameIgnoreCaseAndId(searchName, id, searchSurname, id))
+                .thenReturn(List.of(expectedEmployee));
+        //act
+        List<Employee> actualEmployee = employeeService.findAllByNameOrSurnameAndId(searchName,searchSurname,id);
+        //assert
+        assertEquals(actualEmployee,List.of(expectedEmployee));
+    }
+
+    @Test
+    void findAllByNameOrSurname_givenName_whenEmployeeExist_thenReturnEmployee(){
+        //arrange
+        String name = "Name";
+        String surname = null;
+
+        Employee expectedEmployee = new Employee();
+        expectedEmployee.setId(1L);
+        expectedEmployee.setName(name);
+        expectedEmployee.setSurname(surname);
+        expectedEmployee.setBirthday(LocalDate.of(1999, 12,12));
+
+        when(mockEmployeeRepository.findAllByNameIgnoreCaseOrSurnameIgnoreCase(name, surname))
+                .thenReturn(List.of(expectedEmployee));
+        //act
+        List<Employee> actualEmployee = employeeService.findAllByNameOrSurname(name,surname);
+        //assert
+        assertEquals(actualEmployee,List.of(expectedEmployee));
+    }
+
+    @Test
+    void findAllByNameOrSurname_givenSurname_whenEmployeeExist_thenReturnEmployee(){
+        //arrange
+        String name = null;
+        String surname = "Surname";
+
+        Employee expectedEmployee = new Employee();
+        expectedEmployee.setId(1L);
+        expectedEmployee.setName(name);
+        expectedEmployee.setSurname(surname);
+        expectedEmployee.setBirthday(LocalDate.of(1999, 12,12));
+
+        when(mockEmployeeRepository.findAllByNameIgnoreCaseOrSurnameIgnoreCase(name, surname))
+                .thenReturn(List.of(expectedEmployee));
+        //act
+        List<Employee> actualEmployee = employeeService.findAllByNameOrSurname(name,surname);
+        //assert
+        assertEquals(actualEmployee,List.of(expectedEmployee));
+    }
+
+    @Test
+    void findAllByNameOrSurname_givenNameAndSurname_whenEmployeeExist_thenReturnEmployee(){
         //arrange
         String name = "Name";
         String surname = "Surname";
@@ -152,10 +492,74 @@ class EmployeeServiceTest {
         expectedEmployee.setSurname(surname);
         expectedEmployee.setBirthday(LocalDate.of(1999, 12,12));
 
-        when(mockEmployeeRepository.findAllByNameIgnoreCaseOrSurnameIgnoreCaseOrId(name, surname, 1L))
+        when(mockEmployeeRepository.findAllByNameIgnoreCaseOrSurnameIgnoreCase(name, surname))
                 .thenReturn(List.of(expectedEmployee));
         //act
-        List<Employee> actualEmployee = employeeService.findAllByNameOrSurnameOrId(name,surname,1L);
+        List<Employee> actualEmployee = employeeService.findAllByNameOrSurname(name,surname);
+        //assert
+        assertEquals(actualEmployee,List.of(expectedEmployee));
+    }
+
+    @Test
+    void findAllByNameOrSurname_givenLowerCaseNameAndLowerCaseSurname_whenEmployeeExist_thenReturnEmployee(){
+        //arrange
+        String name = "Name";
+        String surname = "Surname";
+        String searchName = "name";
+        String searchSurname = "surname";
+
+        Employee expectedEmployee = new Employee();
+        expectedEmployee.setId(1L);
+        expectedEmployee.setName(name);
+        expectedEmployee.setSurname(surname);
+        expectedEmployee.setBirthday(LocalDate.of(1999, 12,12));
+
+        when(mockEmployeeRepository.findAllByNameIgnoreCaseOrSurnameIgnoreCase(searchName, searchSurname))
+                .thenReturn(List.of(expectedEmployee));
+        //act
+        List<Employee> actualEmployee = employeeService.findAllByNameOrSurname(searchName,searchSurname);
+        //assert
+        assertEquals(actualEmployee,List.of(expectedEmployee));
+    }
+
+    @Test
+    void findAllByNameAndSurname_givenNameAndSurname_whenEmployeeExist_thenReturnEmployee(){
+        //arrange
+        String name = "Name";
+        String surname = "Surname";
+
+        Employee expectedEmployee = new Employee();
+        expectedEmployee.setId(1L);
+        expectedEmployee.setName(name);
+        expectedEmployee.setSurname(surname);
+        expectedEmployee.setBirthday(LocalDate.of(1999, 12,12));
+
+        when(mockEmployeeRepository.findAllByNameIgnoreCaseAndSurnameIgnoreCase(name, surname))
+                .thenReturn(List.of(expectedEmployee));
+        //act
+        List<Employee> actualEmployee = employeeService.findAllByNameAndSurname(name,surname);
+        //assert
+        assertEquals(actualEmployee,List.of(expectedEmployee));
+    }
+
+    @Test
+    void findAllByNameAndSurname_givenLowerCaseNameAndLowerCaseSurname_whenEmployeeExist_thenReturnEmployee(){
+        //arrange
+        String name = "Name";
+        String surname = "Surname";
+        String searchName = "name";
+        String searchSurname = "surname";
+
+        Employee expectedEmployee = new Employee();
+        expectedEmployee.setId(1L);
+        expectedEmployee.setName(name);
+        expectedEmployee.setSurname(surname);
+        expectedEmployee.setBirthday(LocalDate.of(1999, 12,12));
+
+        when(mockEmployeeRepository.findAllByNameIgnoreCaseAndSurnameIgnoreCase(name, surname))
+                .thenReturn(List.of(expectedEmployee));
+        //act
+        List<Employee> actualEmployee = employeeService.findAllByNameAndSurname(name,surname);
         //assert
         assertEquals(actualEmployee,List.of(expectedEmployee));
     }
