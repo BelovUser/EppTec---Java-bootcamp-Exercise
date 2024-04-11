@@ -60,7 +60,23 @@ public class EmployeeService {
        employeeRepository.save(employee);
    }
 
-   public List<Employee> findAllByNameAndSurname(String name, String surname){
+   public List<Employee> findAllByNameOrSurnameOrId(String name, String surname, Long id){
+        return employeeRepository.findAllByNameOrSurnameOrId(name,surname,id);
+   }
+
+   public List<Employee> findAllByNameAndSurnameAndId(String name, String surname, Long id){
+        return employeeRepository.findAllByNameAndSurnameAndId(name,surname,id);
+   }
+
+   public List<Employee> findAllByNameOrSurnameAndId(String name, String surname, Long id){
+        return employeeRepository.findAllByNameAndIdOrSurnameAndId(name, id, surname, id);
+   }
+
+   public List<Employee> findAllByNameOrSurname(String name, String surname){
         return employeeRepository.findAllByNameOrSurname(name,surname);
+   }
+
+   public List<Employee> findAllByNameAndSurname(String name, String surname){
+        return employeeRepository.findAllByNameAndSurname(name,surname);
    }
 }
