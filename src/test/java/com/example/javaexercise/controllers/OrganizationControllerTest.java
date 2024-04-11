@@ -73,7 +73,6 @@ class OrganizationControllerTest {
         String organizationName = "Org";
         //act and assert
         mockMvc.perform(get(urlPath).param("organizationName", organizationName))
-                .andExpect(status().isBadRequest())
-                .andExpect(content().string("Could not find Organization with name " + organizationName + "."));
+                .andExpect(status().isNotFound());
     }
 }

@@ -34,7 +34,7 @@ public class OrganizationController {
     public ResponseEntity<?> getOrganizationByName(@RequestParam String organizationName){
         Optional<Organization> optOrganization = organizationService.findByName(organizationName);
         if(optOrganization.isEmpty()){
-            return ResponseEntity.badRequest().body("Could not find Organization with name " + organizationName + ".");
+            return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(dtoMapper.mapToOrganizationDTO(optOrganization.get()));
     }
