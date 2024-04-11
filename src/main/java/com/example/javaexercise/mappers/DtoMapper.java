@@ -12,7 +12,7 @@ public class DtoMapper {
     public static EmployeeDto mapToEmployeeDTO(Employee employee){
         List<SubordinateDto> subordinates = mapAllSubordinates(employee);
         String organizationName = employee.getOrganization() == null? null:employee.getOrganization().getName();
-        String superior = employee.getSuperior() == null? null:employee.getSuperior().getName();
+        SuperiorDto superior = employee.getSuperior() == null? null:mapSuperiorToDto(employee);
 
         return new EmployeeDto(employee.getId(),
                 employee.getName(),
@@ -59,5 +59,11 @@ public class DtoMapper {
         return employees.stream()
                 .map(DtoMapper::mapToEmployeeDTO)
                 .toList();
+    }
+
+    private static SuperiorDto mapSuperiorToDto(Employee employee){
+        String superiorFullName = employee.getSuperior().getName() + " " + employee.getSuperior().getSurname();
+        Long superiorId = employee.getSuperior().getId();
+        return new SuperiorDto(superiorId,superiorFullName);
     }
 }
