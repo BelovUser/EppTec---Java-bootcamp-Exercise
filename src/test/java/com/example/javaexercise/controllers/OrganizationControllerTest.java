@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 class OrganizationControllerTest {
-    private final String urlPath = "/api/v1/Organization";
+    private final String urlPath = "/api/v1/organization";
 
     @Autowired
     private MockMvc mockMvc;
