@@ -51,6 +51,10 @@ public class Employee {
         this.birthday = birthday;
     }
 
+    public void setSubordinates(List<Employee> subordinates) {
+        this.subordinates = subordinates;
+    }
+
     public List<Employee> getSubordinates() {
         return subordinates;
     }
