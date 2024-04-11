@@ -11,8 +11,8 @@ import java.util.List;
 public class DtoMapper {
     public static EmployeeDto mapToEmployeeDTO(Employee employee){
         List<SubordinateDto> subordinates = mapAllSubordinates(employee);
-        String organizationName = employee.getOrganization() == null? "none":employee.getOrganization().getName();
-        String superior = employee.getSuperior() == null? "none":employee.getSuperior().getName();
+        String organizationName = employee.getOrganization() == null? null:employee.getOrganization().getName();
+        String superior = employee.getSuperior() == null? null:employee.getSuperior().getName();
 
         return new EmployeeDto(employee.getId(),
                 employee.getName(),
