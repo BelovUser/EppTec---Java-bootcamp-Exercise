@@ -10,7 +10,7 @@ import java.util.List;
 @Service
 public class DtoMapper {
     public static EmployeeDto mapToEmployeeDTO(Employee employee){
-        List<SubordinateDto> subordinates = mapAllSubordinates(employee);
+        List<SubordinateDto> subordinates = employee.getSubordinates().isEmpty()? null:mapAllSubordinates(employee);
         String organizationName = employee.getOrganization() == null? null:employee.getOrganization().getName();
         SuperiorDto superior = employee.getSuperior() == null? null:mapSuperiorToDto(employee);
 
