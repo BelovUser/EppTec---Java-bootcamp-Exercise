@@ -56,10 +56,22 @@ public class EmployeeController {
             if (employee.isEmpty()) {
                 return ResponseEntity.notFound().build();
             }
-            return ResponseEntity.ok(dtoMapper.mapToEmployeeDTO(optEmployee.get()));
-        } else if (name.isPresent() || surname.isPresent()) {
+            return ResponseEntity.ok(dtoMapper.mapToEmployeeDTO(employee.get()));
+        }
+        // only name or only surname
+        if ((name.isPresent() && surname.isEmpty()) || (surname.isPresent() && name.isEmpty())) {
             String employeeName = name.orElse(null);
             String employeeSurname = surname.orElse(null);
+            List<Employee> employees = employeeService.findAllByNameOrSurname(employeeName, employeeSurname);
+            if (employees.isEmpty()) {
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok(dtoMapper.mapListEmployeeToDto(employees));
+        }
+        // only name and surname
+        if((name.isPresent() && surname.isPresent()) || employeeId.isEmpty()){
+            String employeeName = name.get();
+            String employeeSurname = surname.get();
             List<Employee> employees = employeeService.findAllByNameAndSurname(employeeName, employeeSurname);
             if (employees.isEmpty()) {
                 return ResponseEntity.notFound().build();
