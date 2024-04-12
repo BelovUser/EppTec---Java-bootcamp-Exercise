@@ -1,12 +1,17 @@
 package com.example.javaexercise.services;
 
 import com.example.javaexercise.dtos.CreateEmployeeDto;
+import com.example.javaexercise.exceptions.CantAssignSameEmployeeException;
+import com.example.javaexercise.exceptions.EmployeeLoopRelationshipException;
+import com.example.javaexercise.exceptions.EntityNotFoundException;
+import com.example.javaexercise.exceptions.NoParameterProvidedException;
 import com.example.javaexercise.mappers.DtoMapper;
 import com.example.javaexercise.models.Employee;
 import com.example.javaexercise.models.Organization;
 import com.example.javaexercise.repositories.EmployeeRepository;
 import org.springframework.stereotype.Service;
 
+import java.security.InvalidParameterException;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,8 +27,44 @@ public class EmployeeService {
         this.dtoMapper = dtoMapper;
     }
 
-   public Optional<Employee> findById(Long employeeId){
-        return employeeRepository.findById(employeeId);
+    public List<Employee> findEmployees(Optional<String> name, Optional<String> surname, Optional<Long> id){
+        String employeeName = name.orElse(null);
+        String employeeSurname = surname.orElse(null);
+        Long employeeId = id.orElse(null);
+        //all parameters
+        if (employeeId !=null && employeeName != null && employeeSurname != null) {
+            List<Employee> employees = findAllByNameAndSurnameAndId(employeeName, employeeSurname, employeeId);
+            return employees;
+        }
+        // none parameters
+        if (employeeId ==null && employeeName == null && employeeSurname == null) {
+            throw new NoParameterProvidedException("Provide at least one parameter.");
+        }
+        // id and name or surname
+        if (employeeId != null && (employeeName != null || employeeSurname != null)) {
+            List<Employee> employees = findAllByNameOrSurnameAndId(employeeName, employeeSurname, employeeId);
+            return employees;
+        }
+        // only id
+        if (id.isPresent()) {
+            Employee employee = findById(id.get());
+            return List.of(employee);
+        }
+        // only name or only surname
+        if ((name.isPresent() && surname.isEmpty()) || (surname.isPresent() && name.isEmpty())) {
+            List<Employee> employees = findAllByNameOrSurname(employeeName, employeeSurname);
+            return employees;
+        }
+        // only name and surname
+        if((name.isPresent() && surname.isPresent()) || id.isEmpty()){
+            List<Employee> employees = findAllByNameAndSurname(employeeName, employeeSurname);
+            return employees;
+        }
+        throw new InvalidParameterException("Invalid parameters provided.");
+    }
+
+   public Employee findById(Long employeeId){
+        return employeeRepository.findById(employeeId).orElseThrow(() -> new EntityNotFoundException("Couldn't found Employee with " + employeeId + " id."));
    }
 
    public void createEmployee(CreateEmployeeDto employeeDTO){
@@ -36,13 +77,13 @@ public class EmployeeService {
    }
 
    public void setSuperior(Long superiorId, Long subordinateId){
-        Employee superior = findById(superiorId).get();
-        Employee subordinate = findById(subordinateId).get();
+        Employee superior = findById(superiorId);
+        Employee subordinate = findById(subordinateId);
         if(superior.getSuperior() != null && superior.getSuperior().equals(subordinate)){
-            throw new RuntimeException("subordinate and superior cannot be superior and subordinate to each other.");
+            throw new EmployeeLoopRelationshipException("Subordinate and Superior cant have loop relationship with each other.");
         }
         if(superior.equals(subordinate)){
-           throw new RuntimeException("subordinate and superior cannot be the same Entity.");
+           throw new CantAssignSameEmployeeException("Subordinate and Superior cannot be the same Employee.");
         }
         superior.addToSubordinates(subordinate);
         subordinate.setSuperior(superior);
@@ -51,10 +92,8 @@ public class EmployeeService {
    }
 
    public void assignEmployeeToOrganization(Long employeeId, Long organizationId){
-       Optional<Employee> optEmployee = findById(employeeId);
-       Optional<Organization> optOrganization = organizationService.findById(organizationId);
-       Employee employee = optEmployee.get();
-       Organization organization = optOrganization.get();
+       Employee employee = findById(employeeId);
+       Organization organization = organizationService.findById(organizationId);
 
        organization.getEmployees().add(employee);
        organizationService.save(organization);
