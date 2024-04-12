@@ -103,22 +103,42 @@ public class EmployeeService {
    }
 
    public List<Employee> findAllByNameOrSurnameOrId(String name, String surname, Long id){
-        return employeeRepository.findAllByNameIgnoreCaseOrSurnameIgnoreCaseOrId(name,surname,id);
+        List<Employee> employees = employeeRepository.findAllByNameContainsIgnoreCaseOrSurnameContainsIgnoreCaseOrId(name,surname,id);
+        if(employees.isEmpty()){
+            throw new EntityNotFoundException("Couldn't find any Employees with given parameters.");
+        }
+        return employees;
    }
 
    public List<Employee> findAllByNameAndSurnameAndId(String name, String surname, Long id){
-        return employeeRepository.findAllByNameIgnoreCaseAndSurnameIgnoreCaseAndId(name,surname,id);
+        List<Employee> employees = employeeRepository.findAllByNameContainsIgnoreCaseAndSurnameContainsIgnoreCaseAndId(name,surname,id);
+        if(employees.isEmpty()){
+           throw new EntityNotFoundException("Couldn't find any Employees with given parameters.");
+        }
+        return employees;
    }
 
    public List<Employee> findAllByNameOrSurnameAndId(String name, String surname, Long id){
-        return employeeRepository.findAllByNameIgnoreCaseAndIdOrSurnameIgnoreCaseAndId(name, id, surname, id);
+        List<Employee> employees = employeeRepository.findAllByNameContainsIgnoreCaseAndIdOrSurnameContainsIgnoreCaseAndId(name, id, surname, id);
+        if(employees.isEmpty()){
+           throw new EntityNotFoundException("Couldn't find any Employees with given parameters.");
+        }
+        return employees;
    }
 
    public List<Employee> findAllByNameOrSurname(String name, String surname){
-        return employeeRepository.findAllByNameIgnoreCaseOrSurnameIgnoreCase(name,surname);
+        List<Employee> employees = employeeRepository.findAllByNameContainsIgnoreCaseOrSurnameContainsIgnoreCase(name,surname);
+        if(employees.isEmpty()){
+           throw new EntityNotFoundException("Couldn't find any Employees with given parameters.");
+        }
+        return employees;
    }
 
    public List<Employee> findAllByNameAndSurname(String name, String surname){
-        return employeeRepository.findAllByNameIgnoreCaseAndSurnameIgnoreCase(name,surname);
+        List<Employee> employees = employeeRepository.findAllByNameContainsIgnoreCaseAndSurnameContainsIgnoreCase(name,surname);
+        if(employees.isEmpty()){
+           throw new EntityNotFoundException("Couldn't find any Employees with given parameters.");
+        }
+        return employees;
    }
 }

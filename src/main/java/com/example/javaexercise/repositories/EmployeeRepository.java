@@ -8,9 +8,9 @@ import java.util.List;
 
 @Repository
 public interface EmployeeRepository extends CrudRepository<Employee, Long> {
-    List<Employee> findAllByNameIgnoreCaseOrSurnameIgnoreCaseOrId(String name, String surname, Long id);
-    List<Employee> findAllByNameIgnoreCaseAndSurnameIgnoreCaseAndId(String name, String surname, Long id);
-    List<Employee> findAllByNameIgnoreCaseAndIdOrSurnameIgnoreCaseAndId(String name, Long id, String surname, Long id2);
-    List<Employee> findAllByNameIgnoreCaseOrSurnameIgnoreCase(String name, String surname);
-    List<Employee> findAllByNameIgnoreCaseAndSurnameIgnoreCase(String name, String surname);
+    List<Employee> findAllByNameContainsIgnoreCaseOrSurnameContainsIgnoreCaseOrId(String name, String surname, Long id);
+    List<Employee> findAllByNameContainsIgnoreCaseAndSurnameContainsIgnoreCaseAndId(String name, String surname, Long id);
+    List<Employee> findAllByNameContainsIgnoreCaseAndIdOrSurnameContainsIgnoreCaseAndId(String name, Long id, String surname, Long id2);
+    List<Employee> findAllByNameContainsIgnoreCaseOrSurnameContainsIgnoreCase(String name, String surname);
+    List<Employee> findAllByNameContainsIgnoreCaseAndSurnameContainsIgnoreCase(String name, String surname);
 }

@@ -42,7 +42,7 @@ class EmployeeRepositoryTest {
 
         Employee arrangedEmployee = this.arrangedEmployee;
         //act
-        List<Employee> actualEmployee = employeeRepository.findAllByNameIgnoreCaseOrSurnameIgnoreCaseOrId(searchName,searchSurname, searchId);
+        List<Employee> actualEmployee = employeeRepository.findAllByNameContainsIgnoreCaseOrSurnameContainsIgnoreCaseOrId(searchName,searchSurname, searchId);
         //assert
         assertEquals(actualEmployee, List.of(arrangedEmployee));
     }
@@ -56,7 +56,7 @@ class EmployeeRepositoryTest {
 
         Employee arrangedEmployee = this.arrangedEmployee;
         //act
-        List<Employee> actualEmployee = employeeRepository.findAllByNameIgnoreCaseOrSurnameIgnoreCaseOrId(searchName,searchSurname, searchId);
+        List<Employee> actualEmployee = employeeRepository.findAllByNameContainsIgnoreCaseOrSurnameContainsIgnoreCaseOrId(searchName,searchSurname, searchId);
         //assert
         assertEquals(actualEmployee, List.of(arrangedEmployee));
     }
@@ -70,7 +70,7 @@ class EmployeeRepositoryTest {
 
         Employee arrangedEmployee = this.arrangedEmployee;
         //act
-        List<Employee> actualEmployee = employeeRepository.findAllByNameIgnoreCaseOrSurnameIgnoreCaseOrId(searchName,searchSurname, searchId);
+        List<Employee> actualEmployee = employeeRepository.findAllByNameContainsIgnoreCaseOrSurnameContainsIgnoreCaseOrId(searchName,searchSurname, searchId);
         //assert
         assertEquals(actualEmployee, List.of(arrangedEmployee));
     }
@@ -84,7 +84,7 @@ class EmployeeRepositoryTest {
 
         Employee arrangedEmployee = this.arrangedEmployee;
         //act
-        List<Employee> actualEmployee = employeeRepository.findAllByNameIgnoreCaseOrSurnameIgnoreCaseOrId(searchName,searchSurname, searchId);
+        List<Employee> actualEmployee = employeeRepository.findAllByNameContainsIgnoreCaseOrSurnameContainsIgnoreCaseOrId(searchName,searchSurname, searchId);
         //assert
         assertEquals(actualEmployee, List.of(arrangedEmployee));
     }
@@ -98,7 +98,7 @@ class EmployeeRepositoryTest {
 
         Employee arrangedEmployee = this.arrangedEmployee;
         //act
-        List<Employee> actualEmployee = employeeRepository.findAllByNameIgnoreCaseOrSurnameIgnoreCaseOrId(searchName,searchSurname, searchId);
+        List<Employee> actualEmployee = employeeRepository.findAllByNameContainsIgnoreCaseOrSurnameContainsIgnoreCaseOrId(searchName,searchSurname, searchId);
         //assert
         assertEquals(actualEmployee, List.of(arrangedEmployee));
     }
@@ -124,7 +124,7 @@ class EmployeeRepositoryTest {
 
         Employee arrangedEmployee = this.arrangedEmployee;
         //act
-        List<Employee> actualEmployee = employeeRepository.findAllByNameIgnoreCaseAndSurnameIgnoreCaseAndId(searchName,searchSurname, searchId);
+        List<Employee> actualEmployee = employeeRepository.findAllByNameContainsIgnoreCaseAndSurnameContainsIgnoreCaseAndId(searchName,searchSurname, searchId);
         //assert
         assertEquals(actualEmployee, List.of(arrangedEmployee));
     }
@@ -138,7 +138,7 @@ class EmployeeRepositoryTest {
 
         Employee arrangedEmployee = this.arrangedEmployee;
         //act
-        List<Employee> actualEmployee = employeeRepository.findAllByNameIgnoreCaseAndSurnameIgnoreCaseAndId(searchName,searchSurname, searchId);
+        List<Employee> actualEmployee = employeeRepository.findAllByNameContainsIgnoreCaseAndSurnameContainsIgnoreCaseAndId(searchName,searchSurname, searchId);
         //assert
         assertEquals(actualEmployee, List.of(arrangedEmployee));
     }
@@ -152,7 +152,7 @@ class EmployeeRepositoryTest {
 
         Employee arrangedEmployee = this.arrangedEmployee;
         //act
-        List<Employee> actualEmployee = employeeRepository.findAllByNameIgnoreCaseAndIdOrSurnameIgnoreCaseAndId(searchName,searchId,searchSurname, searchId);
+        List<Employee> actualEmployee = employeeRepository.findAllByNameContainsIgnoreCaseAndIdOrSurnameContainsIgnoreCaseAndId(searchName,searchId,searchSurname, searchId);
         //assert
         assertEquals(actualEmployee, List.of(arrangedEmployee));
     }
@@ -166,7 +166,7 @@ class EmployeeRepositoryTest {
 
         Employee arrangedEmployee = this.arrangedEmployee;
         //act
-        List<Employee> actualEmployee = employeeRepository.findAllByNameIgnoreCaseAndIdOrSurnameIgnoreCaseAndId(searchName,searchId,searchSurname, searchId);
+        List<Employee> actualEmployee = employeeRepository.findAllByNameContainsIgnoreCaseAndIdOrSurnameContainsIgnoreCaseAndId(searchName,searchId,searchSurname, searchId);
         //assert
         assertEquals(actualEmployee, List.of(arrangedEmployee));
     }
@@ -179,7 +179,7 @@ class EmployeeRepositoryTest {
 
         Employee arrangedEmployee = this.arrangedEmployee;
         //act
-        List<Employee> actualEmployee = employeeRepository.findAllByNameIgnoreCaseAndIdOrSurnameIgnoreCaseAndId(searchName,searchId,searchSurname, searchId);
+        List<Employee> actualEmployee = employeeRepository.findAllByNameContainsIgnoreCaseAndIdOrSurnameContainsIgnoreCaseAndId(searchName,searchId,searchSurname, searchId);
         //assert
         assertEquals(actualEmployee, List.of(arrangedEmployee));
     }
@@ -193,7 +193,7 @@ class EmployeeRepositoryTest {
 
         Employee arrangedEmployee = this.arrangedEmployee;
         //act
-        List<Employee> actualEmployee = employeeRepository.findAllByNameIgnoreCaseAndIdOrSurnameIgnoreCaseAndId(searchName,searchId,searchSurname, searchId);
+        List<Employee> actualEmployee = employeeRepository.findAllByNameContainsIgnoreCaseAndIdOrSurnameContainsIgnoreCaseAndId(searchName,searchId,searchSurname, searchId);
         //assert
         assertEquals(actualEmployee, List.of(arrangedEmployee));
     }
@@ -206,7 +206,7 @@ class EmployeeRepositoryTest {
 
         Employee arrangedEmployee = this.arrangedEmployee;
         //act
-        List<Employee> actualEmployee = employeeRepository.findAllByNameIgnoreCaseOrSurnameIgnoreCase(searchName,searchSurname);
+        List<Employee> actualEmployee = employeeRepository.findAllByNameContainsIgnoreCaseOrSurnameContainsIgnoreCase(searchName,searchSurname);
         //assert
         assertEquals(actualEmployee, List.of(arrangedEmployee));
     }
@@ -219,7 +219,7 @@ class EmployeeRepositoryTest {
 
         Employee arrangedEmployee = this.arrangedEmployee;
         //act
-        List<Employee> actualEmployee = employeeRepository.findAllByNameIgnoreCaseOrSurnameIgnoreCase(searchName,searchSurname);
+        List<Employee> actualEmployee = employeeRepository.findAllByNameContainsIgnoreCaseOrSurnameContainsIgnoreCase(searchName,searchSurname);
         //assert
         assertEquals(actualEmployee, List.of(arrangedEmployee));
     }
@@ -232,7 +232,7 @@ class EmployeeRepositoryTest {
 
         Employee arrangedEmployee = this.arrangedEmployee;
         //act
-        List<Employee> actualEmployee = employeeRepository.findAllByNameIgnoreCaseOrSurnameIgnoreCase(searchName,searchSurname);
+        List<Employee> actualEmployee = employeeRepository.findAllByNameContainsIgnoreCaseOrSurnameContainsIgnoreCase(searchName,searchSurname);
         //assert
         assertEquals(actualEmployee, List.of(arrangedEmployee));
     }
@@ -245,7 +245,7 @@ class EmployeeRepositoryTest {
 
         Employee arrangedEmployee = this.arrangedEmployee;
         //act
-        List<Employee> actualEmployee = employeeRepository.findAllByNameIgnoreCaseOrSurnameIgnoreCase(searchName,searchSurname);
+        List<Employee> actualEmployee = employeeRepository.findAllByNameContainsIgnoreCaseOrSurnameContainsIgnoreCase(searchName,searchSurname);
         //assert
         assertEquals(actualEmployee, List.of(arrangedEmployee));
     }
@@ -257,7 +257,7 @@ class EmployeeRepositoryTest {
 
         Employee arrangedEmployee = this.arrangedEmployee;
         //act
-        List<Employee> actualEmployee = employeeRepository.findAllByNameIgnoreCaseAndSurnameIgnoreCase(searchName,searchSurname);
+        List<Employee> actualEmployee = employeeRepository.findAllByNameContainsIgnoreCaseAndSurnameContainsIgnoreCase(searchName,searchSurname);
         //assert
         assertEquals(actualEmployee, List.of(arrangedEmployee));
     }
@@ -270,7 +270,7 @@ class EmployeeRepositoryTest {
 
         Employee arrangedEmployee = this.arrangedEmployee;
         //act
-        List<Employee> actualEmployee = employeeRepository.findAllByNameIgnoreCaseAndSurnameIgnoreCase(searchName,searchSurname);
+        List<Employee> actualEmployee = employeeRepository.findAllByNameContainsIgnoreCaseAndSurnameContainsIgnoreCase(searchName,searchSurname);
         //assert
         assertEquals(actualEmployee, List.of(arrangedEmployee));
     }
