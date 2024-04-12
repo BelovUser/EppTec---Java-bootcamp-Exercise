@@ -1,6 +1,8 @@
 package com.example.javaexercise.services;
 
 import com.example.javaexercise.dtos.CreateOrganizationDto;
+import com.example.javaexercise.exceptions.EntityNotFoundException;
+import com.example.javaexercise.exceptions.OrganizationAlreadyExistException;
 import com.example.javaexercise.mappers.DtoMapper;
 import com.example.javaexercise.models.Organization;
 import com.example.javaexercise.repositories.OrganizationRepository;
@@ -25,15 +27,21 @@ public class OrganizationService {
         organizationRepository.save(organization);
     }
 
-    public Optional<Organization> findByName(String name){
-        return organizationRepository.findByNameIgnoreCase(name);
+    public Organization findByName(String name){
+        return organizationRepository.findByNameIgnoreCase(name)
+                .orElseThrow(() -> new EntityNotFoundException("Couldn't find Organization named " + name + " ."));
     }
 
-    public Optional<Organization> findById(Long id){
-        return organizationRepository.findById(id);
+    public Organization findById(Long id){
+        return organizationRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Couldn't find Organization with " + id + " id."));
     }
 
     public void save(Organization organization){
+        Optional<Organization> foundOrganization = organizationRepository.findByNameIgnoreCase(organization.getName());
+        if(foundOrganization.isPresent()){
+            throw new OrganizationAlreadyExistException("Organization " + organization.getName() + " already exists.");
+        }
         organizationRepository.save(organization);
     }
 

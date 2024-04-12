@@ -1,6 +1,8 @@
 package com.example.javaexercise.controllers;
 
 import com.example.javaexercise.dtos.CreateEmployeeDto;
+import com.example.javaexercise.exceptions.EmployeeLoopRelationshipException;
+import com.example.javaexercise.exceptions.EntityNotFoundException;
 import com.example.javaexercise.models.Employee;
 import com.example.javaexercise.models.Organization;
 import com.example.javaexercise.services.EmployeeService;
@@ -91,8 +93,8 @@ class EmployeeControllerTest {
         subordinate.setName("Mark");
         subordinate.setSurname("White");
 
-        when(employeeService.findById(1L)).thenReturn(Optional.of(superior));
-        when(employeeService.findById(2L)).thenReturn(Optional.of(subordinate));
+        when(employeeService.findById(1L)).thenReturn(superior);
+        when(employeeService.findById(2L)).thenReturn(subordinate);
         //act and assert
         mockMvc.perform(put(urlPath +"/superior")
                 .param("superiorId", String.valueOf(1L))
@@ -102,7 +104,7 @@ class EmployeeControllerTest {
     }
 
     @Test
-    void setSuperior_givenSuperiorIdAndSubordinateId_whenSuperiorNotExist_expectStatusBadRequest() throws Exception {
+    void setSuperior_givenSuperiorIdAndSubordinateId_whenSuperiorNotExist_expectStatusNotFound() throws Exception {
         //arrange
         Long superiorId = 1L;
 
@@ -111,7 +113,8 @@ class EmployeeControllerTest {
         subordinate.setName("Mark");
         subordinate.setSurname("White");
 
-        when(employeeService.findById(2L)).thenReturn(Optional.of(subordinate));
+        when(employeeService.findById(2L)).thenReturn(subordinate);
+        when(employeeService.findById(superiorId)).thenThrow(new EntityNotFoundException("Couldn't found Employee with " + superiorId + " id."));
         //act and assert
         mockMvc.perform(put(urlPath +"/superior")
                         .param("superiorId", String.valueOf(superiorId))
@@ -120,7 +123,7 @@ class EmployeeControllerTest {
     }
 
     @Test
-    void setSuperior_givenSuperiorIdAndSubordinateId_whenSubordinateNotExist_expectStatusBadRequest() throws Exception {
+    void setSuperior_givenSuperiorIdAndSubordinateId_whenSubordinateNotExist_expectStatusNotFound() throws Exception {
         //arrange
         Long subordinateId = 2L;
 
@@ -129,7 +132,9 @@ class EmployeeControllerTest {
         superior.setName("John");
         superior.setSurname("Doe");
 
-        when(employeeService.findById(1L)).thenReturn(Optional.of(superior));
+        when(employeeService.findById(1L)).thenReturn(superior);
+        when(employeeService.findById(subordinateId)).thenThrow(new EntityNotFoundException("Couldn't found Employee with " + subordinateId + " id."));
+
         //act and assert
         mockMvc.perform(put(urlPath +"/superior")
                         .param("superiorId", String.valueOf(1L))
@@ -138,27 +143,29 @@ class EmployeeControllerTest {
     }
 
     @Test
-    void setSuperior_givenSuperiorIdAndSubordinateId_whenSubordinateAndSuperiorAreSameEmployee_expectStatusBadRequest() throws Exception {
+    void setSuperior_givenSuperiorIdAndSubordinateId_whenSubordinateAndSuperiorAreSameEmployee_expectStatusConflict() throws Exception {
         //arrange
         Employee employee = new Employee();
         employee.setId(1L);
         employee.setName("John");
         employee.setSurname("Doe");
 
-        when(employeeService.findById(1L)).thenReturn(Optional.of(employee));
+        when(employeeService.findById(1L)).thenThrow(new EmployeeLoopRelationshipException("Subordinate and Superior cannot be the same Employee."));
         //act and assert
         mockMvc.perform(put(urlPath +"/superior")
                         .param("superiorId", String.valueOf(employee.getId()))
                         .param("subordinateId", String.valueOf(employee.getId())))
-                .andExpect(status().isBadRequest())
-                .andExpect(content().string("Employee cannot be subordinate and superior to itself."));
+                .andExpect(status().isConflict());
     }
 
     @Test
-    void setSuperior_givenSuperiorIdAndSubordinateId_whenBothExist_expectStatusBadRequest() throws Exception {
+    void setSuperior_givenSuperiorIdAndSubordinateId_whenBothNotExist_expectStatusNotFound() throws Exception {
         //arrange
         Long superiorId = 1L;
         Long subordinateId = 2L;
+
+        when(employeeService.findById(subordinateId)).thenThrow(new EntityNotFoundException("Couldn't found Employee with " + subordinateId + " id."));
+        when(employeeService.findById(superiorId)).thenThrow(new EntityNotFoundException("Couldn't found Employee with " + superiorId + " id."));
         //act and assert
         mockMvc.perform(put(urlPath +"/superior")
                         .param("superiorId", String.valueOf(superiorId))
@@ -178,8 +185,8 @@ class EmployeeControllerTest {
         organization.setName("Org");
         organization.setAddress("St.Peter 123");
 
-        when(employeeService.findById(1L)).thenReturn(Optional.of(employee));
-        when(organizationService.findById(1L)).thenReturn(Optional.of(organization));
+        when(employeeService.findById(1L)).thenReturn(employee);
+        when(organizationService.findById(1L)).thenReturn(organization);
         //act and assert
         mockMvc.perform(put(urlPath +"/organization")
                         .param("employeeId", String.valueOf(1L))
@@ -189,7 +196,7 @@ class EmployeeControllerTest {
     }
 
     @Test
-    void setOrganization_givenEmployeeIdAndOrganizationName_whenEmployeeNotExist_expectStatusBadRequest() throws Exception {
+    void setOrganization_givenEmployeeIdAndOrganizationName_whenOrganizationNotExist_expectStatusNotFound() throws Exception {
         //arrange
         Employee employee = new Employee();
         employee.setId(1L);
@@ -198,7 +205,8 @@ class EmployeeControllerTest {
 
         Long organizationId = 1L;
 
-        when(employeeService.findById(1L)).thenReturn(Optional.of(employee));
+        when(employeeService.findById(1L)).thenReturn(employee);
+        when(organizationService.findById(1L)).thenThrow(new EntityNotFoundException("Couldn't find Organization with " + organizationId + " id."));
         //act and assert
         mockMvc.perform(put(urlPath +"/organization")
                         .param("employeeId", String.valueOf(1L))
@@ -207,7 +215,7 @@ class EmployeeControllerTest {
     }
 
     @Test
-    void setOrganization_givenEmployeeIdAndOrganizationName_whenOrganizationNotExist_expectStatusBadRequest() throws Exception {
+    void setOrganization_givenEmployeeIdAndOrganizationId_whenEmployeeNotExist_expectStatusNotFound() throws Exception {
         //arrange
         Long employeeId = 1L;
 
@@ -215,7 +223,8 @@ class EmployeeControllerTest {
         organization.setName("Org");
         organization.setAddress("St.Peter 123");
 
-        when(organizationService.findById(1L)).thenReturn(Optional.of(organization));
+        when(organizationService.findById(1L)).thenReturn(organization);
+        when(employeeService.findById(employeeId)).thenThrow(new EntityNotFoundException("Couldn't found Employee with " + employeeId + " id."));
 
         //act and assert
         mockMvc.perform(put(urlPath +"/organization")
@@ -225,10 +234,13 @@ class EmployeeControllerTest {
     }
 
     @Test
-    void setOrganization_givenEmployeeIdAndOrganizationName_whenBothNotExist_expectStatusBadRequest() throws Exception {
+    void setOrganization_givenEmployeeIdAndOrganizationId_whenBothNotExist_expectStatusNotFound() throws Exception {
         //arrange
         Long employeeId = 1L;
-        Long organizationId = 1L;
+        Long organizationId = 2L;
+
+        when(employeeService.findById(employeeId)).thenThrow(new EntityNotFoundException("Couldn't found Employee with " + employeeId + " id."));
+        when(employeeService.findById(organizationId)).thenThrow(new EntityNotFoundException("Couldn't found Employee with " + organizationId + " id."));
         //act and assert
         mockMvc.perform(put(urlPath +"/organization")
                         .param("employeeId", String.valueOf(employeeId))

@@ -48,9 +48,9 @@ class OrganizationServiceTest {
 
         when(organizationRepository.findByNameIgnoreCase("organizationName")).thenReturn(Optional.of(expectedOrganization));
         //act
-        Optional<Organization> actualOrganization = organizationService.findByName("organizationName");
+        Organization actualOrganization = organizationService.findByName("organizationName");
         //assert
-        assertEquals(actualOrganization.get(),expectedOrganization);
+        assertEquals(actualOrganization,expectedOrganization);
     }
 
     @Test
@@ -64,9 +64,9 @@ class OrganizationServiceTest {
 
         when(organizationRepository.findByNameIgnoreCase(searchName)).thenReturn(Optional.of(expectedOrganization));
         //act
-        Optional<Organization> actualOrganization = organizationService.findByName(searchName);
+        Organization actualOrganization = organizationService.findByName(searchName);
         //assert
-        assertEquals(actualOrganization.get(),expectedOrganization);
+        assertEquals(actualOrganization,expectedOrganization);
     }
 
     @Test

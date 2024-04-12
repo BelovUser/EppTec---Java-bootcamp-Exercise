@@ -22,20 +22,13 @@ public class OrganizationController {
 
     @PostMapping
     public ResponseEntity<?> createOrganization(@RequestBody CreateOrganizationDto createOrganizationDto){
-        Optional<Organization> existingOrganization = organizationService.findByName(createOrganizationDto.name());
-        if(existingOrganization.isPresent()){
-            return ResponseEntity.ok("Organization with name " +  createOrganizationDto.name() + " already exist.");
-        }
         organizationService.createOrganization(createOrganizationDto);
         return ResponseEntity.ok("Organization " +  createOrganizationDto.name() + " was created.");
     }
 
     @GetMapping
     public ResponseEntity<?> getOrganizationByName(@RequestParam String organizationName){
-        Optional<Organization> optOrganization = organizationService.findByName(organizationName);
-        if(optOrganization.isEmpty()){
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(dtoMapper.mapToOrganizationDTO(optOrganization.get()));
+        Organization organization = organizationService.findByName(organizationName);
+        return ResponseEntity.ok(dtoMapper.mapToOrganizationDTO(organization));
     }
 }

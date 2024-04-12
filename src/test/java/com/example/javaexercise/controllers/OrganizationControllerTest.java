@@ -1,6 +1,7 @@
 package com.example.javaexercise.controllers;
 
 import com.example.javaexercise.dtos.CreateOrganizationDto;
+import com.example.javaexercise.exceptions.OrganizationAlreadyExistException;
 import com.example.javaexercise.mappers.DtoMapper;
 import com.example.javaexercise.models.Organization;
 import com.example.javaexercise.services.EmployeeService;
@@ -61,18 +62,20 @@ class OrganizationControllerTest {
         organization.setName("Org");
         organization.setAddress("st.Peter 123");
 
-        when(organizationService.findByName("Org")).thenReturn(Optional.of(organization));
+        when(organizationService.findByName("Org")).thenReturn(organization);
         //act and assert
         mockMvc.perform(get(urlPath).param("organizationName", "Org"))
                 .andExpect(status().isOk());
     }
 
     @Test
-    void getOrganizationByName_givenOrganizationName_whenOrganizationNotExist_returnBadRequest() throws Exception {
+    void getOrganizationByName_givenOrganizationName_whenOrganizationNotExist_returnNotFound() throws Exception {
         //arrange
         String organizationName = "Org";
+
+        when(organizationService.findByName(organizationName)).thenThrow(new OrganizationAlreadyExistException("Organization " + organizationName + " already exist."));
         //act and assert
         mockMvc.perform(get(urlPath).param("organizationName", organizationName))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isConflict());
     }
 }
