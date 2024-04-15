@@ -10,7 +10,6 @@ public class ApiExceptionHandler {
     public ResponseEntity<Object> handleEmployeeNotFoundException(EntityNotFoundException exception){
         ApiException apiException = new ApiException(
                 exception.getMessage(),
-                exception,
                 HttpStatus.NOT_FOUND);
 
         return new ResponseEntity<>(
@@ -22,7 +21,6 @@ public class ApiExceptionHandler {
     public ResponseEntity<Object> handleCantAssignSameEmployeeException(CantAssignSameEmployeeException exception){
         ApiException apiException = new ApiException(
                 exception.getMessage(),
-                exception,
                 HttpStatus.CONFLICT);
 
         return new ResponseEntity<>(
@@ -34,7 +32,6 @@ public class ApiExceptionHandler {
     public ResponseEntity<Object> handleEmployeeLoopRelationshipException(EmployeeLoopRelationshipException exception){
         ApiException apiException = new ApiException(
                 exception.getMessage(),
-                exception,
                 HttpStatus.CONFLICT);
 
         return new ResponseEntity<>(
@@ -46,7 +43,6 @@ public class ApiExceptionHandler {
     public ResponseEntity<Object> handleNoParametrProvidedException(NoParameterProvidedException exception){
         ApiException apiException = new ApiException(
                 exception.getMessage(),
-                exception,
                 HttpStatus.BAD_REQUEST);
 
         return new ResponseEntity<>(
@@ -58,7 +54,6 @@ public class ApiExceptionHandler {
     public ResponseEntity<Object> handleOrganizationAlreadyExistException(OrganizationAlreadyExistException exception){
         ApiException apiException = new ApiException(
                 exception.getMessage(),
-                exception,
                 HttpStatus.CONFLICT);
 
         return new ResponseEntity<>(
