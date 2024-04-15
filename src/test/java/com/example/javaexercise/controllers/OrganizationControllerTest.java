@@ -73,7 +73,7 @@ class OrganizationControllerTest {
         //arrange
         String organizationName = "Org";
 
-        when(organizationService.findByName(organizationName)).thenThrow(new OrganizationAlreadyExistException("Organization " + organizationName + " already exist."));
+        when(organizationService.findAllByName(organizationName)).thenThrow(new OrganizationAlreadyExistException("Organization " + organizationName + " already exist."));
         //act and assert
         mockMvc.perform(get(urlPath).param("organizationName", organizationName))
                 .andExpect(status().isConflict());

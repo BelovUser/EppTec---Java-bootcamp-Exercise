@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -50,5 +51,16 @@ class OrganizationRepositoryTest {
         Optional<Organization> actualOrganization = organizationRepository.findByNameIgnoreCase(searchName);
         //assert
         assertEquals(actualOrganization.get(),expectedOrganization);
+    }
+
+    @Test
+    void findAllByNameContainsIgnoreCase_givenFirstLetterOfName_WhenOrganizationExist_returnOrganizationList(){
+        //arrange
+        String searchName = "O";
+        Organization expectedOrganization = this.organization;
+        //act
+        List<Organization> actualOrganization = organizationRepository.findAllByName(searchName);
+        //assert
+        assertEquals(actualOrganization.get(1),expectedOrganization);
     }
 }

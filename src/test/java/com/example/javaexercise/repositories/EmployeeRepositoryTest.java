@@ -42,7 +42,7 @@ class EmployeeRepositoryTest {
 
         Employee arrangedEmployee = this.arrangedEmployee;
         //act
-        List<Employee> actualEmployee = employeeRepository.findAllByNameContainsIgnoreCaseOrSurnameContainsIgnoreCaseOrId(searchName,searchSurname, searchId);
+        List<Employee> actualEmployee = employeeRepository.findAllByNameOrSurnameOrId(searchName,searchSurname, searchId);
         //assert
         assertEquals(actualEmployee, List.of(arrangedEmployee));
     }
@@ -56,7 +56,7 @@ class EmployeeRepositoryTest {
 
         Employee arrangedEmployee = this.arrangedEmployee;
         //act
-        List<Employee> actualEmployee = employeeRepository.findAllByNameContainsIgnoreCaseOrSurnameContainsIgnoreCaseOrId(searchName,searchSurname, searchId);
+        List<Employee> actualEmployee = employeeRepository.findAllByNameOrSurnameOrId(searchName,searchSurname, searchId);
         //assert
         assertEquals(actualEmployee, List.of(arrangedEmployee));
     }
@@ -70,7 +70,7 @@ class EmployeeRepositoryTest {
 
         Employee arrangedEmployee = this.arrangedEmployee;
         //act
-        List<Employee> actualEmployee = employeeRepository.findAllByNameContainsIgnoreCaseOrSurnameContainsIgnoreCaseOrId(searchName,searchSurname, searchId);
+        List<Employee> actualEmployee = employeeRepository.findAllByNameOrSurnameOrId(searchName,searchSurname, searchId);
         //assert
         assertEquals(actualEmployee, List.of(arrangedEmployee));
     }
@@ -84,7 +84,7 @@ class EmployeeRepositoryTest {
 
         Employee arrangedEmployee = this.arrangedEmployee;
         //act
-        List<Employee> actualEmployee = employeeRepository.findAllByNameContainsIgnoreCaseOrSurnameContainsIgnoreCaseOrId(searchName,searchSurname, searchId);
+        List<Employee> actualEmployee = employeeRepository.findAllByNameOrSurnameOrId(searchName,searchSurname, searchId);
         //assert
         assertEquals(actualEmployee, List.of(arrangedEmployee));
     }
@@ -98,7 +98,7 @@ class EmployeeRepositoryTest {
 
         Employee arrangedEmployee = this.arrangedEmployee;
         //act
-        List<Employee> actualEmployee = employeeRepository.findAllByNameContainsIgnoreCaseOrSurnameContainsIgnoreCaseOrId(searchName,searchSurname, searchId);
+        List<Employee> actualEmployee = employeeRepository.findAllByNameOrSurnameOrId(searchName,searchSurname, searchId);
         //assert
         assertEquals(actualEmployee, List.of(arrangedEmployee));
     }
@@ -116,7 +116,7 @@ class EmployeeRepositoryTest {
     }
 
     @Test
-    void findAllByNameIgnoreCaseAndSurnameIgnoreCaseAndId_givenNameAndSurnameAndId_whenEmployeeExist_returnEmployee() {
+    void findAllByNameAndSurnameAndId_givenNameAndSurnameAndId_whenEmployeeExist_returnEmployee() {
         //arrange
         String searchName = "John";
         String searchSurname = "Doe";
@@ -124,13 +124,13 @@ class EmployeeRepositoryTest {
 
         Employee arrangedEmployee = this.arrangedEmployee;
         //act
-        List<Employee> actualEmployee = employeeRepository.findAllByNameContainsIgnoreCaseAndSurnameContainsIgnoreCaseAndId(searchName,searchSurname, searchId);
+        List<Employee> actualEmployee = employeeRepository.findAllByNameAndSurnameAndId(searchName,searchSurname, searchId);
         //assert
         assertEquals(actualEmployee, List.of(arrangedEmployee));
     }
 
     @Test
-    void findAllByNameIgnoreCaseAndSurnameIgnoreCaseAndId_givenLowerCaseNameAndLowerCaseSurnameAndId_whenEmployeeExist_returnEmployee() {
+    void findAllByNameAndSurnameAndId_givenLowerCaseNameAndLowerCaseSurnameAndId_whenEmployeeExist_returnEmployee() {
         //arrange
         String searchName = "john";
         String searchSurname = "doe";
@@ -138,13 +138,13 @@ class EmployeeRepositoryTest {
 
         Employee arrangedEmployee = this.arrangedEmployee;
         //act
-        List<Employee> actualEmployee = employeeRepository.findAllByNameContainsIgnoreCaseAndSurnameContainsIgnoreCaseAndId(searchName,searchSurname, searchId);
+        List<Employee> actualEmployee = employeeRepository.findAllByNameAndSurnameAndId(searchName,searchSurname, searchId);
         //assert
         assertEquals(actualEmployee, List.of(arrangedEmployee));
     }
 
     @Test
-    void findAllByNameIgnoreCaseAndIdOrSurnameIgnoreCaseAndId_givenNameAndId_whenEmployeeExist_returnEmployee() {
+    void findAllByAndOrSurnameAndId_givenNameAndId_whenEmployeeExist_returnEmployee() {
         //arrange
         String searchName = "John";
         String searchSurname = null;
@@ -152,13 +152,13 @@ class EmployeeRepositoryTest {
 
         Employee arrangedEmployee = this.arrangedEmployee;
         //act
-        List<Employee> actualEmployee = employeeRepository.findAllByNameContainsIgnoreCaseAndIdOrSurnameContainsIgnoreCaseAndId(searchName,searchId,searchSurname, searchId);
+        List<Employee> actualEmployee = employeeRepository.findAllByAndOrSurnameAndId(searchName,searchId,searchSurname, searchId);
         //assert
         assertEquals(actualEmployee, List.of(arrangedEmployee));
     }
 
     @Test
-    void findAllByNameIgnoreCaseAndIdOrSurnameIgnoreCaseAndId_givenSurnameAndId_whenEmployeeExist_returnEmployee() {
+    void findAllByAndOrSurnameAndId_givenSurnameAndId_whenEmployeeExist_returnEmployee() {
         //arrange
         String searchName = null;
         String searchSurname = "Doe";
@@ -166,12 +166,12 @@ class EmployeeRepositoryTest {
 
         Employee arrangedEmployee = this.arrangedEmployee;
         //act
-        List<Employee> actualEmployee = employeeRepository.findAllByNameContainsIgnoreCaseAndIdOrSurnameContainsIgnoreCaseAndId(searchName,searchId,searchSurname, searchId);
+        List<Employee> actualEmployee = employeeRepository.findAllByAndOrSurnameAndId(searchName,searchId,searchSurname, searchId);
         //assert
         assertEquals(actualEmployee, List.of(arrangedEmployee));
     }
     @Test
-    void findAllByNameIgnoreCaseAndIdOrSurnameIgnoreCaseAndId_givenNameAndSurnameAndId_whenEmployeeExist_returnEmployee() {
+    void findAllByAndOrSurnameAndId_givenNameAndSurnameAndId_whenEmployeeExist_returnEmployee() {
         //arrange
         String searchName = "John";
         String searchSurname = "Doe";
@@ -179,13 +179,13 @@ class EmployeeRepositoryTest {
 
         Employee arrangedEmployee = this.arrangedEmployee;
         //act
-        List<Employee> actualEmployee = employeeRepository.findAllByNameContainsIgnoreCaseAndIdOrSurnameContainsIgnoreCaseAndId(searchName,searchId,searchSurname, searchId);
+        List<Employee> actualEmployee = employeeRepository.findAllByAndOrSurnameAndId(searchName,searchId,searchSurname, searchId);
         //assert
         assertEquals(actualEmployee, List.of(arrangedEmployee));
     }
 
     @Test
-    void findAllByNameIgnoreCaseAndIdOrSurnameIgnoreCaseAndId_givenLowerCaseNameAndLowerCaseSurnameAndId_whenEmployeeExist_returnEmployee() {
+    void findAllByAndOrSurnameAndId_givenLowerCaseNameAndLowerCaseSurnameAndId_whenEmployeeExist_returnEmployee() {
         //arrange
         String searchName = "john";
         String searchSurname = "doe";
@@ -193,84 +193,84 @@ class EmployeeRepositoryTest {
 
         Employee arrangedEmployee = this.arrangedEmployee;
         //act
-        List<Employee> actualEmployee = employeeRepository.findAllByNameContainsIgnoreCaseAndIdOrSurnameContainsIgnoreCaseAndId(searchName,searchId,searchSurname, searchId);
+        List<Employee> actualEmployee = employeeRepository.findAllByAndOrSurnameAndId(searchName,searchId,searchSurname, searchId);
         //assert
         assertEquals(actualEmployee, List.of(arrangedEmployee));
     }
 
     @Test
-    void findAllByNameIgnoreCaseOrSurnameIgnoreCase_givenName_whenEmployeeExist_returnEmployee() {
+    void findAllByNameOrSurname_givenName_whenEmployeeExist_returnEmployee() {
         //arrange
         String searchName = "John";
         String searchSurname = null;
 
         Employee arrangedEmployee = this.arrangedEmployee;
         //act
-        List<Employee> actualEmployee = employeeRepository.findAllByNameContainsIgnoreCaseOrSurnameContainsIgnoreCase(searchName,searchSurname);
+        List<Employee> actualEmployee = employeeRepository.findAllByNameOrSurname(searchName,searchSurname);
         //assert
         assertEquals(actualEmployee, List.of(arrangedEmployee));
     }
 
     @Test
-    void findAllByNameIgnoreCaseOrSurnameIgnoreCase_givenSurname_whenEmployeeExist_returnEmployee() {
+    void findAllByNameOrSurname_givenSurname_whenEmployeeExist_returnEmployee() {
         //arrange
         String searchName = null;
         String searchSurname = "Doe";
 
         Employee arrangedEmployee = this.arrangedEmployee;
         //act
-        List<Employee> actualEmployee = employeeRepository.findAllByNameContainsIgnoreCaseOrSurnameContainsIgnoreCase(searchName,searchSurname);
+        List<Employee> actualEmployee = employeeRepository.findAllByNameOrSurname(searchName,searchSurname);
         //assert
         assertEquals(actualEmployee, List.of(arrangedEmployee));
     }
 
     @Test
-    void findAllByNameIgnoreCaseOrSurnameIgnoreCase_givenNameAndSurname_whenEmployeeExist_returnEmployee() {
+    void findAllByNameOrSurname_givenNameAndSurname_whenEmployeeExist_returnEmployee() {
         //arrange
         String searchName = "John";
         String searchSurname = "Doe";
 
         Employee arrangedEmployee = this.arrangedEmployee;
         //act
-        List<Employee> actualEmployee = employeeRepository.findAllByNameContainsIgnoreCaseOrSurnameContainsIgnoreCase(searchName,searchSurname);
+        List<Employee> actualEmployee = employeeRepository.findAllByNameOrSurname(searchName,searchSurname);
         //assert
         assertEquals(actualEmployee, List.of(arrangedEmployee));
     }
 
     @Test
-    void findAllByNameIgnoreCaseOrSurnameIgnoreCase_givenLowerCaseNameAndLowerCaseSurname_whenEmployeeExist_returnEmployee() {
+    void findAllByNameOrSurname_givenLowerCaseNameAndLowerCaseSurname_whenEmployeeExist_returnEmployee() {
         //arrange
         String searchName = "john";
         String searchSurname = "doe";
 
         Employee arrangedEmployee = this.arrangedEmployee;
         //act
-        List<Employee> actualEmployee = employeeRepository.findAllByNameContainsIgnoreCaseOrSurnameContainsIgnoreCase(searchName,searchSurname);
+        List<Employee> actualEmployee = employeeRepository.findAllByNameOrSurname(searchName,searchSurname);
         //assert
         assertEquals(actualEmployee, List.of(arrangedEmployee));
     }
     @Test
-    void findAllByNameIgnoreCaseAndSurnameIgnoreCase_givenNameAndSurname_whenEmployeeExist_returnEmployee() {
+    void findAllByNameAndSurname_whenEmployeeExist_returnEmployee() {
         //arrange
         String searchName = "John";
         String searchSurname = "Doe";
 
         Employee arrangedEmployee = this.arrangedEmployee;
         //act
-        List<Employee> actualEmployee = employeeRepository.findAllByNameContainsIgnoreCaseAndSurnameContainsIgnoreCase(searchName,searchSurname);
+        List<Employee> actualEmployee = employeeRepository.findAllByNameAndSurname(searchName,searchSurname);
         //assert
         assertEquals(actualEmployee, List.of(arrangedEmployee));
     }
 
     @Test
-    void findAllByNameIgnoreCaseAndSurnameIgnoreCase_givenLowerCaseNameAndLowerCaseSurname_whenEmployeeExist_returnEmployee() {
+    void findAllByNameAndSurname_givenLowerCaseNameAndLowerCaseSurname_whenEmployeeExist_returnEmployee() {
         //arrange
         String searchName = "john";
         String searchSurname = "doe";
 
         Employee arrangedEmployee = this.arrangedEmployee;
         //act
-        List<Employee> actualEmployee = employeeRepository.findAllByNameContainsIgnoreCaseAndSurnameContainsIgnoreCase(searchName,searchSurname);
+        List<Employee> actualEmployee = employeeRepository.findAllByNameAndSurname(searchName,searchSurname);
         //assert
         assertEquals(actualEmployee, List.of(arrangedEmployee));
     }

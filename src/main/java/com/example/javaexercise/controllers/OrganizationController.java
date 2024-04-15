@@ -7,6 +7,7 @@ import com.example.javaexercise.services.OrganizationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -28,7 +29,7 @@ public class OrganizationController {
 
     @GetMapping
     public ResponseEntity<?> getOrganizationByName(@RequestParam String organizationName){
-        Organization organization = organizationService.findByName(organizationName);
-        return ResponseEntity.ok(dtoMapper.mapToOrganizationDTO(organization));
+        List<Organization> organizations = organizationService.findAllByName(organizationName);
+        return ResponseEntity.ok(dtoMapper.mapListOrganizationToDto(organizations));
     }
 }

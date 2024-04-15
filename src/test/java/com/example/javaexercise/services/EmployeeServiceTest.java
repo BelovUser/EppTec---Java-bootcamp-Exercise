@@ -175,7 +175,7 @@ class EmployeeServiceTest {
         expectedEmployee.setSurname(surname);
         expectedEmployee.setBirthday(LocalDate.of(1999, 12,12));
 
-        when(mockEmployeeRepository.findAllByNameContainsIgnoreCaseOrSurnameContainsIgnoreCaseOrId(name, surname, id))
+        when(mockEmployeeRepository.findAllByNameOrSurnameOrId(name, surname, id))
                 .thenReturn(List.of(expectedEmployee));
         //act
         List<Employee> actualEmployee = employeeService.findAllByNameOrSurnameOrId(name,surname,id);
@@ -196,7 +196,7 @@ class EmployeeServiceTest {
         expectedEmployee.setSurname(surname);
         expectedEmployee.setBirthday(LocalDate.of(1999, 12,12));
 
-        when(mockEmployeeRepository.findAllByNameContainsIgnoreCaseOrSurnameContainsIgnoreCaseOrId(name, surname, id))
+        when(mockEmployeeRepository.findAllByNameOrSurnameOrId(name, surname, id))
                 .thenReturn(List.of(expectedEmployee));
         //act
         List<Employee> actualEmployee = employeeService.findAllByNameOrSurnameOrId(name,surname,id);
@@ -216,7 +216,7 @@ class EmployeeServiceTest {
         expectedEmployee.setSurname(surname);
         expectedEmployee.setBirthday(LocalDate.of(1999, 12,12));
 
-        when(mockEmployeeRepository.findAllByNameContainsIgnoreCaseOrSurnameContainsIgnoreCaseOrId(name, surname, id))
+        when(mockEmployeeRepository.findAllByNameOrSurnameOrId(name, surname, id))
                 .thenReturn(List.of(expectedEmployee));
         //act
         List<Employee> actualEmployee = employeeService.findAllByNameOrSurnameOrId(name,surname,id);
@@ -237,7 +237,7 @@ class EmployeeServiceTest {
         expectedEmployee.setSurname(surname);
         expectedEmployee.setBirthday(LocalDate.of(1999, 12,12));
 
-        when(mockEmployeeRepository.findAllByNameContainsIgnoreCaseOrSurnameContainsIgnoreCaseOrId(name, surname, id))
+        when(mockEmployeeRepository.findAllByNameOrSurnameOrId(name, surname, id))
                 .thenReturn(List.of(expectedEmployee));
         //act
         List<Employee> actualEmployee = employeeService.findAllByNameOrSurnameOrId(name,surname,id);
@@ -258,7 +258,7 @@ class EmployeeServiceTest {
         expectedEmployee.setSurname(surname);
         expectedEmployee.setBirthday(LocalDate.of(1999, 12,12));
 
-        when(mockEmployeeRepository.findAllByNameContainsIgnoreCaseOrSurnameContainsIgnoreCaseOrId(name, surname, id))
+        when(mockEmployeeRepository.findAllByNameOrSurnameOrId(name, surname, id))
                 .thenReturn(List.of(expectedEmployee));
         //act
         List<Employee> actualEmployee = employeeService.findAllByNameOrSurnameOrId(name,surname,id);
@@ -279,7 +279,7 @@ class EmployeeServiceTest {
         expectedEmployee.setSurname(surname);
         expectedEmployee.setBirthday(LocalDate.of(1999, 12,12));
 
-        when(mockEmployeeRepository.findAllByNameContainsIgnoreCaseOrSurnameContainsIgnoreCaseOrId(name, surname, id))
+        when(mockEmployeeRepository.findAllByNameOrSurnameOrId(name, surname, id))
                 .thenReturn(List.of(expectedEmployee));
         //act
         List<Employee> actualEmployee = employeeService.findAllByNameOrSurnameOrId(name,surname,id);
@@ -300,7 +300,7 @@ class EmployeeServiceTest {
         expectedEmployee.setSurname(surname);
         expectedEmployee.setBirthday(LocalDate.of(1999, 12,12));
 
-        when(mockEmployeeRepository.findAllByNameContainsIgnoreCaseOrSurnameContainsIgnoreCaseOrId(name, surname, id))
+        when(mockEmployeeRepository.findAllByNameOrSurnameOrId(name, surname, id))
                 .thenReturn(List.of(expectedEmployee));
         //act
         List<Employee> actualEmployee = employeeService.findAllByNameOrSurnameOrId(name,surname,id);
@@ -323,7 +323,7 @@ class EmployeeServiceTest {
         expectedEmployee.setSurname(surname);
         expectedEmployee.setBirthday(LocalDate.of(1999, 12,12));
 
-        when(mockEmployeeRepository.findAllByNameContainsIgnoreCaseOrSurnameContainsIgnoreCaseOrId(searchName, searchSurname, id))
+        when(mockEmployeeRepository.findAllByNameOrSurnameOrId(searchName, searchSurname, id))
                 .thenReturn(List.of(expectedEmployee));
         //act
         List<Employee> actualEmployee = employeeService.findAllByNameOrSurnameOrId(searchName,searchSurname,id);
@@ -346,7 +346,7 @@ class EmployeeServiceTest {
         expectedEmployee.setSurname(surname);
         expectedEmployee.setBirthday(LocalDate.of(1999, 12,12));
 
-        when(mockEmployeeRepository.findAllByNameContainsIgnoreCaseAndSurnameContainsIgnoreCaseAndId(name, surname, id))
+        when(mockEmployeeRepository.findAllByNameAndSurnameAndId(name, surname, id))
                 .thenReturn(List.of(expectedEmployee));
         //act
         List<Employee> actualEmployee = employeeService.findAllByNameAndSurnameAndId(name,surname,id);
@@ -367,7 +367,7 @@ class EmployeeServiceTest {
         expectedEmployee.setSurname(surname);
         expectedEmployee.setBirthday(LocalDate.of(1999, 12,12));
 
-        when(mockEmployeeRepository.findAllByNameContainsIgnoreCaseAndIdOrSurnameContainsIgnoreCaseAndId(name, id, surname, id))
+        when(mockEmployeeRepository.findAllByAndOrSurnameAndId(name, id, surname, id))
                 .thenReturn(List.of(expectedEmployee));
         //act
         List<Employee> actualEmployee = employeeService.findAllByNameOrSurnameAndId(name,surname,id);
@@ -388,7 +388,7 @@ class EmployeeServiceTest {
         expectedEmployee.setSurname(surname);
         expectedEmployee.setBirthday(LocalDate.of(1999, 12,12));
 
-        when(mockEmployeeRepository.findAllByNameContainsIgnoreCaseAndIdOrSurnameContainsIgnoreCaseAndId(name, id, surname, id))
+        when(mockEmployeeRepository.findAllByAndOrSurnameAndId(name, id, surname, id))
                 .thenReturn(List.of(expectedEmployee));
         //act
         List<Employee> actualEmployee = employeeService.findAllByNameOrSurnameAndId(name,surname,id);
@@ -409,7 +409,7 @@ class EmployeeServiceTest {
         expectedEmployee.setSurname(surname);
         expectedEmployee.setBirthday(LocalDate.of(1999, 12,12));
 
-        when(mockEmployeeRepository.findAllByNameContainsIgnoreCaseAndIdOrSurnameContainsIgnoreCaseAndId(name, id, surname, id))
+        when(mockEmployeeRepository.findAllByAndOrSurnameAndId(name, id, surname, id))
                 .thenReturn(List.of(expectedEmployee));
         //act
         List<Employee> actualEmployee = employeeService.findAllByNameOrSurnameAndId(name,surname,id);
@@ -432,7 +432,7 @@ class EmployeeServiceTest {
         expectedEmployee.setSurname(surname);
         expectedEmployee.setBirthday(LocalDate.of(1999, 12,12));
 
-        when(mockEmployeeRepository.findAllByNameContainsIgnoreCaseAndIdOrSurnameContainsIgnoreCaseAndId(searchName, id, searchSurname, id))
+        when(mockEmployeeRepository.findAllByAndOrSurnameAndId(searchName, id, searchSurname, id))
                 .thenReturn(List.of(expectedEmployee));
         //act
         List<Employee> actualEmployee = employeeService.findAllByNameOrSurnameAndId(searchName,searchSurname,id);
@@ -452,7 +452,7 @@ class EmployeeServiceTest {
         expectedEmployee.setSurname(surname);
         expectedEmployee.setBirthday(LocalDate.of(1999, 12,12));
 
-        when(mockEmployeeRepository.findAllByNameContainsIgnoreCaseOrSurnameContainsIgnoreCase(name, surname))
+        when(mockEmployeeRepository.findAllByNameOrSurname(name, surname))
                 .thenReturn(List.of(expectedEmployee));
         //act
         List<Employee> actualEmployee = employeeService.findAllByNameOrSurname(name,surname);
@@ -472,7 +472,7 @@ class EmployeeServiceTest {
         expectedEmployee.setSurname(surname);
         expectedEmployee.setBirthday(LocalDate.of(1999, 12,12));
 
-        when(mockEmployeeRepository.findAllByNameContainsIgnoreCaseOrSurnameContainsIgnoreCase(name, surname))
+        when(mockEmployeeRepository.findAllByNameOrSurname(name, surname))
                 .thenReturn(List.of(expectedEmployee));
         //act
         List<Employee> actualEmployee = employeeService.findAllByNameOrSurname(name,surname);
@@ -492,7 +492,7 @@ class EmployeeServiceTest {
         expectedEmployee.setSurname(surname);
         expectedEmployee.setBirthday(LocalDate.of(1999, 12,12));
 
-        when(mockEmployeeRepository.findAllByNameContainsIgnoreCaseOrSurnameContainsIgnoreCase(name, surname))
+        when(mockEmployeeRepository.findAllByNameOrSurname(name, surname))
                 .thenReturn(List.of(expectedEmployee));
         //act
         List<Employee> actualEmployee = employeeService.findAllByNameOrSurname(name,surname);
@@ -514,7 +514,7 @@ class EmployeeServiceTest {
         expectedEmployee.setSurname(surname);
         expectedEmployee.setBirthday(LocalDate.of(1999, 12,12));
 
-        when(mockEmployeeRepository.findAllByNameContainsIgnoreCaseOrSurnameContainsIgnoreCase(searchName, searchSurname))
+        when(mockEmployeeRepository.findAllByNameOrSurname(searchName, searchSurname))
                 .thenReturn(List.of(expectedEmployee));
         //act
         List<Employee> actualEmployee = employeeService.findAllByNameOrSurname(searchName,searchSurname);
@@ -534,7 +534,7 @@ class EmployeeServiceTest {
         expectedEmployee.setSurname(surname);
         expectedEmployee.setBirthday(LocalDate.of(1999, 12,12));
 
-        when(mockEmployeeRepository.findAllByNameContainsIgnoreCaseAndSurnameContainsIgnoreCase(name, surname))
+        when(mockEmployeeRepository.findAllByNameAndSurname(name, surname))
                 .thenReturn(List.of(expectedEmployee));
         //act
         List<Employee> actualEmployee = employeeService.findAllByNameAndSurname(name,surname);
@@ -556,7 +556,7 @@ class EmployeeServiceTest {
         expectedEmployee.setSurname(surname);
         expectedEmployee.setBirthday(LocalDate.of(1999, 12,12));
 
-        when(mockEmployeeRepository.findAllByNameContainsIgnoreCaseAndSurnameContainsIgnoreCase(name, surname))
+        when(mockEmployeeRepository.findAllByNameAndSurname(name, surname))
                 .thenReturn(List.of(expectedEmployee));
         //act
         List<Employee> actualEmployee = employeeService.findAllByNameAndSurname(name,surname);

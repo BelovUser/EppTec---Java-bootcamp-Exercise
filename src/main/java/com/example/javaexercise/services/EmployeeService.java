@@ -103,7 +103,7 @@ public class EmployeeService {
    }
 
    public List<Employee> findAllByNameOrSurnameOrId(String name, String surname, Long id){
-        List<Employee> employees = employeeRepository.findAllByNameContainsIgnoreCaseOrSurnameContainsIgnoreCaseOrId(name,surname,id);
+        List<Employee> employees = employeeRepository.findAllByNameOrSurnameOrId(name,surname,id);
         if(employees.isEmpty()){
             throw new EntityNotFoundException("Couldn't find any Employees with given parameters.");
         }
@@ -111,7 +111,7 @@ public class EmployeeService {
    }
 
    public List<Employee> findAllByNameAndSurnameAndId(String name, String surname, Long id){
-        List<Employee> employees = employeeRepository.findAllByNameContainsIgnoreCaseAndSurnameContainsIgnoreCaseAndId(name,surname,id);
+        List<Employee> employees = employeeRepository.findAllByNameAndSurnameAndId(name,surname,id);
         if(employees.isEmpty()){
            throw new EntityNotFoundException("Couldn't find any Employees with given parameters.");
         }
@@ -119,7 +119,7 @@ public class EmployeeService {
    }
 
    public List<Employee> findAllByNameOrSurnameAndId(String name, String surname, Long id){
-        List<Employee> employees = employeeRepository.findAllByNameContainsIgnoreCaseAndIdOrSurnameContainsIgnoreCaseAndId(name, id, surname, id);
+        List<Employee> employees = employeeRepository.findAllByAndOrSurnameAndId(name, id, surname, id);
         if(employees.isEmpty()){
            throw new EntityNotFoundException("Couldn't find any Employees with given parameters.");
         }
@@ -127,7 +127,7 @@ public class EmployeeService {
    }
 
    public List<Employee> findAllByNameOrSurname(String name, String surname){
-        List<Employee> employees = employeeRepository.findAllByNameContainsIgnoreCaseOrSurnameContainsIgnoreCase(name,surname);
+        List<Employee> employees = employeeRepository.findAllByNameOrSurname(name,surname);
         if(employees.isEmpty()){
            throw new EntityNotFoundException("Couldn't find any Employees with given parameters.");
         }
@@ -135,7 +135,7 @@ public class EmployeeService {
    }
 
    public List<Employee> findAllByNameAndSurname(String name, String surname){
-        List<Employee> employees = employeeRepository.findAllByNameContainsIgnoreCaseAndSurnameContainsIgnoreCase(name,surname);
+        List<Employee> employees = employeeRepository.findAllByNameAndSurname(name,surname);
         if(employees.isEmpty()){
            throw new EntityNotFoundException("Couldn't find any Employees with given parameters.");
         }
