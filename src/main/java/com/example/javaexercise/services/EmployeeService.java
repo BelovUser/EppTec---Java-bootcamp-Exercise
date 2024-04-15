@@ -4,14 +4,14 @@ import com.example.javaexercise.dtos.CreateEmployeeDto;
 import com.example.javaexercise.exceptions.CantAssignSameEmployeeException;
 import com.example.javaexercise.exceptions.EmployeeLoopRelationshipException;
 import com.example.javaexercise.exceptions.EntityNotFoundException;
-import com.example.javaexercise.exceptions.NoParameterProvidedException;
 import com.example.javaexercise.mappers.DtoMapper;
 import com.example.javaexercise.models.Employee;
 import com.example.javaexercise.models.Organization;
 import com.example.javaexercise.repositories.EmployeeRepository;
+import com.example.javaexercise.specifications.JpaSpecification;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.security.InvalidParameterException;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,40 +27,13 @@ public class EmployeeService {
         this.dtoMapper = dtoMapper;
     }
 
-    public List<Employee> findEmployees(Optional<String> name, Optional<String> surname, Optional<Long> id){
-        String employeeName = name.orElse(null);
-        String employeeSurname = surname.orElse(null);
-        Long employeeId = id.orElse(null);
-        //all parameters
-        if (employeeId !=null && employeeName != null && employeeSurname != null) {
-            List<Employee> employees = findAllByNameAndSurnameAndId(employeeName, employeeSurname, employeeId);
-            return employees;
+    public List<Employee> findEmployees(String name, String surname, Long id){
+        Specification<Employee> employeeSpecification = JpaSpecification.isContainingNameOrSurnameOrId(name,surname,id);
+        List<Employee> employees = employeeRepository.findAll(employeeSpecification);
+        if(employees.isEmpty()){
+            throw new EntityNotFoundException("Couldn't find any Employee with given parameters");
         }
-        // none parameters
-        if (employeeId ==null && employeeName == null && employeeSurname == null) {
-            throw new NoParameterProvidedException("Provide at least one parameter.");
-        }
-        // id and name or surname
-        if (employeeId != null && (employeeName != null || employeeSurname != null)) {
-            List<Employee> employees = findAllByNameOrSurnameAndId(employeeName, employeeSurname, employeeId);
-            return employees;
-        }
-        // only id
-        if (id.isPresent()) {
-            Employee employee = findById(id.get());
-            return List.of(employee);
-        }
-        // only name or only surname
-        if ((name.isPresent() && surname.isEmpty()) || (surname.isPresent() && name.isEmpty())) {
-            List<Employee> employees = findAllByNameOrSurname(employeeName, employeeSurname);
-            return employees;
-        }
-        // only name and surname
-        if((name.isPresent() && surname.isPresent()) || id.isEmpty()){
-            List<Employee> employees = findAllByNameAndSurname(employeeName, employeeSurname);
-            return employees;
-        }
-        throw new InvalidParameterException("Invalid parameters provided.");
+        return employees;
     }
 
    public Employee findById(Long employeeId){
@@ -100,45 +73,5 @@ public class EmployeeService {
 
        employee.setOrganization(organization);
        employeeRepository.save(employee);
-   }
-
-   public List<Employee> findAllByNameOrSurnameOrId(String name, String surname, Long id){
-        List<Employee> employees = employeeRepository.findAllByNameOrSurnameOrId(name,surname,id);
-        if(employees.isEmpty()){
-            throw new EntityNotFoundException("Couldn't find any Employees with given parameters.");
-        }
-        return employees;
-   }
-
-   public List<Employee> findAllByNameAndSurnameAndId(String name, String surname, Long id){
-        List<Employee> employees = employeeRepository.findAllByNameAndSurnameAndId(name,surname,id);
-        if(employees.isEmpty()){
-           throw new EntityNotFoundException("Couldn't find any Employees with given parameters.");
-        }
-        return employees;
-   }
-
-   public List<Employee> findAllByNameOrSurnameAndId(String name, String surname, Long id){
-        List<Employee> employees = employeeRepository.findAllByAndOrSurnameAndId(name, id, surname, id);
-        if(employees.isEmpty()){
-           throw new EntityNotFoundException("Couldn't find any Employees with given parameters.");
-        }
-        return employees;
-   }
-
-   public List<Employee> findAllByNameOrSurname(String name, String surname){
-        List<Employee> employees = employeeRepository.findAllByNameOrSurname(name,surname);
-        if(employees.isEmpty()){
-           throw new EntityNotFoundException("Couldn't find any Employees with given parameters.");
-        }
-        return employees;
-   }
-
-   public List<Employee> findAllByNameAndSurname(String name, String surname){
-        List<Employee> employees = employeeRepository.findAllByNameAndSurname(name,surname);
-        if(employees.isEmpty()){
-           throw new EntityNotFoundException("Couldn't find any Employees with given parameters.");
-        }
-        return employees;
    }
 }

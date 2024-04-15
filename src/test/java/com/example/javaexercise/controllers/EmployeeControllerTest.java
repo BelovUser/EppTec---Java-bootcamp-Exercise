@@ -50,7 +50,7 @@ class EmployeeControllerTest {
         employee.setSurname("Doe");
         employee.setBirthday(LocalDate.of(1999, 12,12));
 
-        when(employeeService.findAllByNameAndSurnameAndId("John","Doe",1L)).thenReturn(List.of(employee));
+        when(employeeService.findEmployees("John","Doe",1L)).thenReturn(List.of(employee));
         //act and assert
         mockMvc.perform(get(urlPath)
                         .param("employeeId", String.valueOf(1L))
