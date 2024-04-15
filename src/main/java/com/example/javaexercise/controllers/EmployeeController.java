@@ -6,6 +6,7 @@ import com.example.javaexercise.models.Organization;
 import com.example.javaexercise.services.EmployeeService;
 import com.example.javaexercise.mappers.DtoMapper;
 import com.example.javaexercise.services.OrganizationService;
+import jakarta.annotation.Nullable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,9 +26,9 @@ public class EmployeeController {
         this.dtoMapper = dtoMapper;
     }
     @GetMapping
-    public ResponseEntity<?> getEmployee( @RequestParam(required = false) Optional<Long> employeeId,
-                                          @RequestParam(required = false) Optional<String> name,
-                                          @RequestParam(required = false) Optional<String> surname){
+    public ResponseEntity<?> getEmployee( @Nullable Long employeeId,
+                                          @Nullable String name,
+                                          @Nullable String surname){
         List<Employee> employees = employeeService.findEmployees(name,surname,employeeId);
         return ResponseEntity.ok(dtoMapper.mapListEmployeeToDto(employees));
     }
