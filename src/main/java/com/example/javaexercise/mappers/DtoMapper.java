@@ -24,7 +24,7 @@ public class DtoMapper {
                 );
     }
 
-    public OrganizationDto mapToOrganizationDTO(Organization organization){
+    public static OrganizationDto mapToOrganizationDTO(Organization organization){
         List<EmployeeDto> employees = organization.getEmployees().stream()
                 .map(DtoMapper::mapToEmployeeDTO)
                 .toList();
@@ -58,6 +58,12 @@ public class DtoMapper {
     public List<EmployeeDto> mapListEmployeeToDto(List<Employee> employees) {
         return employees.stream()
                 .map(DtoMapper::mapToEmployeeDTO)
+                .toList();
+    }
+
+    public List<OrganizationDto> mapListOrganizationToDto(List<Organization> organizations){
+        return organizations.stream()
+                .map(DtoMapper::mapToOrganizationDTO)
                 .toList();
     }
 
