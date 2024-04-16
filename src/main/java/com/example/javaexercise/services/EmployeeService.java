@@ -4,6 +4,7 @@ import com.example.javaexercise.dtos.CreateEmployeeDto;
 import com.example.javaexercise.exceptions.CantAssignSameEmployeeException;
 import com.example.javaexercise.exceptions.EmployeeLoopRelationshipException;
 import com.example.javaexercise.exceptions.EntityNotFoundException;
+import com.example.javaexercise.exceptions.NoParameterProvidedException;
 import com.example.javaexercise.mappers.DtoMapper;
 import com.example.javaexercise.models.Employee;
 import com.example.javaexercise.models.Organization;
@@ -28,6 +29,9 @@ public class EmployeeService {
     }
 
     public List<Employee> findEmployees(String name, String surname, Long id){
+        if(name == null && surname == null && id == null){
+            throw new NoParameterProvidedException("Provide at least one parameter.");
+        }
         Specification<Employee> employeeSpecification = JpaSpecification.isContainingNameOrSurnameOrId(name,surname,id);
         List<Employee> employees = employeeRepository.findAll(employeeSpecification);
         if(employees.isEmpty()){
