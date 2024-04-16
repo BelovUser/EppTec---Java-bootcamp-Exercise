@@ -1,6 +1,7 @@
 package com.example.javaexercise.controllers;
 
 import com.example.javaexercise.dtos.CreateEmployeeDto;
+import com.example.javaexercise.dtos.EmployeeDto;
 import com.example.javaexercise.models.Employee;
 import com.example.javaexercise.models.Organization;
 import com.example.javaexercise.services.EmployeeService;
@@ -26,11 +27,11 @@ public class EmployeeController {
         this.dtoMapper = dtoMapper;
     }
     @GetMapping
-    public ResponseEntity<?> getEmployee( @Nullable Long employeeId,
-                                          @Nullable String name,
-                                          @Nullable String surname){
+    public List<EmployeeDto> getEmployee(@Nullable Long employeeId,
+                                         @Nullable String name,
+                                         @Nullable String surname){
         List<Employee> employees = employeeService.findEmployees(name,surname,employeeId);
-        return ResponseEntity.ok(dtoMapper.mapListEmployeeToDto(employees));
+        return dtoMapper.mapListEmployeeToDto(employees);
     }
 
     @PostMapping

@@ -1,6 +1,7 @@
 package com.example.javaexercise.controllers;
 
 import com.example.javaexercise.dtos.CreateOrganizationDto;
+import com.example.javaexercise.dtos.OrganizationDto;
 import com.example.javaexercise.models.Organization;
 import com.example.javaexercise.mappers.DtoMapper;
 import com.example.javaexercise.services.OrganizationService;
@@ -28,8 +29,8 @@ public class OrganizationController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getOrganizationByName(@RequestParam String organizationName){
+    public List<OrganizationDto> getOrganizationByName(@RequestParam String organizationName){
         List<Organization> organizations = organizationService.findAllByName(organizationName);
-        return ResponseEntity.ok(dtoMapper.mapListOrganizationToDto(organizations));
+        return dtoMapper.mapListOrganizationToDto(organizations);
     }
 }
