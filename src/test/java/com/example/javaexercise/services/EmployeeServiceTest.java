@@ -2,16 +2,15 @@ package com.example.javaexercise.services;
 
 import com.example.javaexercise.dtos.CreateEmployeeDto;
 import com.example.javaexercise.exceptions.EntityNotFoundException;
+import com.example.javaexercise.exceptions.NoParameterProvidedException;
 import com.example.javaexercise.mappers.DtoMapper;
 import com.example.javaexercise.models.Employee;
 import com.example.javaexercise.models.Organization;
 import com.example.javaexercise.repositories.EmployeeRepository;
-import com.example.javaexercise.specifications.JpaSpecification;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.jpa.domain.Specification;
 
 import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -19,7 +18,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,6 +31,8 @@ class EmployeeServiceTest {
     private OrganizationService mockOrganizationService;
     @Mock
     private EmployeeRepository mockEmployeeRepository;
+//    @Mock
+//    private JpaSpecification mockJpaSpecification;
     @Mock
     private DtoMapper dtoMapper;
 
@@ -164,5 +164,47 @@ class EmployeeServiceTest {
         verify(mockOrganizationService, times(1)).save(organization);
         assertEquals(organization, employee.getOrganization());
         assertTrue(organization.getEmployees().contains(employee));
+    }
+
+    @Test
+    void findEmployees_givenNameAndSurnameAndId_whenEmployeeExist_thenReturnEmployee(){
+        //arrange
+        String employeeName = "John";
+        String employeeSurname = "Doe";
+        Long employeeId = null;
+
+        Employee employee = new Employee();
+        employee.setName(employeeName);
+        employee.setSurname(employeeSurname);
+
+        when(mockEmployeeRepository.findAll(any())).thenReturn(List.of(employee));
+        //act
+        List<Employee> actualEmployees = employeeService.findEmployees(employeeName,employeeSurname,employeeId);
+        //assert
+        assertEquals(actualEmployees, List.of(employee));
+    }
+
+    @Test
+    void findEmployees_givenNameAndSurnameAndId_whenEmployeeDontExist_thenThrowException(){
+        //arrange
+        String employeeName = "John";
+        String employeeSurname = "Doe";
+        Long employeeId = null;
+
+        Employee employee = new Employee();
+        employee.setName(employeeName);
+        employee.setSurname(employeeSurname);
+        //act assert
+        assertThrows(EntityNotFoundException.class, () -> employeeService.findEmployees(employeeName,employeeSurname,employeeId));
+    }
+
+    @Test
+    void findEmployees_givenNoParameters_thenThrowException(){
+        //arrange
+        String employeeName = null;
+        String employeeSurname = null;
+        Long employeeId = null;
+        //act assert
+        assertThrows(NoParameterProvidedException.class, () -> employeeService.findEmployees(employeeName,employeeSurname,employeeId));
     }
 }
